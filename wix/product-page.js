@@ -11,13 +11,14 @@
 
 const VIEWER_URL = 'https://oc2580.github.io/Room-Viewer/';
 
-// While testing, only show the button on this product (its URL slug, the part
-// after /product-page/). Set to '' to show it on every product.
-const TEST_PRODUCT_SLUG = 'young-hearts';
+// Products that show the button (the part of the product's address after
+// /product-page/). Add more as you roll it out; empty the list to show the
+// button on every product.
+const ENABLED_PRODUCT_SLUGS = ['young-hearts', 'narcissistic-bathers', 'exit-eden'];
 
 $w.onReady(async function () {
   const product = await $w('#productPage1').getProduct();
-  const enabled = !TEST_PRODUCT_SLUG || product.slug === TEST_PRODUCT_SLUG;
+  const enabled = ENABLED_PRODUCT_SLUGS.length === 0 || ENABLED_PRODUCT_SLUGS.includes(product.slug);
   const artwork = enabled ? artworkFromProduct(product) : null;
 
   try {

@@ -19,18 +19,23 @@ Choose one of these options.
 
 ### Option A: automatic button on every product page (Wix Stores + Velo), recommended
 
-This adds a **View on your wall** button to every product, using the product's image and its size options.
+This adds a **View on your wall** button to chosen product pages, using each product's image and the sizes written in its description.
 
 1. In the Wix Editor, turn on **Dev Mode** (top menu → *Dev Mode* → *Turn on Dev Mode*).
-2. Open your **Product Page** (Pages → Shop Pages → Product Page).
-3. Add a **Button** near the Add to Cart button. Label it *View on your wall*. In the Properties panel, set its ID to `roomViewButton`.
+2. Open your **Product Page** (Pages → Shop Pages → Product Page). This one page is the template for every product.
+3. Add a **Button** near the Add to Cart button. Label it *View on your wall*. In the Properties panel:
+   - set its ID to `roomViewButton`
+   - tick **Hidden on load**, so it never flashes up on products that don't have the viewer yet.
 4. Check that the product element's ID is `productPage1` (click it and look in the Properties panel). If it's different, change it in the code.
-5. Open the page's code panel and paste in the contents of [`wix/product-page.js`](../wix/product-page.js).
-6. Edit the two lines at the top of the code:
-   - `VIEWER_URL`: your GitHub Pages address from step 1.
-   - `siteBase()`: your site's domain, for the *Back to artwork* link.
-7. **Sizes**: the code reads sizes from your product options. Name the choices like `40 x 50 cm`, `60 x 80 cm` (or `16 x 20 in` with `DEFAULT_UNIT = 'in'`). Products with no size options still work, but the viewer will say the size isn't specified, so add at least one size.
-8. Preview, click the button, and check the artwork appears at the right size. Then **Publish**.
+5. Open the page's code panel and paste in the contents of [`wix/product-page.js`](../wix/product-page.js). `VIEWER_URL` and `siteBase()` at the top are already set for this site.
+6. **Which products show the button**: `ENABLED_PRODUCT_SLUGS` lists them by the end of their web address (`/product-page/exit-eden` → `'exit-eden'`). It's currently set to Young Hearts, Narcissistic Bathers and Exit Eden. Add more to roll it out; an empty list `[]` shows it on every product.
+7. **Sizes**: the code reads the product description, so keep these lines in it, as on the current products:
+   - `Image size: 39 x 30.7 cm`
+   - `Mount size: 61.5 x 52 cm`
+   - `Framed size: 71.7 x 62.4 cm` (here, or in an additional info section)
+
+   Height and width can be in either order; the code matches them to the picture's shape. Without an image size the viewer can't show true size and says so.
+8. **Preview**, open each enabled product, click the button and check the print appears at the right size. Then **Publish**.
 
 ### Option B: a link per artwork (no code)
 
