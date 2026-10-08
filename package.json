@@ -1,0 +1,11 @@
+{
+  "name": "room-viewer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "View-on-your-wall room mockup and AR viewer for an online art gallery",
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes http-server -c-1 -p 8080 .",
+    "test": "node --test"
+  }
+}

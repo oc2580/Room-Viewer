@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>View on Your Wall</title>
+  <meta name="description" content="See an artwork on your own wall at true size — upload a photo of your wall or view it in augmented reality.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" id="brand" href="#" target="_top"></a>
+    <div class="art-heading">
+      <span class="art-title" id="artTitle">Untitled</span>
+      <span class="art-meta" id="artMeta"></span>
+    </div>
+    <div class="unit-toggle" role="group" aria-label="Units">
+      <button type="button" data-unit="cm">cm</button>
+      <button type="button" data-unit="in">in</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="stage-wrap" id="stageWrap" aria-label="Room preview">
+      <canvas id="stage" tabindex="0" aria-label="Your wall with the artwork. Drag the artwork to move it; arrow keys also move it."></canvas>
+      <div class="stage-hint" id="stageHint" hidden></div>
+      <div class="drop-overlay" id="dropOverlay" hidden>Drop your wall photo here</div>
+      <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    </section>
+
+    <aside class="panel">
+      <section class="step">
+        <h2><span class="num">1</span> Your wall</h2>
+        <p class="help">Take a straight-on photo of the wall where you'd like to hang the piece.</p>
+        <div class="btn-row">
+          <label class="btn primary">
+            Upload photo
+            <input type="file" id="photoInput" accept="image/*" hidden>
+          </label>
+          <label class="btn" id="cameraBtn">
+            Take photo
+            <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+          </label>
+          <button type="button" class="btn ghost" id="sampleRoomBtn">Sample room</button>
+        </div>
+      </section>
+
+      <section class="step">
+        <h2><span class="num">2</span> Set the scale <span class="pill" id="scaleStatus">Estimated</span></h2>
+        <div id="scaleIdle">
+          <p class="help">For a true-to-size preview, mark something of known size in your photo — a door, a light switch, a sheet of paper.</p>
+          <button type="button" class="btn primary block" id="measureBtn">Measure a reference object</button>
+          <div class="field inline">
+            <label for="wallWidth">…or the wall shown is about</label>
+            <input type="number" id="wallWidth" min="20" max="5000" step="1" inputmode="decimal">
+            <span class="unit-label"></span><span>wide</span>
+          </div>
+        </div>
+        <div id="scaleMeasuring" hidden>
+          <p class="help">Drag the two ends of the line on your photo so they match the object exactly. Pick an object on the same wall as the artwork.</p>
+          <div class="field">
+            <label for="refSelect">What did you measure?</label>
+            <select id="refSelect"></select>
+          </div>
+          <div class="field inline">
+            <label for="refLength">Real length</label>
+            <input type="number" id="refLength" min="0.5" step="0.1" inputmode="decimal">
+            <span class="unit-label"></span>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="btn primary" id="applyMeasureBtn">Apply scale</button>
+            <button type="button" class="btn ghost" id="cancelMeasureBtn">Cancel</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="step">
+        <h2><span class="num">3</span> Style it</h2>
+        <div class="field" id="sizeField" hidden>
+          <label for="sizeSelect">Size</label>
+          <select id="sizeSelect"></select>
+        </div>
+        <div class="field">
+          <span class="label">Frame</span>
+          <div class="swatches" id="frameSwatches" role="radiogroup" aria-label="Frame"></div>
+        </div>
+        <div class="field">
+          <label for="matSelect">Mat</label>
+          <select id="matSelect"></select>
+        </div>
+        <div class="field">
+          <label for="brightness">Match room lighting</label>
+          <input type="range" id="brightness" min="0.55" max="1.25" step="0.01" value="1">
+        </div>
+        <div class="field check">
+          <input type="checkbox" id="shadowToggle" checked>
+          <label for="shadowToggle">Wall shadow</label>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn" id="perspectiveBtn" aria-pressed="false">Adjust perspective</button>
+          <button type="button" class="btn ghost" id="resetBtn">Re-centre</button>
+        </div>
+        <details class="own-art" id="ownArt">
+          <summary>Try a different artwork image</summary>
+          <label class="btn block">
+            Choose artwork image
+            <input type="file" id="artInput" accept="image/*" hidden>
+          </label>
+          <div class="field inline">
+            <label for="ownW">Size</label>
+            <input type="number" id="ownW" min="1" step="0.1" inputmode="decimal" aria-label="Width">
+            <span>×</span>
+            <input type="number" id="ownH" min="1" step="0.1" inputmode="decimal" aria-label="Height">
+            <span class="unit-label"></span>
+          </div>
+        </details>
+      </section>
+
+      <section class="step actions">
+        <button type="button" class="btn primary block" id="arBtn">View on your wall in AR</button>
+        <div class="btn-row">
+          <button type="button" class="btn block" id="downloadBtn">Download mockup</button>
+          <button type="button" class="btn block" id="shareBtn" hidden>Share</button>
+        </div>
+        <a class="btn ghost block" id="buyLink" href="#" target="_top" hidden>Back to artwork</a>
+      </section>
+    </aside>
+  </main>
+
+  <dialog class="ar-dialog" id="arDialog">
+    <div class="ar-head">
+      <h2>See it on your wall</h2>
+      <button type="button" class="icon-btn" id="arClose" aria-label="Close">✕</button>
+    </div>
+    <div class="ar-body">
+      <div class="ar-viewer" id="arViewer"><p class="loading">Preparing 3D model…</p></div>
+      <div class="ar-side">
+        <p class="ar-size" id="arSize"></p>
+        <div id="arMobile" hidden>
+          <ol class="ar-steps">
+            <li>Tap <strong>View in your space</strong>.</li>
+            <li>Point your phone at the wall and move it slowly until the wall is detected.</li>
+            <li>Tap to place the artwork — it's shown at its real size.</li>
+          </ol>
+        </div>
+        <div id="arDesktop" hidden>
+          <p>AR works on phones and tablets. Scan this code with your phone's camera to open the viewer there:</p>
+          <div class="qr" id="qr"></div>
+        </div>
+        <p class="help" id="arNote"></p>
+      </div>
+    </div>
+  </dialog>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
