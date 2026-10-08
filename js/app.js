@@ -41,7 +41,7 @@ const state = {
   pos: [0, 0], // centre of the framed piece in photo pixels
   persp: null, // per-corner offsets as fractions of the piece size, or null
   mode: 'place', // 'place' | 'perspective' | 'measure'
-  measure: { a: [0, 0], b: [0, 0] },
+  measure: { a: null, b: null, step: 0 }, // step 0: tap first end, 1: tap second end, 2: adjust
   buyUrl: null,
 };
 
@@ -159,7 +159,10 @@ function render() {
 
   const quad = artQuad().map(toScreen);
   const depthPx = framedDims().depth * state.pxPerCm * view.scale;
-  drawArtwork(ctx, getFramed(PREVIEW_ART_PX), quad, depthPx, state.shadow);
+  // Fade the artwork while measuring so it doesn't hide the reference object.
+  ctx.globalAlpha = state.mode === 'measure' ? 0.2 : 1;
+  drawArtwork(ctx, getFramed(PREVIEW_ART_PX), quad, depthPx, state.shadow && state.mode !== 'measure');
+  ctx.globalAlpha = 1;
 
   const dpr = view.dpr;
   if (state.mode === 'perspective') {
@@ -179,6 +182,82 @@ function render() {
 
   if (state.mode !== 'measure') drawSizeLabel(quad);
   if (state.mode === 'measure') drawMeasureLine();
+  if (drag?.pointer) {
+    if (drag.type === 'measure-a' || drag.type === 'measure-b') {
+      drawLoupe(state.measure[drag.type === 'measure-a' ? 'a' : 'b'], drag.pointer);
+    } else if (drag.type === 'corner') {
+      drawLoupe(artQuad()[drag.index], drag.pointer);
+    }
+  }
+}
+
+/**
+ * Magnifier shown above the finger while placing a precise point, so the
+ * finger doesn't hide what's underneath. `focus` is in photo pixels.
+ */
+function drawLoupe(focus, finger) {
+  const dpr = view.dpr;
+  const R = 58 * dpr;
+  const zoom = 3;
+  const gap = 46 * dpr;
+  let cx = finger[0];
+  let cy = finger[1] - R - gap;
+  if (cy - R < 4) cy = finger[1] + R + gap;
+  cx = Math.min(Math.max(cx, R + 4), stage.width - R - 4);
+  const half = R / (view.scale * zoom); // half-size of the magnified area, photo pixels
+  const k = R / half; // photo px -> loupe px
+  const toLoupe = ([x, y]) => [cx + (x - focus[0]) * k, cy + (y - focus[1]) * k];
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, R, 0, Math.PI * 2);
+  ctx.fillStyle = '#111';
+  ctx.fill();
+  ctx.clip();
+  // Draw only the part of the photo that exists (some browsers skip out-of-bounds source rects).
+  const P = state.photo;
+  const sx0 = Math.max(0, focus[0] - half), sy0 = Math.max(0, focus[1] - half);
+  const sx1 = Math.min(P.width, focus[0] + half), sy1 = Math.min(P.height, focus[1] + half);
+  if (sx1 > sx0 && sy1 > sy0) {
+    const [dx0, dy0] = toLoupe([sx0, sy0]);
+    ctx.drawImage(P, sx0, sy0, sx1 - sx0, sy1 - sy0, dx0, dy0, (sx1 - sx0) * k, (sy1 - sy0) * k);
+  }
+  const { a, b } = state.measure;
+  if (state.mode === 'measure' && a && b) {
+    ctx.strokeStyle = '#ffd25e';
+    ctx.lineWidth = 2 * dpr;
+    ctx.beginPath();
+    ctx.moveTo(...toLoupe(a));
+    ctx.lineTo(...toLoupe(b));
+    ctx.stroke();
+  }
+  // Crosshair marking the exact point.
+  ctx.lineWidth = 3 * dpr;
+  ctx.strokeStyle = 'rgba(0,0,0,0.6)';
+  crosshair(cx, cy, 7 * dpr, R);
+  ctx.lineWidth = 1.5 * dpr;
+  ctx.strokeStyle = '#ffd25e';
+  crosshair(cx, cy, 7 * dpr, R);
+  ctx.restore();
+  ctx.beginPath();
+  ctx.arc(cx, cy, R, 0, Math.PI * 2);
+  ctx.lineWidth = 3 * dpr;
+  ctx.strokeStyle = '#fff';
+  ctx.stroke();
+  ctx.lineWidth = 1 * dpr;
+  ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+  ctx.beginPath();
+  ctx.arc(cx, cy, R + 2 * dpr, 0, Math.PI * 2);
+  ctx.stroke();
+}
+
+function crosshair(x, y, inner, outer) {
+  ctx.beginPath();
+  ctx.moveTo(x - outer, y); ctx.lineTo(x - inner, y);
+  ctx.moveTo(x + inner, y); ctx.lineTo(x + outer, y);
+  ctx.moveTo(x, y - outer); ctx.lineTo(x, y - inner);
+  ctx.moveTo(x, y + inner); ctx.lineTo(x, y + outer);
+  ctx.stroke();
 }
 
 function drawArtwork(g, img, quad, depthPx, shadow) {
@@ -258,7 +337,12 @@ function drawSizeLabel(quad) {
 }
 
 function drawMeasureLine() {
+  if (!state.measure.a) return;
   const a = toScreen(state.measure.a);
+  if (!state.measure.b) {
+    drawTarget(a);
+    return;
+  }
   const b = toScreen(state.measure.b);
   ctx.save();
   ctx.lineCap = 'round';
@@ -272,10 +356,31 @@ function drawMeasureLine() {
   ctx.lineWidth = 2.5 * view.dpr;
   ctx.stroke();
   ctx.restore();
-  drawHandle(a, 'A');
-  drawHandle(b, 'B');
+  drawTarget(a);
+  drawTarget(b);
   const len = parseFloat($('refLength').value);
-  if (len > 0) drawPill(`${len} ${state.unit}`, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2 - 26 * view.dpr);
+  if (len > 0 && state.measure.step === 2) {
+    drawPill(`${len} ${state.unit}`, (a[0] + b[0]) / 2 + 40 * view.dpr, (a[1] + b[1]) / 2);
+  }
+}
+
+/** Hollow ring with a centre dot, so the exact point stays visible. */
+function drawTarget([x, y]) {
+  const dpr = view.dpr;
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(x, y, 13 * dpr, 0, Math.PI * 2);
+  ctx.lineWidth = 5 * dpr;
+  ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+  ctx.stroke();
+  ctx.lineWidth = 2.5 * dpr;
+  ctx.strokeStyle = '#ffd25e';
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(x, y, 2 * dpr, 0, Math.PI * 2);
+  ctx.fillStyle = '#ffd25e';
+  ctx.fill();
+  ctx.restore();
 }
 
 // ---------- pointer interaction ----------
@@ -285,9 +390,13 @@ function eventPoint(e) {
   return [(e.clientX - rect.left) * view.dpr, (e.clientY - rect.top) * view.dpr];
 }
 
+const coarsePointer = matchMedia('(pointer: coarse)').matches;
+
 function hitTest(p) {
-  const r = 24 * view.dpr;
+  const r = (coarsePointer ? 32 : 22) * view.dpr;
   if (state.mode === 'measure') {
+    const { step } = state.measure;
+    if (step < 2) return { type: step === 0 ? 'measure-a' : 'measure-b', place: true };
     const a = toScreen(state.measure.a);
     const b = toScreen(state.measure.b);
     if (distance(p, a) < r) return { type: 'measure-a' };
@@ -312,7 +421,9 @@ stage.addEventListener('pointerdown', (e) => {
   if (!hit) return;
   e.preventDefault();
   stage.setPointerCapture(e.pointerId);
-  drag = { ...hit, start: toPhoto(p), pos: [...state.pos], a: [...state.measure.a], b: [...state.measure.b] };
+  if (hit.place) state.measure[hit.type === 'measure-a' ? 'a' : 'b'] = clampToPhoto(toPhoto(p));
+  const { a, b } = state.measure;
+  drag = { ...hit, start: toPhoto(p), pos: [...state.pos], a: a && [...a], b: b && [...b], pointer: p };
   stage.style.cursor = 'grabbing';
   requestRender();
 });
@@ -321,20 +432,22 @@ stage.addEventListener('pointermove', (e) => {
   const p = eventPoint(e);
   if (!drag) {
     const hit = hitTest(p);
-    stage.style.cursor = !hit ? 'default' : hit.type === 'art' || hit.type === 'measure-line' ? 'grab' : 'pointer';
+    stage.style.cursor = !hit ? 'default' : hit.place ? 'crosshair' : hit.type === 'art' || hit.type === 'measure-line' ? 'grab' : 'pointer';
     return;
   }
   const q = clampToPhoto(toPhoto(p));
+  drag.pointer = p;
   const dx = q[0] - drag.start[0];
   const dy = q[1] - drag.start[1];
   if (drag.type === 'art') {
     state.pos = [drag.pos[0] + dx, drag.pos[1] + dy];
   } else if (drag.type === 'corner') {
     setCorner(drag.index, q);
-  } else if (drag.type === 'measure-a') {
-    state.measure.a = q;
-  } else if (drag.type === 'measure-b') {
-    state.measure.b = q;
+  } else if (drag.type === 'measure-a' || drag.type === 'measure-b') {
+    // Move the point by the finger's movement (not to the finger), so a
+    // small slide nudges it precisely.
+    const from = drag.type === 'measure-a' ? drag.a : drag.b;
+    state.measure[drag.type === 'measure-a' ? 'a' : 'b'] = clampToPhoto([from[0] + dx, from[1] + dy]);
   } else if (drag.type === 'measure-line') {
     state.measure.a = [drag.a[0] + dx, drag.a[1] + dy];
     state.measure.b = [drag.b[0] + dx, drag.b[1] + dy];
@@ -344,7 +457,12 @@ stage.addEventListener('pointermove', (e) => {
 
 function endDrag() {
   if (!drag) return;
+  const placed = drag.place;
   drag = null;
+  if (placed) {
+    state.measure.step++;
+    updateMeasureUI();
+  }
   stage.style.cursor = 'default';
   requestRender();
 }
@@ -625,19 +743,41 @@ function setOwnSize(changed) {
 function enterMeasure() {
   if (!state.photo) return;
   setMode('measure');
-  const { width: W, height: H } = state.photo;
-  state.measure = { a: [W * 0.18, H * 0.3], b: [W * 0.18, H * 0.7] };
+  state.measure = { a: null, b: null, step: 0 };
+  setHint('');
+  clearTimeout(toastTimer);
+  $('toast').hidden = true;
   $('scaleIdle').hidden = true;
   $('scaleMeasuring').hidden = false;
+  $('measureBar').hidden = false;
   onReferenceChange();
-  setHint('Drag points A and B onto the two ends of your reference object');
+  // On phones the controls are below the photo: bring the photo into view.
+  $('stageWrap').scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
+
+function restartMeasure() {
+  state.measure = { a: null, b: null, step: 0 };
+  updateMeasureUI();
+  requestRender();
 }
 
 function exitMeasure() {
   $('scaleIdle').hidden = false;
   $('scaleMeasuring').hidden = true;
+  $('measureBar').hidden = true;
   setMode('place');
   setHint('');
+}
+
+function updateMeasureUI() {
+  const ref = REFERENCES[$('refSelect').value] || REFERENCES[0];
+  const { step } = state.measure;
+  const el = $('measureStep');
+  const tip = coarsePointer ? 'Keep your finger down and slide to fine-tune.' : 'Hold the mouse button and drag to fine-tune.';
+  if (step === 0) el.innerHTML = `<strong>Step 1 of 2:</strong> tap ${ref.ends[0]}.<small>${tip}</small>`;
+  else if (step === 1) el.innerHTML = `<strong>Step 2 of 2:</strong> now tap ${ref.ends[1]}.<small>${tip}</small>`;
+  else el.innerHTML = 'Check the line covers it exactly, then tap <strong>Apply scale</strong>.<small>Drag either end to adjust it.</small>';
+  $('applyMeasureBtn').disabled = step < 2;
 }
 
 function onReferenceChange() {
@@ -648,11 +788,13 @@ function onReferenceChange() {
     input.value = '';
     input.focus();
   }
+  updateMeasureUI();
   requestRender();
 }
 
 function applyMeasure() {
   const lenCm = fromDisplay(parseFloat($('refLength').value));
+  if (state.measure.step < 2) return;
   const px = distance(state.measure.a, state.measure.b);
   if (!(lenCm > 0)) {
     toast('Enter the real length of the object you marked.');
@@ -660,7 +802,7 @@ function applyMeasure() {
     return;
   }
   if (px < 10) {
-    toast('Drag points A and B further apart, onto the ends of the object.');
+    toast('The two points are too close together. Tap Start again and mark both ends of the object.');
     return;
   }
   // Keep the piece anchored at its centre while the scale changes.
@@ -1043,6 +1185,7 @@ function wireUI() {
   $('measureBtn').addEventListener('click', enterMeasure);
   $('applyMeasureBtn').addEventListener('click', applyMeasure);
   $('cancelMeasureBtn').addEventListener('click', exitMeasure);
+  $('restartMeasureBtn').addEventListener('click', restartMeasure);
   $('refSelect').addEventListener('change', onReferenceChange);
   $('refLength').addEventListener('input', requestRender);
   $('wallWidth').addEventListener('change', onWallWidthChange);

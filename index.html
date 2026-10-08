@@ -22,10 +22,29 @@
 
   <main class="layout">
     <section class="stage-wrap" id="stageWrap" aria-label="Room preview">
+      <div class="stage-area">
       <canvas id="stage" tabindex="0" aria-label="Your wall with the artwork. Drag the artwork to move it; arrow keys also move it."></canvas>
       <div class="stage-hint" id="stageHint" hidden></div>
       <div class="drop-overlay" id="dropOverlay" hidden>Drop your wall photo here</div>
       <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+      </div>
+      <div class="measure-bar" id="measureBar" hidden>
+        <p class="measure-step" id="measureStep" aria-live="polite"></p>
+        <div class="measure-controls">
+          <label for="refSelect">Measuring</label>
+          <select id="refSelect"></select>
+          <label for="refLength">Real length</label>
+          <span class="measure-len">
+            <input type="number" id="refLength" min="0.5" step="0.1" inputmode="decimal">
+            <span class="unit-label"></span>
+          </span>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn ghost" id="cancelMeasureBtn">Cancel</button>
+          <button type="button" class="btn" id="restartMeasureBtn">Start again</button>
+          <button type="button" class="btn primary" id="applyMeasureBtn" disabled>Apply scale</button>
+        </div>
+      </div>
     </section>
 
     <aside class="panel">
@@ -57,20 +76,7 @@
           </div>
         </div>
         <div id="scaleMeasuring" hidden>
-          <p class="help">Drag the two ends of the line on your photo so they match the object exactly. Pick an object on the same wall as the artwork.</p>
-          <div class="field">
-            <label for="refSelect">What did you measure?</label>
-            <select id="refSelect"></select>
-          </div>
-          <div class="field inline">
-            <label for="refLength">Real length</label>
-            <input type="number" id="refLength" min="0.5" step="0.1" inputmode="decimal">
-            <span class="unit-label"></span>
-          </div>
-          <div class="btn-row">
-            <button type="button" class="btn primary" id="applyMeasureBtn">Apply scale</button>
-            <button type="button" class="btn ghost" id="cancelMeasureBtn">Cancel</button>
-          </div>
+          <p class="help">Follow the steps under your photo. Choose something on the same wall as the artwork, and tap its two ends — a magnifier helps you place each point exactly.</p>
         </div>
       </section>
 

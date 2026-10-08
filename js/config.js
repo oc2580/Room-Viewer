@@ -33,13 +33,13 @@ export const MATS = [
 ];
 
 // Objects visitors can measure in their photo to set the scale (lengths in cm).
+// `ends` are the two points the visitor is asked to tap, in order.
 export const REFERENCES = [
-  { label: 'Interior door – height', cm: 203.2 },
-  { label: 'Interior door – width', cm: 81.3 },
-  { label: 'Light switch plate – height', cm: 11.4 },
-  { label: 'Electrical outlet plate – height', cm: 11.4 },
-  { label: 'A4 sheet of paper – long side', cm: 29.7 },
-  { label: 'US Letter paper – long side', cm: 27.94 },
-  { label: 'Sofa – seat height (typical)', cm: 45 },
-  { label: 'Something I measured myself', cm: null },
+  { label: 'Door – height', cm: 203.2, ends: ['the top of the door', 'the bottom of the door'] },
+  { label: 'Door – width', cm: 81.3, ends: ['the left edge of the door', 'the right edge of the door'] },
+  { label: 'Light switch plate – height', cm: 11.4, ends: ['the top of the switch plate', 'the bottom of the switch plate'] },
+  { label: 'Plug socket plate – height', cm: 8.6, ends: ['the top of the socket plate', 'the bottom of the socket plate'] },
+  { label: 'A4 paper taped to the wall – long side', cm: 29.7, ends: ['the top of the paper', 'the bottom of the paper'] },
+  { label: 'US Letter paper – long side', cm: 27.94, ends: ['the top of the paper', 'the bottom of the paper'] },
+  { label: 'Something I measured myself', cm: null, ends: ['one end of it', 'the other end'] },
 ];
