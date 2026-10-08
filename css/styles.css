@@ -9,8 +9,9 @@
   --stage: #2a2825;
   --focus: #8a6b3d;
   --radius: 10px;
-  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Poppins throughout. --serif is kept as the name for the heading font. */
+  --serif: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --sans: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -38,14 +39,15 @@ body {
 }
 .brand {
   font-family: var(--serif);
-  font-size: 18px;
+  font-size: 17px;
+  font-weight: 600;
   color: var(--ink);
   text-decoration: none;
   white-space: nowrap;
 }
 .brand:empty { display: none; }
 .art-heading { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-.art-title { font-family: var(--serif); font-size: 17px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.art-title { font-family: var(--serif); font-size: 16px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .art-meta { color: var(--muted); font-size: 13px; }
 
 .unit-toggle { display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
@@ -79,7 +81,7 @@ body {
   border-top: 1px solid var(--line);
   padding: 12px 16px 14px;
 }
-.measure-step { margin: 0 0 10px; font-family: var(--serif); font-size: 17px; }
+.measure-step { margin: 0 0 10px; font-family: var(--serif); font-size: 16px; }
 .measure-step small { display: block; font: 13px var(--sans); color: var(--muted); margin-top: 2px; }
 .measure-controls {
   display: grid;
@@ -154,7 +156,7 @@ body {
 .step:last-child { border-bottom: 0; }
 .step h2 {
   font-family: var(--serif);
-  font-weight: normal;
+  font-weight: 500;
   font-size: 17px;
   margin: 0 0 8px;
   display: flex;
@@ -267,7 +269,7 @@ input[type="range"] { width: 100%; accent-color: var(--ink); }
 }
 .ar-dialog::backdrop { background: rgba(0, 0, 0, 0.55); }
 .ar-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--line); }
-.ar-head h2 { font-family: var(--serif); font-weight: normal; font-size: 19px; margin: 0; }
+.ar-head h2 { font-family: var(--serif); font-weight: 500; font-size: 19px; margin: 0; }
 .icon-btn { border: 0; background: transparent; font-size: 18px; cursor: pointer; padding: 6px 8px; color: var(--ink); }
 .ar-body { display: grid; grid-template-columns: minmax(0, 1fr) 260px; }
 .ar-viewer { height: 440px; background: linear-gradient(#efece6, #d9d4cb); position: relative; }

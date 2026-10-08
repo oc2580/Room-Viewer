@@ -1,8 +1,8 @@
-import { CONFIG, FRAMES, MATS, REFERENCES } from './config.js?v=2';
-import { drawImageInQuad, pointInQuad, isConvexQuad, distance, distanceToSegment } from './geometry.js?v=2';
-import { renderFramed, hexToRgb01, edgeColor } from './framing.js?v=2';
-import { buildArtworkGLB } from './glb.js?v=2';
-import { createSampleRoom, createSampleArtwork } from './samples.js?v=2';
+import { CONFIG, FRAMES, MATS, REFERENCES } from './config.js?v=3';
+import { drawImageInQuad, pointInQuad, isConvexQuad, distance, distanceToSegment } from './geometry.js?v=3';
+import { renderFramed, hexToRgb01, edgeColor } from './framing.js?v=3';
+import { buildArtworkGLB } from './glb.js?v=3';
+import { createSampleRoom, createSampleArtwork } from './samples.js?v=3';
 
 const CM_PER_IN = 2.54;
 const MAX_PHOTO_PX = 2400;
@@ -961,7 +961,7 @@ function renderMockup() {
     g.fillStyle = '#ffffff';
     g.fillRect(0, P.height, out.width, capH);
     const fs = Math.round(capH * 0.36);
-    g.font = `${fs}px Georgia, serif`;
+    g.font = `${fs}px Poppins, Arial, sans-serif`;
     g.fillStyle = '#1f1d1a';
     g.textBaseline = 'middle';
     const y = P.height + capH / 2;
@@ -1281,6 +1281,8 @@ async function init() {
   syncScaleUI();
   if (inIframe) window.parent.postMessage({ type: 'roomviewer:ready' }, '*');
   if (params.ar === '1') openAR();
+  // Redraw canvas labels once the web font has loaded.
+  document.fonts?.ready.then(requestRender);
 }
 
 init();
