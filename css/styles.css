@@ -17,6 +17,8 @@
 [hidden] { display: none !important; }
 
 html, body { margin: 0; height: 100%; }
+html { -webkit-text-size-adjust: 100%; }
+body { overflow-x: hidden; }
 
 body {
   background: var(--bg);
@@ -79,9 +81,17 @@ body {
 }
 .measure-step { margin: 0 0 10px; font-family: var(--serif); font-size: 17px; }
 .measure-step small { display: block; font: 13px var(--sans); color: var(--muted); margin-top: 2px; }
-.measure-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 13px; color: var(--muted); }
-.measure-controls select { width: auto; flex: 1 1 200px; }
-.measure-len { display: inline-flex; align-items: center; gap: 6px; }
+.measure-controls {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.measure-controls select { width: 100%; min-width: 0; }
+.measure-len { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.measure-len input { width: 7em; }
 .measure-bar .btn-row .btn { flex: 1 1 auto; }
 #stage {
   position: absolute;
@@ -277,7 +287,9 @@ input[type="range"] { width: 100%; accent-color: var(--ink); }
 }
 
 @media (max-width: 820px) {
-  .layout { grid-template-columns: 1fr; grid-template-rows: auto auto; }
+  .layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; }
+  /* 16px stops iPhone Safari zooming (and shifting the page sideways) when a box is tapped. */
+  select, input[type="number"] { font-size: 16px; }
   .stage-wrap { min-height: 0; }
   .stage-area { flex: none; aspect-ratio: var(--photo-aspect, 4 / 3); max-height: 72vh; min-height: 240px; }
   body { height: auto; min-height: 100%; }

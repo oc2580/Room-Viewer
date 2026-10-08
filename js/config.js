@@ -37,9 +37,9 @@ export const MATS = [
 export const REFERENCES = [
   { label: 'Door – height', cm: 203.2, ends: ['the top of the door', 'the bottom of the door'] },
   { label: 'Door – width', cm: 81.3, ends: ['the left edge of the door', 'the right edge of the door'] },
-  { label: 'Light switch plate – height', cm: 11.4, ends: ['the top of the switch plate', 'the bottom of the switch plate'] },
-  { label: 'Plug socket plate – height', cm: 8.6, ends: ['the top of the socket plate', 'the bottom of the socket plate'] },
-  { label: 'A4 paper taped to the wall – long side', cm: 29.7, ends: ['the top of the paper', 'the bottom of the paper'] },
-  { label: 'US Letter paper – long side', cm: 27.94, ends: ['the top of the paper', 'the bottom of the paper'] },
-  { label: 'Something I measured myself', cm: null, ends: ['one end of it', 'the other end'] },
+  { label: 'Light switch plate', cm: 11.4, ends: ['the top of the switch plate', 'the bottom of the switch plate'] },
+  { label: 'Plug socket plate', cm: 8.6, ends: ['the top of the socket plate', 'the bottom of the socket plate'] },
+  { label: 'A4 paper on the wall', cm: 29.7, ends: ['the top of the paper', 'the bottom of the paper'] },
+  { label: 'US Letter paper on the wall', cm: 27.94, ends: ['the top of the paper', 'the bottom of the paper'] },
+  { label: 'My own measurement', cm: null, ends: ['one end of it', 'the other end'] },
 ];
