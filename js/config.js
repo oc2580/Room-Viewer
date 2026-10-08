@@ -1,8 +1,8 @@
 // Gallery-wide settings. Edit this file to brand the viewer for your gallery.
 export const CONFIG = {
-  galleryName: 'Your Gallery',
+  galleryName: 'Jack Vettriano Studio',
   // Shown in the header. Leave empty to hide.
-  galleryUrl: '',
+  galleryUrl: 'https://www.jackvettriano.studio/',
   // Default display unit for visitors: 'cm' or 'in'.
   defaultUnit: 'cm',
   // Add a small caption strip (title, size, gallery) to downloaded mockups.
@@ -25,9 +25,9 @@ export const FRAMES = {
 };
 
 export const MATS = [
-  { label: 'No mat', width: 0 },
-  { label: 'Slim mat (5 cm)', width: 5 },
-  { label: 'Wide mat (8 cm)', width: 8 },
+  { label: 'No mount', width: 0 },
+  { label: 'Slim mount (5 cm)', width: 5 },
+  { label: 'Wide mount (8 cm)', width: 8 },
 ];
 
 // Objects visitors can measure in their photo to set the scale (lengths in cm).

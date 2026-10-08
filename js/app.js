@@ -31,6 +31,7 @@ const state = {
   photo: null, // canvas holding the (downscaled) wall photo
   isSample: false,
   pxPerCm: 1,
+  frameWidth: null, // cm, overrides the frame style's default width
   scaleSource: 'estimate', // 'estimate' | 'measured' | 'sample'
   art: null, // { image, title, artist, sizes:[{w,h}], sizeIndex, tainted, url }
   frameKey: CONFIG.defaultFrame,
@@ -74,7 +75,9 @@ function currentSize() {
   return state.art.sizes[state.art.sizeIndex];
 }
 function frame() {
-  return FRAMES[state.frameKey] || FRAMES.none;
+  const f = FRAMES[state.frameKey] || FRAMES.none;
+  // Per-artwork frame width (e.g. the publisher's frame), applied to every frame colour.
+  return state.frameWidth && f.width ? { ...f, width: state.frameWidth } : f;
 }
 function matCm() {
   return MATS[state.matIndex]?.width || 0;
@@ -493,10 +496,17 @@ function setArtwork(a) {
     sizeUnknown: !!a.sizeUnknown,
   };
   if (a.frame && FRAMES[a.frame]) state.frameKey = a.frame;
-  if (a.mat != null) {
-    const idx = MATS.findIndex((m) => m.width === a.mat);
-    if (idx >= 0) state.matIndex = idx;
+  if (a.mat != null && a.mat >= 0) {
+    let idx = MATS.findIndex((m) => Math.abs(m.width - a.mat) < 0.05);
+    if (idx < 0) {
+      // A mount width the gallery specified for this piece, e.g. a publisher's mount.
+      MATS.push({ label: 'Mount as supplied', width: a.mat });
+      idx = MATS.length - 1;
+      $('matSelect').add(new Option(MATS[idx].label, String(idx)));
+    }
+    state.matIndex = idx;
   }
+  state.frameWidth = a.frameWidth > 0 ? a.frameWidth : null;
   syncArtUI();
   if (state.isSample) useSampleRoom();
   requestRender();
@@ -557,6 +567,7 @@ async function loadArtworkSpec(spec) {
     sizeUnknown,
     frame: spec.frame,
     mat: spec.mat != null && spec.mat !== '' ? parseFloat(spec.mat) * (unit === 'in' ? CM_PER_IN : 1) : null,
+    frameWidth: parseFloat(spec.framew) * (unit === 'in' ? CM_PER_IN : 1),
   });
   if (tainted) {
     toast("Heads up: this image host doesn't allow downloads or AR (CORS). The preview still works.", 6000);

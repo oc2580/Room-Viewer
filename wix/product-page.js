@@ -1,6 +1,6 @@
 // Wix Velo code for a Wix Stores *Product Page*.
 // Adds a "View on your wall" button that opens the Room Viewer with this
-// product's image and sizes. See docs/WIX_SETUP.md for step-by-step setup.
+// product's image and real dimensions. See docs/WIX_SETUP.md for setup.
 //
 // Page elements this code expects (add them in the Wix Editor):
 //   #productPage1   – the built-in Product Page element (already on the page)
@@ -9,71 +9,114 @@
 // Optional: instead of a button, add an HTML iframe element (#roomViewer)
 // pointing at VIEWER_URL – the code below will send it the artwork.
 
-const VIEWER_URL = 'https://YOUR-GITHUB-USERNAME.github.io/Room-Viewer/';
+const VIEWER_URL = 'https://oc2580.github.io/Room-Viewer/';
 
-// Unit your size choices are written in ("60 x 80 cm", "24x36 in", ...).
-const DEFAULT_UNIT = 'cm';
+// While testing, only show the button on this product (its URL slug, the part
+// after /product-page/). Set to '' to show it on every product.
+const TEST_PRODUCT_SLUG = 'young-hearts';
 
 $w.onReady(async function () {
   const product = await $w('#productPage1').getProduct();
-  const artwork = artworkFromProduct(product);
+  const enabled = !TEST_PRODUCT_SLUG || product.slug === TEST_PRODUCT_SLUG;
+  const artwork = enabled ? artworkFromProduct(product) : null;
 
   try {
-    $w('#roomViewButton').link = viewerUrl(artwork);
-    $w('#roomViewButton').target = '_blank';
+    if (artwork) {
+      $w('#roomViewButton').link = viewerUrl(artwork);
+      $w('#roomViewButton').target = '_blank';
+      $w('#roomViewButton').show();
+    } else {
+      $w('#roomViewButton').hide();
+    }
   } catch (e) {
     // No button on this page.
   }
 
   // If you embedded the viewer in the page, hand it the artwork once it's ready.
   try {
-    $w('#roomViewer').onMessage((event) => {
-      if (event.data && event.data.type === 'roomviewer:ready') {
-        $w('#roomViewer').postMessage({ type: 'roomviewer:setArtwork', ...artwork });
-      }
-    });
+    if (!artwork) {
+      $w('#roomViewer').hide();
+    } else {
+      $w('#roomViewer').onMessage((event) => {
+        if (event.data && event.data.type === 'roomviewer:ready') {
+          $w('#roomViewer').postMessage({ type: 'roomviewer:setArtwork', ...artwork });
+        }
+      });
+    }
   } catch (e) {
     // No embedded viewer on this page.
   }
 });
 
 function artworkFromProduct(product) {
-  return {
-    img: wixImageToUrl(product.mainMedia),
+  const image = wixImage(product.mainMedia);
+  const text = [
+    product.description || '',
+    ...(product.additionalInfoSections || []).map((s) => `${s.title}: ${s.description}`),
+  ]
+    .join(' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ');
+
+  // Sizes as written in the description, e.g. "Image size: 39 x 30.7 cm".
+  const aspect = image.width && image.height ? image.width / image.height : null;
+  const art = readSize(text, /image size/i, aspect);
+  const mount = readSize(text, /mount size/i, aspect);
+  const framed = readSize(text, /framed size/i, aspect);
+
+  const params = {
+    img: image.url,
     title: product.name,
-    sizes: sizesFromProduct(product),
-    unit: DEFAULT_UNIT,
-    buy: product.productPageUrl ? `${siteBase()}${product.productPageUrl}` : '',
+    artist: product.brand || '',
+    unit: 'cm',
+    buy: `${siteBase()}/product-page/${product.slug}`,
+  };
+  if (art) {
+    params.w = art.w;
+    params.h = art.h;
+    if (mount) params.mat = round((mount.w - art.w + (mount.h - art.h)) / 4);
+    if (mount && framed) params.framew = round((framed.w - mount.w + (framed.h - mount.h)) / 4);
+  }
+  return params;
+}
+
+// Finds "<label> ... 39 x 30.7 cm" and returns {w, h} in cm. The two numbers
+// are matched to the image's proportions, so "height x width" and
+// "width x height" are both handled.
+function readSize(text, label, aspect) {
+  const re = new RegExp(`${label.source}\\s*:?\\s*(\\d+(?:\\.\\d+)?)\\s*(?:cm)?\\s*[x×X]\\s*(\\d+(?:\\.\\d+)?)\\s*(cm|mm|in|")?`, 'i');
+  const m = re.exec(text);
+  if (!m) return null;
+  const k = m[3] === 'mm' ? 0.1 : m[3] === 'in' || m[3] === '"' ? 2.54 : 1;
+  const a = parseFloat(m[1]) * k;
+  const b = parseFloat(m[2]) * k;
+  if (!aspect) return { w: a, h: b };
+  return Math.abs(a / b - aspect) <= Math.abs(b / a - aspect) ? { w: a, h: b } : { w: b, h: a };
+}
+
+// "wix:image://v1/abc~mv2.png/name.png#originWidth=800&originHeight=1014"
+function wixImage(src) {
+  const m = /^wix:image:\/\/v1\/([^/]+)\/[^#]*(?:#(.*))?$/.exec(src || '');
+  if (!m) return { url: src };
+  const q = new URLSearchParams(m[2] || '');
+  return {
+    url: `https://static.wixstatic.com/media/${m[1]}`,
+    width: parseFloat(q.get('originWidth')),
+    height: parseFloat(q.get('originHeight')),
   };
 }
 
-// Reads sizes from a product option such as "Size" with choices "60 x 80 cm".
-function sizesFromProduct(product) {
-  const options = product.productOptions || {};
-  const sizes = [];
-  for (const key of Object.keys(options)) {
-    for (const choice of options[key].choices || []) {
-      const m = /(\d+(?:\.\d+)?)\s*[x×X]\s*(\d+(?:\.\d+)?)/.exec(choice.description || choice.value || '');
-      if (m) sizes.push(`${m[1]}x${m[2]}`);
-    }
-  }
-  return sizes.join(',');
-}
-
-// "wix:image://v1/abc~mv2.jpg/name.jpg#originWidth=..." -> https://static.wixstatic.com/media/abc~mv2.jpg
-function wixImageToUrl(src) {
-  const m = /^wix:image:\/\/v1\/([^/]+)\//.exec(src || '');
-  return m ? `https://static.wixstatic.com/media/${m[1]}` : src;
-}
-
 function siteBase() {
-  // productPageUrl is relative ("/product-page/slug"); update if your site uses a custom domain path.
-  return 'https://www.YOUR-SITE.com';
+  return 'https://www.jackvettriano.studio';
+}
+
+function round(n) {
+  return Math.round(n * 10) / 10;
 }
 
 function viewerUrl(a) {
   const params = Object.entries(a)
-    .filter(([, v]) => v)
+    .filter(([, v]) => v !== '' && v != null)
     .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
     .join('&');
   return `${VIEWER_URL}?${params}`;
