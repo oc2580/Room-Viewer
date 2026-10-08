@@ -17,7 +17,7 @@
 [hidden] { display: none !important; }
 
 html, body { margin: 0; height: 100%; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; touch-action: manipulation; } /* no double-tap zoom */
 body { overflow-x: hidden; }
 
 body {
@@ -290,6 +290,10 @@ input[type="range"] { width: 100%; accent-color: var(--ink); }
   .layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; }
   /* 16px stops iPhone Safari zooming (and shifting the page sideways) when a box is tapped. */
   select, input[type="number"] { font-size: 16px; }
+  /* Measuring controls: each label above its box, full width. */
+  .measure-controls { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .measure-controls label { margin-top: 6px; }
+  .measure-len input { flex: 1; width: auto; min-width: 0; max-width: 10em; }
   .stage-wrap { min-height: 0; }
   .stage-area { flex: none; aspect-ratio: var(--photo-aspect, 4 / 3); max-height: 72vh; min-height: 240px; }
   body { height: auto; min-height: 100%; }

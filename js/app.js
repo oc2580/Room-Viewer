@@ -1,8 +1,8 @@
-import { CONFIG, FRAMES, MATS, REFERENCES } from './config.js';
-import { drawImageInQuad, pointInQuad, isConvexQuad, distance, distanceToSegment } from './geometry.js';
-import { renderFramed, hexToRgb01, edgeColor } from './framing.js';
-import { buildArtworkGLB } from './glb.js';
-import { createSampleRoom, createSampleArtwork } from './samples.js';
+import { CONFIG, FRAMES, MATS, REFERENCES } from './config.js?v=2';
+import { drawImageInQuad, pointInQuad, isConvexQuad, distance, distanceToSegment } from './geometry.js?v=2';
+import { renderFramed, hexToRgb01, edgeColor } from './framing.js?v=2';
+import { buildArtworkGLB } from './glb.js?v=2';
+import { createSampleRoom, createSampleArtwork } from './samples.js?v=2';
 
 const CM_PER_IN = 2.54;
 const MAX_PHOTO_PX = 2400;
@@ -1250,6 +1250,15 @@ function wireUI() {
   });
 
   new ResizeObserver(layoutStage).observe(stage);
+
+  // Phones can leave the page shifted sideways after typing in a box (the
+  // keyboard closing, or a zoom). The page is never wider than the screen,
+  // so snap it back.
+  const unshift = () => {
+    if (window.scrollX !== 0) window.scrollTo(0, window.scrollY);
+  };
+  document.addEventListener('focusout', () => setTimeout(unshift, 50));
+  window.visualViewport?.addEventListener('resize', unshift);
 
   // Host pages (e.g. Wix Velo) can send the artwork with postMessage.
   window.addEventListener('message', (e) => {
