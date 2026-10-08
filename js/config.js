@@ -22,6 +22,8 @@ export const FRAMES = {
   oak: { label: 'Oak', width: 3, depth: 3.5, color: '#b88d5c', grain: true },
   walnut: { label: 'Walnut', width: 3, depth: 3.5, color: '#5b3d2a', grain: true },
   gold: { label: 'Gold', width: 3.5, depth: 4, color: '#b8963f', metallic: true },
+  // Publisher's frame for Jack Vettriano editions: black with a thin gold inner slip.
+  publisher: { label: 'Black with gold slip', width: 5.2, depth: 4, color: '#161514', slip: { color: '#c3a052', width: 0.5 } },
 };
 
 export const MATS = [

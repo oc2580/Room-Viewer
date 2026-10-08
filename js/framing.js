@@ -23,7 +23,7 @@ export function renderFramed(art, { artW, artH, frame, matCm, brightness = 1 }, 
   const F = fw * s;
   const M = matCm * s;
 
-  if (F > 0) drawFrame(g, c.width, c.height, F, frame);
+  if (F > 0) drawFrame(g, c.width, c.height, F, frame, s);
   if (M > 0) {
     g.fillStyle = '#f7f5f0';
     g.fillRect(F, F, c.width - 2 * F, c.height - 2 * F);
@@ -44,7 +44,7 @@ export function renderFramed(art, { artW, artH, frame, matCm, brightness = 1 }, 
   return c;
 }
 
-function drawFrame(g, w, h, F, frame) {
+function drawFrame(g, w, h, F, frame, pxPerCm) {
   const base = frame.color;
   // Four mitred sides, each lit differently (light from the top-left).
   const sides = [
@@ -78,6 +78,18 @@ function drawFrame(g, w, h, F, frame) {
   g.strokeRect(0.5, 0.5, w - 1, h - 1);
   g.strokeStyle = 'rgba(255,255,255,0.18)';
   g.strokeRect(F - 0.5, F - 0.5, w - 2 * F + 1, h - 2 * F + 1);
+  if (frame.slip) {
+    // Thin inner slip (e.g. gold) along the inside edge of the frame, with a soft sheen.
+    const sw = Math.max(1.5, frame.slip.width * pxPerCm);
+    const x = F - sw;
+    const grad = g.createLinearGradient(0, 0, w, h);
+    grad.addColorStop(0, shadeColor(frame.slip.color, 0.35));
+    grad.addColorStop(0.5, frame.slip.color);
+    grad.addColorStop(1, shadeColor(frame.slip.color, -0.3));
+    g.lineWidth = sw;
+    g.strokeStyle = grad;
+    g.strokeRect(x + sw / 2, x + sw / 2, w - 2 * x - sw, h - 2 * x - sw);
+  }
 }
 
 function drawGrain(g, w, h, F, horizontal) {

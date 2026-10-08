@@ -215,7 +215,7 @@ input[type="range"] { width: 100%; accent-color: var(--ink); }
   position: absolute;
   inset: 6px;
   border-radius: 3px;
-  box-shadow: inset 0 0 0 5px var(--c, transparent);
+  box-shadow: inset 0 0 0 5px var(--c, transparent), inset 0 0 0 6.5px var(--c2, var(--c, transparent));
   background: linear-gradient(135deg, #e0a35b, #8a3b2a);
 }
 .swatch[aria-checked="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }

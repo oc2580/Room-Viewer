@@ -495,6 +495,7 @@ function setArtwork(a) {
     url: a.url || null,
     sizeUnknown: !!a.sizeUnknown,
   };
+  limitFrames(a.frames);
   if (a.frame && FRAMES[a.frame]) state.frameKey = a.frame;
   if (a.mat != null && a.mat >= 0) {
     let idx = MATS.findIndex((m) => Math.abs(m.width - a.mat) < 0.05);
@@ -510,6 +511,15 @@ function setArtwork(a) {
   syncArtUI();
   if (state.isSample) useSampleRoom();
   requestRender();
+}
+
+/** Show only the frame styles the gallery sells for this piece, e.g. "none,publisher". */
+function limitFrames(list) {
+  const keys = String(list || '').split(',').map((k) => k.trim()).filter((k) => FRAMES[k]);
+  document.querySelectorAll('.swatch').forEach((s) => {
+    s.hidden = keys.length > 0 && !keys.includes(s.dataset.frame);
+  });
+  if (keys.length && !keys.includes(state.frameKey)) state.frameKey = keys[0];
 }
 
 function parseSizes(sizesParam, w, h, unit, aspect) {
@@ -566,6 +576,7 @@ async function loadArtworkSpec(spec) {
     tainted,
     sizeUnknown,
     frame: spec.frame,
+    frames: spec.frames,
     mat: spec.mat != null && spec.mat !== '' ? parseFloat(spec.mat) * (unit === 'in' ? CM_PER_IN : 1) : null,
     frameWidth: parseFloat(spec.framew) * (unit === 'in' ? CM_PER_IN : 1),
   });
@@ -761,6 +772,7 @@ function buildStaticUI() {
     b.title = f.label;
     const inner = document.createElement('span');
     if (f.color) inner.style.setProperty('--c', f.color);
+    if (f.slip) inner.style.setProperty('--c2', f.slip.color);
     b.append(inner);
     b.addEventListener('click', () => {
       state.frameKey = key;

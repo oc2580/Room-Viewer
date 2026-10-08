@@ -69,6 +69,10 @@ function artworkFromProduct(product) {
     title: product.name,
     artist: product.brand || '',
     unit: 'cm',
+    // The two choices of the product's "Frame" option: Unframed, or the
+    // publisher's black frame with a gold slip. Opens showing it framed.
+    frames: 'none,publisher',
+    frame: 'publisher',
     buy: `${siteBase()}/product-page/${product.slug}`,
   };
   if (art) {
