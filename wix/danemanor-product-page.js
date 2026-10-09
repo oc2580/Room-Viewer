@@ -17,13 +17,12 @@ const ENABLED_BRANDS = ['Leigh Lambert'];
 // How the framed pieces are shown. Frame styles are defined in js/config.js
 // of the viewer ('black', 'white', 'oak', 'walnut', 'gold', ...).
 const FRAME_STYLE = 'black';
-// Paper editions: white mount plus a frame this wide (cm); the rest of the
-// gap between "Image size" and "Framed size" is mount.
-const PAPER_FRAME_CM = 3.5;
-// Used when a product gives no "Framed size" (the viewer marks the framed
-// size as approximate).
-const DEFAULT_CANVAS_FRAME_CM = 6;
-const DEFAULT_PAPER_MOUNT_CM = 8;
+// Framed editions (canvas and paper): a white mount plus a frame this wide
+// (cm). The rest of the gap between "Image size" and "Framed size" is mount.
+const FRAME_CM = 5;
+// Mount used when a product gives no "Framed size" (the viewer then marks
+// the framed size as approximate).
+const DEFAULT_MOUNT_CM = 8;
 
 $w.onReady(async function () {
   const product = await $w('#productPage1').getProduct();
@@ -58,7 +57,6 @@ function artworkFromProduct(product) {
   if (!art) return null; // can't show true size without the image size
 
   const framed = readSize(text, /framed size/i, aspect);
-  const isCanvas = /canvas/i.test(product.name) || /on canvas|canvas deluxe/i.test(text);
 
   const params = {
     site: 'danemanor',
@@ -75,13 +73,15 @@ function artworkFromProduct(product) {
 
   // Average border between the image and the outside of the frame.
   const border = framed ? (framed.w - art.w + (framed.h - art.h)) / 4 : null;
-  if (isCanvas) {
-    params.framew = round(border > 0 ? border : DEFAULT_CANVAS_FRAME_CM);
+  params.framew = FRAME_CM;
+  if (border > FRAME_CM) {
+    params.mat = round(border - FRAME_CM);
+  } else if (border > 0) {
+    params.framew = round(border); // listed border is narrower than a frame: no mount
   } else {
-    params.framew = PAPER_FRAME_CM;
-    params.mat = round(border > PAPER_FRAME_CM ? border - PAPER_FRAME_CM : DEFAULT_PAPER_MOUNT_CM);
+    params.mat = DEFAULT_MOUNT_CM;
+    params.approx = 1;
   }
-  if (!(border > 0)) params.approx = 1;
   return params;
 }
 

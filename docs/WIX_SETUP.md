@@ -43,7 +43,7 @@ Same steps as Option A, on the Dane Manor site, but paste [`wix/danemanor-produc
 
 - The button shows on every product whose **brand** is *Leigh Lambert* (`ENABLED_BRANDS`), including new ones as they're added.
 - The viewer is branded **Dane Manor Fine Art** (`site=danemanor`).
-- Sizes come from **Image size** and **Framed size** in the description. Canvas editions show a frame only. Paper editions show a white mount and a `PAPER_FRAME_CM`-wide frame. Products with no framed size use a standard frame, and the viewer marks the framed size as approximate (≈).
+- Sizes come from **Image size** and **Framed size** in the description. Canvas and paper editions both show a white mount and a 5 cm frame (`FRAME_CM`); the mount fills the rest of the gap up to the framed size. Products with no framed size get an 8 cm mount (`DEFAULT_MOUNT_CM`), and the viewer marks the framed size as approximate (≈).
 - The frame colour is `FRAME_STYLE` (currently black).
 
 ### Option B: a link per artwork (no code)
