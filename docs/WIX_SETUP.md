@@ -37,6 +37,15 @@ This adds a **View on your wall** button to chosen product pages, using each pro
    Height and width can be in either order; the code matches them to the picture's shape. Without an image size the viewer can't show true size and says so.
 8. **Preview**, open each enabled product, click the button and check the print appears at the right size. Then **Publish**.
 
+### Dane Manor Fine Art (Leigh Lambert)
+
+Same steps as Option A, on the Dane Manor site, but paste [`wix/danemanor-product-page.js`](../wix/danemanor-product-page.js) instead. Differences:
+
+- The button shows on every product whose **brand** is *Leigh Lambert* (`ENABLED_BRANDS`), including new ones as they're added.
+- The viewer is branded **Dane Manor Fine Art** (`site=danemanor`).
+- Sizes come from **Image size** and **Framed size** in the description. Canvas editions show a frame only. Paper editions show a white mount and a `PAPER_FRAME_CM`-wide frame. Products with no framed size use a standard frame, and the viewer marks the framed size as approximate (≈).
+- The frame colour is `FRAME_STYLE` (currently black).
+
 ### Option B: a link per artwork (no code)
 
 Add a button or text link to any page and point it at a viewer URL with the artwork's details, for example:

@@ -1,8 +1,8 @@
-import { CONFIG, FRAMES, MATS, REFERENCES } from './config.js?v=3';
-import { drawImageInQuad, pointInQuad, isConvexQuad, distance, distanceToSegment } from './geometry.js?v=3';
-import { renderFramed, hexToRgb01, edgeColor } from './framing.js?v=3';
-import { buildArtworkGLB } from './glb.js?v=3';
-import { createSampleRoom, createSampleArtwork } from './samples.js?v=3';
+import { CONFIG, GALLERIES, FRAMES, MATS, REFERENCES } from './config.js?v=4';
+import { drawImageInQuad, pointInQuad, isConvexQuad, distance, distanceToSegment } from './geometry.js?v=4';
+import { renderFramed, hexToRgb01, edgeColor } from './framing.js?v=4';
+import { buildArtworkGLB } from './glb.js?v=4';
+import { createSampleRoom, createSampleArtwork } from './samples.js?v=4';
 
 const CM_PER_IN = 2.54;
 const MAX_PHOTO_PX = 2400;
@@ -330,7 +330,7 @@ function drawSizeLabel(quad) {
   const { w, h } = currentSize();
   const fd = framedDims();
   let text = fmtSize(w, h);
-  if (fd.w !== w) text += `  ·  framed ${fmtSize(fd.w, fd.h)}`;
+  if (fd.w !== w) text += `  ·  framed ${state.framedApprox ? '≈ ' : ''}${fmtSize(fd.w, fd.h)}`;
   const bottom = Math.max(quad[2][1], quad[3][1]);
   const cx = (quad[2][0] + quad[3][0]) / 2;
   drawPill(text, cx, bottom + 22 * view.dpr);
@@ -1272,6 +1272,10 @@ function wireUI() {
 
 async function init() {
   const params = Object.fromEntries(new URLSearchParams(location.search));
+  // Gallery branding is picked from a fixed list, so a link can't put any
+  // other name on the page.
+  if (Object.hasOwn(GALLERIES, params.site)) Object.assign(CONFIG, GALLERIES[params.site]);
+  state.framedApprox = params.approx === '1';
   if (params.display === 'in' || params.display === 'cm') state.unit = params.display;
   else if (params.unit === 'in' || params.unit === 'cm') state.unit = params.unit;
   buildStaticUI();

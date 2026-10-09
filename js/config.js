@@ -13,6 +13,13 @@ export const CONFIG = {
   assumedWallWidthCm: 300,
 };
 
+// Galleries using this viewer, chosen with the `site` URL parameter
+// (e.g. ?site=danemanor). Without it, CONFIG above is used.
+export const GALLERIES = {
+  jvs: { galleryName: 'Jack Vettriano Studio', galleryUrl: 'https://www.jackvettriano.studio/' },
+  danemanor: { galleryName: 'Dane Manor Fine Art', galleryUrl: 'https://www.danemanorfineart.com/' },
+};
+
 // Frame styles. width/depth are in cm; depth is how far the piece sticks out
 // from the wall (used for the shadow and the AR model).
 export const FRAMES = {
