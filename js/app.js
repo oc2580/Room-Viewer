@@ -1,8 +1,8 @@
-import { CONFIG, GALLERIES, FRAMES, MATS, REFERENCES } from './config.js?v=4';
-import { drawImageInQuad, pointInQuad, isConvexQuad, distance, distanceToSegment } from './geometry.js?v=4';
-import { renderFramed, hexToRgb01, edgeColor } from './framing.js?v=4';
-import { buildArtworkGLB } from './glb.js?v=4';
-import { createSampleRoom, createSampleArtwork } from './samples.js?v=4';
+import { CONFIG, GALLERIES, FRAMES, MATS, REFERENCES } from './config.js?v=5';
+import { drawImageInQuad, pointInQuad, isConvexQuad, distance, distanceToSegment } from './geometry.js?v=5';
+import { renderFramed, hexToRgb01, edgeColor } from './framing.js?v=5';
+import { buildArtworkGLB } from './glb.js?v=5';
+import { createSampleRoom, createSampleArtwork } from './samples.js?v=5';
 
 const CM_PER_IN = 2.54;
 const MAX_PHOTO_PX = 2400;
@@ -80,6 +80,8 @@ function frame() {
   return state.frameWidth && f.width ? { ...f, width: state.frameWidth } : f;
 }
 function matCm() {
+  // A photo that already shows the framed piece gets no extra mount.
+  if (frame().pictured) return 0;
   return MATS[state.matIndex]?.width || 0;
 }
 function framedDims() {
@@ -330,7 +332,8 @@ function drawSizeLabel(quad) {
   const { w, h } = currentSize();
   const fd = framedDims();
   let text = fmtSize(w, h);
-  if (fd.w !== w) text += `  ·  framed ${state.framedApprox ? '≈ ' : ''}${fmtSize(fd.w, fd.h)}`;
+  if (frame().pictured) text = `framed ${state.framedApprox ? '≈ ' : ''}${text}`;
+  else if (fd.w !== w) text += `  ·  framed ${state.framedApprox ? '≈ ' : ''}${fmtSize(fd.w, fd.h)}`;
   const bottom = Math.max(quad[2][1], quad[3][1]);
   const cx = (quad[2][0] + quad[3][0]) / 2;
   drawPill(text, cx, bottom + 22 * view.dpr);
@@ -877,7 +880,11 @@ function syncArtUI() {
   if (!art) return;
   $('artTitle').textContent = art.title;
   const { w, h } = currentSize();
-  const sizeText = art.sizeUnknown ? 'size not specified' : fmtSize(w, h);
+  const sizeText = art.sizeUnknown
+    ? 'size not specified'
+    : frame().pictured
+      ? `framed ${state.framedApprox ? '≈ ' : ''}${fmtSize(w, h)}`
+      : fmtSize(w, h);
   $('artMeta').textContent = [art.artist, sizeText].filter(Boolean).join(' · ');
   document.title = `${art.title} — View on Your Wall`;
 
@@ -892,6 +899,7 @@ function syncArtUI() {
     s.setAttribute('aria-checked', String(s.dataset.frame === state.frameKey));
   });
   $('matSelect').value = String(state.matIndex);
+  $('matField').hidden = !!frame().pictured;
 
   const buy = $('buyLink');
   buy.hidden = !state.buyUrl;

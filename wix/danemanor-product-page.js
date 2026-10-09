@@ -23,6 +23,9 @@ const FRAME_CM = 5;
 // Mount used when a product gives no "Framed size" (the viewer then marks
 // the framed size as approximate).
 const DEFAULT_MOUNT_CM = 8;
+// If the photo's shape differs from the listed image size by more than this,
+// the photo already shows the frame and mount, so nothing is added to it.
+const FRAMED_PHOTO_TOLERANCE = 0.04;
 
 $w.onReady(async function () {
   const product = await $w('#productPage1').getProduct();
@@ -71,6 +74,10 @@ function artworkFromProduct(product) {
     buy: `${SITE_BASE}/product-page/${product.slug}`,
   };
 
+  if (aspect && Math.abs(aspect - art.w / art.h) / (art.w / art.h) > FRAMED_PHOTO_TOLERANCE) {
+    return framedPhoto(params, aspect, art, framed);
+  }
+
   // Average border between the image and the outside of the frame.
   const border = framed ? (framed.w - art.w + (framed.h - art.h)) / 4 : null;
   params.framew = FRAME_CM;
@@ -82,6 +89,31 @@ function artworkFromProduct(product) {
     params.mat = DEFAULT_MOUNT_CM;
     params.approx = 1;
   }
+  return params;
+}
+
+// The photo already shows the framed piece: show it as it is, sized to the
+// framed size (matching its longer side), with no extra frame or mount.
+function framedPhoto(params, aspect, art, framed) {
+  params.frames = 'pictured';
+  params.frame = 'pictured';
+  let size = framed;
+  if (!size) {
+    // No framed size listed: estimate an even border that gives the photo's shape.
+    const b = (art.w - aspect * art.h) / (2 * (aspect - 1));
+    size = b > 0 && b < 40 ? { w: art.w + 2 * b, h: art.h + 2 * b } : art;
+    params.approx = 1;
+  }
+  if (aspect >= 1) {
+    params.w = round(size.w);
+    params.h = round(size.w / aspect);
+  } else {
+    params.h = round(size.h);
+    params.w = round(size.h * aspect);
+  }
+  // Photo shape noticeably different from the listed framed size (e.g. a
+  // photo with some background): the size shown is approximate.
+  if (framed && Math.abs(aspect - framed.w / framed.h) / (framed.w / framed.h) > 0.05) params.approx = 1;
   return params;
 }
 

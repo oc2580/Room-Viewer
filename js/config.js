@@ -31,6 +31,8 @@ export const FRAMES = {
   gold: { label: 'Gold', width: 3.5, depth: 4, color: '#b8963f', metallic: true },
   // Publisher's frame for Jack Vettriano editions: black with a thin gold inner slip.
   publisher: { label: 'Black with gold slip', width: 5.2, depth: 4, color: '#161514', slip: { color: '#c3a052', width: 0.5 } },
+  // The product photo already shows the framed piece: draw it as-is, nothing added.
+  pictured: { label: 'Framed, as pictured', width: 0, depth: 4, color: '#1d1d1d', pictured: true },
 };
 
 export const MATS = [
