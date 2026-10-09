@@ -11,6 +11,7 @@ medium: Giclée on 300gsm museum etching paper
 imageSizeCm: [52.5, 34]
 mountSizeCm: [77.5, 57]
 media: d9cb8c_c2a32d522e0143a585bf62910dad1a82~mv2.jpg
+themes: Portraits
 status: draft
 reviewNotes: "Photograph of the artist by Ian McIlgorm, not a Vettriano painting - script reflects this."
 ---

@@ -11,6 +11,7 @@ medium: Giclée on 300gsm museum etching paper
 mountSizeCm: [41, 49]
 framedSizeCm: [62.7, 72.7]
 media: d9cb8c_0781c741aecf40118504a651358e8316~mv2.jpg
+themes: Romance
 status: draft
 reviewNotes: ""
 ---

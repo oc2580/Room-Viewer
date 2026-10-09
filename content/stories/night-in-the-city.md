@@ -10,6 +10,7 @@ signed: true
 medium: Giclée
 imageSizeCm: [51, 40.5]
 media: d9cb8c_4c32b6d5143d44e6a5a0ed843f885d24~mv2.jpg
+themes: After dark, Romance
 status: draft
 reviewNotes: "Edition size not in product copy - add for provenance panel."
 ---

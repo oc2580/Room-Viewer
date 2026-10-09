@@ -10,6 +10,7 @@ signed: true
 medium: Giclée, board mounted, hand-embellished with 3 coats of lacquer, no glass
 imageSizeCm: [61, 101.6]
 media: 5f58c4_4a153cba72414f1c8201b36d0fdfee6b~mv2.jpeg
+themes: Rare editions
 status: draft
 reviewNotes: ""
 ---

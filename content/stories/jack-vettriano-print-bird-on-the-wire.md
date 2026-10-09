@@ -10,6 +10,7 @@ signed: true
 medium: Silkscreen on 400gsm Velin Arches Blanc
 mountSizeCm: [97, 79]
 media: d9cb8c_19ae50643a36421ea13bfedbeaf2ebc8~mv2.jpg
+themes: Romance, Rare editions
 status: draft
 reviewNotes: ""
 ---

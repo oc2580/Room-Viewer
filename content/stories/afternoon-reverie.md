@@ -11,6 +11,7 @@ medium: 350gsm museum etching paper
 mountSizeCm: [52.7, 59]
 framedSizeCm: [63.3, 69.6]
 media: d9cb8c_e18604e4efea4a1c84588410fa697f2b~mv2.jpg
+themes: Quiet moments
 status: draft
 reviewNotes: ""
 ---

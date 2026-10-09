@@ -12,6 +12,7 @@ imageSizeCm: [36, 29]
 mountSizeCm: [58.5, 50]
 framedSizeCm: [69.5, 60.5]
 media: 5f58c4_d113ab92ed6f45848cb6119921a06b4a~mv2.jpg
+themes: Portraits, Style & society
 status: draft
 reviewNotes: ""
 ---

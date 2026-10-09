@@ -12,6 +12,7 @@ imageSizeCm: [40.6, 50.8]
 mountSizeCm: [63.7, 71.8]
 framedSizeCm: [74.3, 82.4]
 media: 5f58c4_19f3f740afce4661bc8030d094fee24f~mv2.jpeg
+themes: Style & society
 status: draft
 reviewNotes: "Product copy has little on the painting itself - Studio may want to add a line from the blog post."
 ---

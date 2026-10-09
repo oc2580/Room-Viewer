@@ -10,6 +10,7 @@ signed: true
 medium: Giclée on 350gsm museum etching paper
 mountSizeCm: [41.5, 49]
 media: d9cb8c_90c6b434ee1c4cf5a29bb0ba16a561cf~mv2.jpg
+themes: Portraits
 status: draft
 reviewNotes: ""
 ---

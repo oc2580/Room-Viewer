@@ -11,6 +11,7 @@ medium: 300gsm museum etching paper
 imageSizeCm: [30.5, 25.5]
 mountSizeCm: [53.5, 46.5]
 media: 5f58c4_180e70410c9144689b0b1a2239089013~mv2.jpeg
+themes: Romance, By the sea
 status: draft
 reviewNotes: ""
 ---

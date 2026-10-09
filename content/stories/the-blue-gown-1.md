@@ -13,6 +13,7 @@ imageSizeCm: [39, 31]
 mountSizeCm: [61.5, 52]
 framedSizeCm: [71.7, 62.4]
 media: 5f58c4_c1d01f6e87ad4c7e84a62a733029981d~mv2.jpg
+themes: Quiet moments, Style & society
 status: draft
 reviewNotes: "See note on the framed Blue Gown listing about differing descriptions."
 ---

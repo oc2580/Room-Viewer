@@ -10,6 +10,7 @@ signed: true
 medium: Giclée, board mounted, hand-embellished with 3 coats of lacquer, no glass
 imageSizeCm: [61, 50.8]
 media: d9cb8c_a915f3923cbc488c9e4ced2059fde84e~mv2_d_2746_3109_s_4_2.jpg
+themes: After dark, Rare editions
 status: draft
 reviewNotes: "Source copy has almost no detail about the painting itself - Studio may wish to add a line from the blog post."
 ---

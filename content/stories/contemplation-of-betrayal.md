@@ -9,6 +9,7 @@ edition: Signed limited edition of 100 + 10 Artist's Proofs (APs +25%)
 signed: true
 medium: Giclée
 media: 5f58c4_7972d2f3184f41a39f044e2b65830549~mv2.jpg
+themes: After dark, Quiet moments
 status: draft
 reviewNotes: "No sizes in product copy - add for view-in-room."
 ---

@@ -10,6 +10,7 @@ signed: false
 medium: Giclée on 300gsm museum etching paper (x3)
 imageSizeCm: [25.5, 21]
 media: 5f58c4_99cc3daa2d474c3ab1bfab43a030deb4~mv2.jpg
+themes: By the sea
 status: draft
 reviewNotes: "Open edition, no COA listed - script avoids implying signature or limitation. View-in-room should show three panels side by side."
 ---

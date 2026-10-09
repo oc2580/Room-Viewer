@@ -12,6 +12,7 @@ imageSizeCm: [21, 25.5]
 mountSizeCm: [42, 48.5]
 framedSizeCm: [52.6, 59.1]
 media: 5f58c4_df575f96926145418a46d4de108138db~mv2.jpg
+themes: Romance
 status: draft
 reviewNotes: ""
 ---

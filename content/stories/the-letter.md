@@ -11,6 +11,7 @@ medium: Giclée, board mounted, hand-embellished with 3 coats of lacquer, no gla
 imageSizeCm: [76.2, 61]
 framedSizeCm: [83, 98]
 media: 5f58c4_f5f12947ce9d438a8cf70dd26c7fc6bc~mv2_d_1920_1519_s_2.jpg
+themes: Quiet moments, Rare editions
 status: draft
 reviewNotes: "Framed size (83 x 98) reads portrait while image size (30 x 24) reads landscape-ambiguous - confirm orientation for view-in-room."
 ---

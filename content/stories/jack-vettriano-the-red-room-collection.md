@@ -12,6 +12,7 @@ imageSizeCm: [30, 24.5]
 mountSizeCm: [41, 34.5]
 framedSizeCm: [65, 58.5]
 media: d9cb8c_095555575adf44ccbdd8686c1ea59bea~mv2.jpg
+themes: After dark, Rare editions
 status: draft
 reviewNotes: "Product copy says 'Price on application' but listing is priced at GBP 7,995 - Studio to reconcile. Mature theme. View-in-room should show five frames."
 ---

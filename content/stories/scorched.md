@@ -10,6 +10,7 @@ signed: true
 medium: Giclée on 350gsm museum etching paper
 mountSizeCm: [46.8, 42.8]
 media: d9cb8c_9470a57e16df4e17b2c48739db3f9737~mv2.jpg
+themes: By the sea, Rare editions
 status: draft
 reviewNotes: ""
 ---

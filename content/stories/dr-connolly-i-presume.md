@@ -11,6 +11,7 @@ medium: Giclée
 imageSizeCm: [20, 25]
 mountSizeCm: [41, 47.5]
 media: 5f58c4_90af829bb14a47cc9894d708414d3a81~mv2.webp
+themes: Portraits
 status: draft
 reviewNotes: "Product copy mentions both a 1994 'World Tour of Scotland' series and the People's Palace murals - Studio to confirm the commission history before recording. Script keeps to the safest facts."
 ---

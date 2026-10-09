@@ -13,6 +13,7 @@ imageSizeCm: [25.5, 20.4]
 mountSizeCm: [48, 42.4]
 framedSizeCm: [58.4, 52.8]
 media: 5f58c4_fbb003e6cfb04dbfb11a9d44d1794f9d~mv2.png
+themes: Final editions
 status: draft
 reviewNotes: ""
 ---

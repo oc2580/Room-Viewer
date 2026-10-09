@@ -11,6 +11,7 @@ medium: 300gsm museum etching paper
 imageSizeCm: [20.5, 25.5]
 mountSizeCm: [41.5, 48]
 media: d9cb8c_03e2bf6a115944a09c07a54fd0948124~mv2.jpg
+themes: Style & society
 status: draft
 reviewNotes: "Product copy says 'Price on application' but listing is priced at GBP 625 - Studio to reconcile."
 ---

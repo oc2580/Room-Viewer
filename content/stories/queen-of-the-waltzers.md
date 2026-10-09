@@ -12,6 +12,7 @@ imageSizeCm: [20.6, 25]
 mountSizeCm: [42.6, 49]
 framedSizeCm: [53, 59.4]
 media: 5f58c4_55c1e37592944c458d17c1471d5eaa7f~mv2.jpg
+themes: Style & society
 status: draft
 reviewNotes: ""
 ---

@@ -10,6 +10,7 @@ signed: true
 medium: Silkscreen
 imageSizeCm: [70, 56]
 media: 5f58c4_f4ebadb23e004c5a9ac94f6e50de7788~mv2.jpg
+themes: After dark, Rare editions
 status: draft
 reviewNotes: "Source copy is brief; script stays close to it."
 ---

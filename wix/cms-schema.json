@@ -24,6 +24,11 @@
         "type": "TEXT"
       },
       {
+        "key": "themes",
+        "displayName": "Themes (comma separated)",
+        "type": "TEXT"
+      },
+      {
         "key": "transcript",
         "displayName": "Voice-over script",
         "type": "TEXT"
@@ -97,17 +102,84 @@
     }
   },
   {
-    "id": "PvrRooms",
-    "displayName": "PVR Rooms",
+    "id": "GalleryTours",
+    "displayName": "Gallery Tours",
     "fields": [
       {
-        "key": "collectorName",
-        "displayName": "Collector",
+        "key": "title",
+        "displayName": "Title",
         "type": "TEXT"
       },
       {
-        "key": "collectorEmail",
-        "displayName": "Collector email",
+        "key": "slug",
+        "displayName": "Slug",
+        "type": "TEXT"
+      },
+      {
+        "key": "intro",
+        "displayName": "Introduction",
+        "type": "TEXT"
+      },
+      {
+        "key": "productIds",
+        "displayName": "Prints (JSON list of product IDs)",
+        "type": "TEXT"
+      },
+      {
+        "key": "status",
+        "displayName": "Status (draft/live)",
+        "type": "TEXT"
+      },
+      {
+        "key": "sortOrder",
+        "displayName": "Order",
+        "type": "NUMBER"
+      }
+    ],
+    "permissions": {
+      "insert": "ADMIN",
+      "update": "ADMIN",
+      "remove": "ADMIN",
+      "read": "ADMIN"
+    }
+  },
+  {
+    "id": "GalleryLeads",
+    "displayName": "Gallery Leads",
+    "fields": [
+      {
+        "key": "name",
+        "displayName": "Name",
+        "type": "TEXT"
+      },
+      {
+        "key": "email",
+        "displayName": "Email",
+        "type": "TEXT"
+      },
+      {
+        "key": "phone",
+        "displayName": "Phone",
+        "type": "TEXT"
+      },
+      {
+        "key": "status",
+        "displayName": "Status",
+        "type": "TEXT"
+      },
+      {
+        "key": "notes",
+        "displayName": "Notes",
+        "type": "TEXT"
+      },
+      {
+        "key": "visitorId",
+        "displayName": "First visitor ID",
+        "type": "TEXT"
+      },
+      {
+        "key": "visitorIds",
+        "displayName": "Visitor IDs (JSON)",
         "type": "TEXT"
       },
       {
@@ -116,85 +188,13 @@
         "type": "TEXT"
       },
       {
-        "key": "slug",
-        "displayName": "URL slug",
-        "type": "TEXT"
-      },
-      {
-        "key": "status",
-        "displayName": "Status (draft/live/closed)",
-        "type": "TEXT"
-      },
-      {
-        "key": "greeting",
-        "displayName": "Welcome note",
-        "type": "TEXT"
-      },
-      {
-        "key": "greetingAudioUrl",
-        "displayName": "Voice note URL",
-        "type": "URL"
-      },
-      {
-        "key": "expiresAt",
-        "displayName": "Open until",
+        "key": "firstSeenAt",
+        "displayName": "First seen",
         "type": "DATETIME"
       },
       {
-        "key": "firstOpenedAt",
-        "displayName": "First opened",
-        "type": "DATETIME"
-      },
-      {
-        "key": "lastOpenedAt",
-        "displayName": "Last opened",
-        "type": "DATETIME"
-      },
-      {
-        "key": "openCount",
-        "displayName": "Visits",
-        "type": "NUMBER"
-      }
-    ],
-    "permissions": {
-      "insert": "ADMIN",
-      "update": "ADMIN",
-      "remove": "ADMIN",
-      "read": "ADMIN"
-    }
-  },
-  {
-    "id": "PvrRoomItems",
-    "displayName": "PVR Room Prints",
-    "fields": [
-      {
-        "key": "roomId",
-        "displayName": "Room ID",
-        "type": "TEXT"
-      },
-      {
-        "key": "productId",
-        "displayName": "Store product ID",
-        "type": "TEXT"
-      },
-      {
-        "key": "sortOrder",
-        "displayName": "Order",
-        "type": "NUMBER"
-      },
-      {
-        "key": "curatorNote",
-        "displayName": "Director's note",
-        "type": "TEXT"
-      },
-      {
-        "key": "offerPrice",
-        "displayName": "Private offer (GBP)",
-        "type": "NUMBER"
-      },
-      {
-        "key": "offerExpiresAt",
-        "displayName": "Offer open until",
+        "key": "lastSeenAt",
+        "displayName": "Last seen",
         "type": "DATETIME"
       }
     ],
@@ -206,8 +206,8 @@
     }
   },
   {
-    "id": "PvrRequests",
-    "displayName": "PVR Requests",
+    "id": "GalleryRequests",
+    "displayName": "Gallery Requests",
     "fields": [
       {
         "key": "printTitle",
@@ -215,13 +215,28 @@
         "type": "TEXT"
       },
       {
-        "key": "collectorName",
-        "displayName": "Collector",
+        "key": "visitorName",
+        "displayName": "Visitor",
         "type": "TEXT"
       },
       {
-        "key": "roomId",
-        "displayName": "Room ID",
+        "key": "type",
+        "displayName": "Type (hold/question/offer/shortlist)",
+        "type": "TEXT"
+      },
+      {
+        "key": "status",
+        "displayName": "Status",
+        "type": "TEXT"
+      },
+      {
+        "key": "leadId",
+        "displayName": "Lead ID",
+        "type": "TEXT"
+      },
+      {
+        "key": "visitorId",
+        "displayName": "Visitor ID",
         "type": "TEXT"
       },
       {
@@ -230,8 +245,8 @@
         "type": "TEXT"
       },
       {
-        "key": "type",
-        "displayName": "Type (hold/question/offer)",
+        "key": "productIds",
+        "displayName": "Prints (JSON)",
         "type": "TEXT"
       },
       {
@@ -241,13 +256,18 @@
       },
       {
         "key": "offerPrice",
-        "displayName": "Offer price",
+        "displayName": "Offer (GBP)",
         "type": "NUMBER"
       },
       {
-        "key": "status",
-        "displayName": "Status",
-        "type": "TEXT"
+        "key": "listPrice",
+        "displayName": "List price (GBP)",
+        "type": "NUMBER"
+      },
+      {
+        "key": "counterPrice",
+        "displayName": "Counter-offer (GBP)",
+        "type": "NUMBER"
       },
       {
         "key": "reply",
@@ -256,7 +276,7 @@
       },
       {
         "key": "holdExpiresAt",
-        "displayName": "Hold ends",
+        "displayName": "Reserved until",
         "type": "DATETIME"
       },
       {
@@ -273,12 +293,17 @@
     }
   },
   {
-    "id": "PvrEvents",
-    "displayName": "PVR Engagement Events",
+    "id": "GalleryEvents",
+    "displayName": "Gallery Engagement Events",
     "fields": [
       {
-        "key": "roomId",
-        "displayName": "Room ID",
+        "key": "type",
+        "displayName": "Event",
+        "type": "TEXT"
+      },
+      {
+        "key": "visitorId",
+        "displayName": "Visitor ID",
         "type": "TEXT"
       },
       {
@@ -287,8 +312,8 @@
         "type": "TEXT"
       },
       {
-        "key": "type",
-        "displayName": "Event",
+        "key": "tourSlug",
+        "displayName": "Tour",
         "type": "TEXT"
       },
       {

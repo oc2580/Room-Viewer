@@ -10,6 +10,7 @@ signed: true
 medium: Giclée on 350gsm museum etching paper
 mountSizeCm: [64, 54.5]
 media: d9cb8c_02fe3d8e49094b1094c8f1719bec75fd~mv2.jpg
+themes: Quiet moments
 status: draft
 reviewNotes: ""
 ---

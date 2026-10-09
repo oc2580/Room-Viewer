@@ -11,6 +11,7 @@ medium: Giclée on fine art paper
 imageSizeCm: [39, 34]
 mountSizeCm: [61.5, 55]
 media: 5f58c4_bff7583b29d244fca73ce19fe1e84fc7~mv2.jpeg
+themes: Style & society
 status: draft
 reviewNotes: ""
 ---

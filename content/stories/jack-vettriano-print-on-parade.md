@@ -11,6 +11,7 @@ medium: Giclée
 imageSizeCm: [63.5, 50.5]
 mountSizeCm: [88.5, 73.5]
 media: 5f58c4_ac038f6343464d01b9ac08b5e242578a~mv2.jpg
+themes: Style & society, Rare editions
 status: draft
 reviewNotes: "Ribbon says 'Studio Proof' but copy describes the 250 edition - Studio to confirm which this example is before recording."
 ---

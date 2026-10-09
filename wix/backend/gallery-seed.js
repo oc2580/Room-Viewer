@@ -14,7 +14,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "63.3 x 69.6",
   "reviewNotes": "",
   "wordCount": 155,
-  "estDurationSec": 62
+  "estDurationSec": 62,
+  "themes": "Quiet moments"
  },
  {
   "productId": "599277a8-f61e-53fb-a52d-6aa976e4aa10",
@@ -30,7 +31,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Ribbon says Framed - confirm framed dimensions for view-in-room.",
   "wordCount": 175,
-  "estDurationSec": 70
+  "estDurationSec": 70,
+  "themes": "Quiet moments"
  },
  {
   "productId": "982ee5ac-b3bc-c002-0d8c-ae494544c7ec",
@@ -46,7 +48,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 172,
-  "estDurationSec": 69
+  "estDurationSec": 69,
+  "themes": "Quiet moments"
  },
  {
   "productId": "f4a4ec85-bf96-4e83-9408-1ba168758012",
@@ -62,7 +65,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 153,
-  "estDurationSec": 61
+  "estDurationSec": 61,
+  "themes": "After dark, Romance"
  },
  {
   "productId": "10071409-8d27-c900-ff44-740f51894d86",
@@ -78,7 +82,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 162,
-  "estDurationSec": 65
+  "estDurationSec": 65,
+  "themes": "After dark"
  },
  {
   "productId": "bb248dbd-e5bf-2282-bebb-4c1bd4470188",
@@ -94,7 +99,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "51 x 58.5",
   "reviewNotes": "",
   "wordCount": 169,
-  "estDurationSec": 68
+  "estDurationSec": 68,
+  "themes": "Style & society"
  },
  {
   "productId": "692a583f-4949-f362-a009-1fb93b4128d1",
@@ -110,7 +116,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "62.7 x 72.7",
   "reviewNotes": "",
   "wordCount": 158,
-  "estDurationSec": 63
+  "estDurationSec": 63,
+  "themes": "Style & society"
  },
  {
   "productId": "061496dd-2eb6-986f-8fa1-635b5ed3b854",
@@ -126,7 +133,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Source copy is brief; script stays close to it.",
   "wordCount": 171,
-  "estDurationSec": 68
+  "estDurationSec": 68,
+  "themes": "After dark, Rare editions"
  },
  {
   "productId": "d495a8f8-0228-f488-cd01-729da205fb03",
@@ -142,7 +150,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "No sizes in product copy - add for view-in-room.",
   "wordCount": 170,
-  "estDurationSec": 68
+  "estDurationSec": 68,
+  "themes": "After dark, Quiet moments"
  },
  {
   "productId": "26a63353-95f9-3e81-604b-e8cca3006324",
@@ -158,7 +167,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Source copy has almost no detail about the painting itself - Studio may wish to add a line from the blog post.",
   "wordCount": 178,
-  "estDurationSec": 71
+  "estDurationSec": 71,
+  "themes": "After dark, Rare editions"
  },
  {
   "productId": "73436e8f-6e6a-7fb1-36a6-d2fe34e69c5e",
@@ -174,7 +184,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 164,
-  "estDurationSec": 66
+  "estDurationSec": 66,
+  "themes": "Quiet moments"
  },
  {
   "productId": "0820eab4-1380-e3b8-53f4-007939b89335",
@@ -190,7 +201,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Product copy mentions both a 1994 'World Tour of Scotland' series and the People's Palace murals - Studio to confirm the commission history before recording. Script keeps to the safest facts.",
   "wordCount": 157,
-  "estDurationSec": 63
+  "estDurationSec": 63,
+  "themes": "Portraits"
  },
  {
   "productId": "374bdc00-545e-43b9-4d82-b6df5693ac56",
@@ -206,7 +218,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "62.7 x 72.7",
   "reviewNotes": "",
   "wordCount": 170,
-  "estDurationSec": 68
+  "estDurationSec": 68,
+  "themes": "Quiet moments"
  },
  {
   "productId": "56263ef1-c0c1-e770-2926-ad8bf52a5700",
@@ -222,7 +235,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 180,
-  "estDurationSec": 72
+  "estDurationSec": 72,
+  "themes": "After dark, Style & society"
  },
  {
   "productId": "29120bb5-682a-d9a4-3247-2f5d9632fa4d",
@@ -238,7 +252,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "85.5 x 72.5",
   "reviewNotes": "",
   "wordCount": 172,
-  "estDurationSec": 69
+  "estDurationSec": 69,
+  "themes": "After dark"
  },
  {
   "productId": "a40f6c22-3067-f84d-275c-025fd182f1ad",
@@ -254,7 +269,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 159,
-  "estDurationSec": 64
+  "estDurationSec": 64,
+  "themes": "After dark"
  },
  {
   "productId": "d26ba0eb-cb70-bee6-57b1-a424fcabb39b",
@@ -270,7 +286,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 159,
-  "estDurationSec": 64
+  "estDurationSec": 64,
+  "themes": "Quiet moments"
  },
  {
   "productId": "c6b56789-4c97-b603-b4c5-e0e4b92ad350",
@@ -286,7 +303,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 164,
-  "estDurationSec": 66
+  "estDurationSec": 66,
+  "themes": "By the sea"
  },
  {
   "productId": "e722c9b0-b96b-e8ca-4f56-907a2d4b691b",
@@ -302,7 +320,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 178,
-  "estDurationSec": 71
+  "estDurationSec": 71,
+  "themes": "Quiet moments"
  },
  {
   "productId": "14fccf88-569f-1ea9-41eb-beb4fd4008a4",
@@ -318,7 +337,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Photograph of the artist by Ian McIlgorm, not a Vettriano painting - script reflects this.",
   "wordCount": 158,
-  "estDurationSec": 63
+  "estDurationSec": 63,
+  "themes": "Portraits"
  },
  {
   "productId": "b8929944-7a73-9987-1462-daaaa6ad10a5",
@@ -334,7 +354,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 180,
-  "estDurationSec": 72
+  "estDurationSec": 72,
+  "themes": "After dark, Rare editions"
  },
  {
   "productId": "666d1c91-4127-d060-1a59-6daf4adf5260",
@@ -350,7 +371,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 169,
-  "estDurationSec": 68
+  "estDurationSec": 68,
+  "themes": "Style & society"
  },
  {
   "productId": "44e7f6a7-0958-1a2a-5051-b06c4e2d018d",
@@ -366,7 +388,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "59.2 x 51.6",
   "reviewNotes": "",
   "wordCount": 203,
-  "estDurationSec": 81
+  "estDurationSec": 81,
+  "themes": "Style & society, Rare editions"
  },
  {
   "productId": "3f7de79f-e526-8bf4-ca05-5717d4559504",
@@ -382,7 +405,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 155,
-  "estDurationSec": 62
+  "estDurationSec": 62,
+  "themes": "Romance, Rare editions"
  },
  {
   "productId": "ef6e2e1e-5830-185f-b28b-17685b88f636",
@@ -398,7 +422,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 175,
-  "estDurationSec": 70
+  "estDurationSec": 70,
+  "themes": "Romance, Rare editions"
  },
  {
   "productId": "6e9e1a5d-ed72-99b5-23b7-711c4847ee51",
@@ -414,7 +439,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 204,
-  "estDurationSec": 82
+  "estDurationSec": 82,
+  "themes": "Rare editions"
  },
  {
   "productId": "acd35c06-6607-fff2-fe55-ebeea69fa396",
@@ -430,7 +456,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Edition size and dimensions not in product copy - add for provenance panel and view-in-room. Mature theme; suggest only including for collectors who've shown interest in the Red Room works.",
   "wordCount": 176,
-  "estDurationSec": 70
+  "estDurationSec": 70,
+  "themes": "After dark"
  },
  {
   "productId": "a067f80c-d8df-40e2-072d-149be9a2c08f",
@@ -446,7 +473,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "57.9 x 52.4",
   "reviewNotes": "",
   "wordCount": 180,
-  "estDurationSec": 72
+  "estDurationSec": 72,
+  "themes": "Style & society"
  },
  {
   "productId": "e80713f0-af3f-f323-8d35-9b15a3da16b8",
@@ -462,7 +490,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 177,
-  "estDurationSec": 71
+  "estDurationSec": 71,
+  "themes": "Romance, After dark"
  },
  {
   "productId": "4b8795fc-5beb-54ff-8595-2a6f3ef27a0a",
@@ -478,7 +507,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "73 x 64.5",
   "reviewNotes": "",
   "wordCount": 193,
-  "estDurationSec": 77
+  "estDurationSec": 77,
+  "themes": "After dark, Rare editions"
  },
  {
   "productId": "678c5ed0-7d61-d6cc-ce57-e5ea1a613a32",
@@ -494,7 +524,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Edition size not in product copy - add for provenance panel.",
   "wordCount": 204,
-  "estDurationSec": 82
+  "estDurationSec": 82,
+  "themes": "After dark, Rare editions"
  },
  {
   "productId": "fc67cb0b-4d3b-2a1d-9c05-224107d4562a",
@@ -510,7 +541,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Ribbon says 'Studio Proof' but copy describes the 250 edition - Studio to confirm which this example is before recording.",
   "wordCount": 199,
-  "estDurationSec": 80
+  "estDurationSec": 80,
+  "themes": "Style & society, Rare editions"
  },
  {
   "productId": "66203236-7c4d-8fb8-5267-f840f9188863",
@@ -526,7 +558,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 151,
-  "estDurationSec": 60
+  "estDurationSec": 60,
+  "themes": "Romance"
  },
  {
   "productId": "101027d8-6821-fb1d-bd79-5f04309a0e84",
@@ -542,7 +575,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "69.5 x 60.5",
   "reviewNotes": "",
   "wordCount": 185,
-  "estDurationSec": 74
+  "estDurationSec": 74,
+  "themes": "Portraits, Style & society"
  },
  {
   "productId": "987c56d4-d78b-993a-7733-a56bfce5ef29",
@@ -558,7 +592,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 201,
-  "estDurationSec": 80
+  "estDurationSec": 80,
+  "themes": "By the sea, Rare editions"
  },
  {
   "productId": "3ac11ed9-6f5b-89f1-b126-6e52ba6fdde8",
@@ -574,7 +609,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Framed size not in product copy - confirm for view-in-room.",
   "wordCount": 181,
-  "estDurationSec": 72
+  "estDurationSec": 72,
+  "themes": "Quiet moments, Rare editions"
  },
  {
   "productId": "e0762be1-68d4-cddc-5262-9407895d4949",
@@ -590,7 +626,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "65 x 58.5",
   "reviewNotes": "Product copy says 'Price on application' but listing is priced at GBP 7,995 - Studio to reconcile. Mature theme. View-in-room should show five frames.",
   "wordCount": 188,
-  "estDurationSec": 75
+  "estDurationSec": 75,
+  "themes": "After dark, Rare editions"
  },
  {
   "productId": "0a3569c2-6e81-5aee-c7ad-4bf5de982c0e",
@@ -606,7 +643,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Nude figure study - consider audience.",
   "wordCount": 170,
-  "estDurationSec": 68
+  "estDurationSec": 68,
+  "themes": "After dark"
  },
  {
   "productId": "9a04f59e-107f-15c8-6245-d14ad579638e",
@@ -622,7 +660,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 173,
-  "estDurationSec": 69
+  "estDurationSec": 69,
+  "themes": "Romance, Rare editions"
  },
  {
   "productId": "8f9b8973-a31f-d686-52b7-e23fe81e1715",
@@ -638,7 +677,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "A separate POA listing exists for signed/AP Mad Dogs (8fce8fa9) - not in this list as it has no price.",
   "wordCount": 169,
-  "estDurationSec": 68
+  "estDurationSec": 68,
+  "themes": "By the sea"
  },
  {
   "productId": "667b4ae6-0803-2adc-8fd5-cc8480831b3e",
@@ -654,7 +694,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 177,
-  "estDurationSec": 71
+  "estDurationSec": 71,
+  "themes": "After dark"
  },
  {
   "productId": "83b1e547-40bc-1f9f-241b-8a3566643bff",
@@ -670,7 +711,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 168,
-  "estDurationSec": 67
+  "estDurationSec": 67,
+  "themes": "Style & society"
  },
  {
   "productId": "3f71056b-811b-92a9-2813-edbf795db4ae",
@@ -686,7 +728,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "62.7 x 72.7",
   "reviewNotes": "",
   "wordCount": 166,
-  "estDurationSec": 66
+  "estDurationSec": 66,
+  "themes": "Style & society"
  },
  {
   "productId": "7e368157-4957-88d1-3f93-666715d69add",
@@ -702,7 +745,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Edition size not in product copy - add for provenance panel.",
   "wordCount": 167,
-  "estDurationSec": 67
+  "estDurationSec": 67,
+  "themes": "Style & society, Quiet moments"
  },
  {
   "productId": "592c3959-942c-7952-4c3c-76266258f6d7",
@@ -718,7 +762,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "71.8 x 62.8",
   "reviewNotes": "Cannot ship to EU or Northern Ireland (GPSR) - director should check collector location.",
   "wordCount": 173,
-  "estDurationSec": 69
+  "estDurationSec": 69,
+  "themes": "By the sea, Final editions"
  },
  {
   "productId": "e67c8c86-4494-ad8c-c1cb-5a410b5c8130",
@@ -734,7 +779,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "73 x 64.5",
   "reviewNotes": "",
   "wordCount": 185,
-  "estDurationSec": 74
+  "estDurationSec": 74,
+  "themes": "After dark"
  },
  {
   "productId": "119a373c-23b7-06af-3613-192d5db80225",
@@ -750,7 +796,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Product copy says 'Price on application' but the listing is priced at GBP 1,650 - Studio to reconcile. Edition number/size of the held example needed for provenance panel.",
   "wordCount": 188,
-  "estDurationSec": 75
+  "estDurationSec": 75,
+  "themes": "After dark, Romance"
  },
  {
   "productId": "ef7cc510-0dab-e2a7-caad-07113ec75267",
@@ -766,7 +813,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Edition size not in product copy - add for provenance panel.",
   "wordCount": 186,
-  "estDurationSec": 74
+  "estDurationSec": 74,
+  "themes": "After dark, Romance"
  },
  {
   "productId": "b0afab77-2ad4-3ad3-abd9-59ddd1593e83",
@@ -782,7 +830,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "53 x 59.4",
   "reviewNotes": "",
   "wordCount": 176,
-  "estDurationSec": 70
+  "estDurationSec": 70,
+  "themes": "Style & society"
  },
  {
   "productId": "368a3d1b-b3e4-1a93-bd0c-11bb58b3ea4a",
@@ -798,7 +847,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 167,
-  "estDurationSec": 67
+  "estDurationSec": 67,
+  "themes": "By the sea, Rare editions"
  },
  {
   "productId": "77c9e91e-6db4-4241-c6f5-90a9093257cb",
@@ -814,7 +864,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Open edition, no COA listed - script avoids implying signature or limitation. View-in-room should show three panels side by side.",
   "wordCount": 184,
-  "estDurationSec": 74
+  "estDurationSec": 74,
+  "themes": "By the sea"
  },
  {
   "productId": "add3fd82-1318-149d-ba4a-9a175a326907",
@@ -830,7 +881,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "74.3 x 82.4",
   "reviewNotes": "Product copy has little on the painting itself - Studio may want to add a line from the blog post.",
   "wordCount": 169,
-  "estDurationSec": 68
+  "estDurationSec": 68,
+  "themes": "Style & society"
  },
  {
   "productId": "015d1a01-b566-9aa7-1d0a-c067ba3d5b67",
@@ -846,7 +898,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "71.7 x 62.4",
   "reviewNotes": "See note on the framed Blue Gown listing about differing descriptions.",
   "wordCount": 194,
-  "estDurationSec": 78
+  "estDurationSec": 78,
+  "themes": "Quiet moments, Style & society"
  },
  {
   "productId": "d2bec85f-f3a5-f0c6-3c79-d923258b03cd",
@@ -862,7 +915,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "The two Blue Gown listings describe the composition differently (back to viewer at mirror vs holding gown before mirror) and give slightly different sizes - Studio to confirm before recording.",
   "wordCount": 157,
-  "estDurationSec": 63
+  "estDurationSec": 63,
+  "themes": "Quiet moments, Style & society"
  },
  {
   "productId": "a6b2c741-0dbb-a817-052a-f1f70053af3b",
@@ -878,7 +932,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Five-piece set - view-in-room should show five sheets.",
   "wordCount": 188,
-  "estDurationSec": 75
+  "estDurationSec": 75,
+  "themes": "Quiet moments"
  },
  {
   "productId": "8b4517a2-0a5a-84b2-fec5-f62d4389857b",
@@ -894,7 +949,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "Product copy says 'Price on application' but listing is priced at GBP 625 - Studio to reconcile.",
   "wordCount": 182,
-  "estDurationSec": 73
+  "estDurationSec": 73,
+  "themes": "Style & society"
  },
  {
   "productId": "6fc5b2cb-7077-bb23-6eca-6d47dc0c21eb",
@@ -910,7 +966,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 184,
-  "estDurationSec": 74
+  "estDurationSec": 74,
+  "themes": "Romance, By the sea"
  },
  {
   "productId": "0d4dfd33-07f0-70a1-1635-96e4fe3d98de",
@@ -926,7 +983,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "83 x 98",
   "reviewNotes": "Framed size (83 x 98) reads portrait while image size (30 x 24) reads landscape-ambiguous - confirm orientation for view-in-room.",
   "wordCount": 196,
-  "estDurationSec": 78
+  "estDurationSec": 78,
+  "themes": "Quiet moments, Rare editions"
  },
  {
   "productId": "10a47393-e4b1-4471-4ae6-59b3f27645f6",
@@ -942,7 +1000,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 168,
-  "estDurationSec": 67
+  "estDurationSec": 67,
+  "themes": "Romance"
  },
  {
   "productId": "0a7b5641-6bc2-6654-605d-1ee7fc46b7d3",
@@ -958,7 +1017,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "52.6 x 59.1",
   "reviewNotes": "",
   "wordCount": 171,
-  "estDurationSec": 68
+  "estDurationSec": 68,
+  "themes": "Romance"
  },
  {
   "productId": "551c0ac5-2f75-32a2-4ce7-b02f856223f6",
@@ -974,7 +1034,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "58.4 x 52.8",
   "reviewNotes": "",
   "wordCount": 192,
-  "estDurationSec": 77
+  "estDurationSec": 77,
+  "themes": "Final editions"
  },
  {
   "productId": "43c31f09-d23a-1ff1-4363-b5df66a06876",
@@ -990,7 +1051,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "95.1 x 84.3",
   "reviewNotes": "",
   "wordCount": 192,
-  "estDurationSec": 77
+  "estDurationSec": 77,
+  "themes": "After dark"
  },
  {
   "productId": "343c13e9-3175-bc44-820a-e806954c3769",
@@ -1006,7 +1068,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "55 x 45",
   "reviewNotes": "Four-piece set - view-in-room should show four frames.",
   "wordCount": 168,
-  "estDurationSec": 67
+  "estDurationSec": 67,
+  "themes": "By the sea"
  },
  {
   "productId": "f343f2b8-1f83-72df-6394-d9793dd261c7",
@@ -1022,7 +1085,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "62.7 x 72.7",
   "reviewNotes": "",
   "wordCount": 162,
-  "estDurationSec": 65
+  "estDurationSec": 65,
+  "themes": "Romance"
  },
  {
   "productId": "5c84030c-4049-7b96-b391-5e2bff25120c",
@@ -1038,7 +1102,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 162,
-  "estDurationSec": 65
+  "estDurationSec": 65,
+  "themes": "Portraits"
  },
  {
   "productId": "1a8307f9-8f0b-d118-731f-6bb8d4385f17",
@@ -1054,7 +1119,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 143,
-  "estDurationSec": 57
+  "estDurationSec": 57,
+  "themes": "Romance"
  },
  {
   "productId": "1be66a27-fa93-4a54-eef3-87f10a625ca1",
@@ -1070,7 +1136,8 @@ export const STARTER_STORIES = [
   "framedSizeCm": "",
   "reviewNotes": "",
   "wordCount": 163,
-  "estDurationSec": 65
+  "estDurationSec": 65,
+  "themes": "After dark"
  },
  {
   "productId": "7c4eeb6e-5e03-a00d-6ca3-6de25a181359",
@@ -1086,6 +1153,50 @@ export const STARTER_STORIES = [
   "framedSizeCm": "71.7 x 62.4",
   "reviewNotes": "",
   "wordCount": 172,
-  "estDurationSec": 69
+  "estDurationSec": 69,
+  "themes": "By the sea, Romance, Final editions"
+ }
+];
+
+export const STARTER_TOURS = [
+ {
+  "slug": "by-the-sea",
+  "title": "By the sea",
+  "intro": "Vettriano grew up on the Fife coast, and the shoreline became his favourite stage. A walk through his beach paintings, from first love to bathers in the sun.",
+  "productIds": "[\"77c9e91e-6db4-4241-c6f5-90a9093257cb\",\"7c4eeb6e-5e03-a00d-6ca3-6de25a181359\",\"592c3959-942c-7952-4c3c-76266258f6d7\",\"987c56d4-d78b-993a-7733-a56bfce5ef29\"]",
+  "status": "draft",
+  "sortOrder": 0
+ },
+ {
+  "slug": "final-editions",
+  "title": "The final editions",
+  "intro": "Prints released after the artist’s death in March 2025: the last editions to carry his own pencil signature, and the official Estate-stamped posthumous prints.",
+  "productIds": "[\"551c0ac5-2f75-32a2-4ce7-b02f856223f6\",\"7c4eeb6e-5e03-a00d-6ca3-6de25a181359\",\"592c3959-942c-7952-4c3c-76266258f6d7\"]",
+  "status": "draft",
+  "sortOrder": 1
+ },
+ {
+  "slug": "after-dark",
+  "title": "After dark",
+  "intro": "Telephones at midnight, betrayals and private rituals: the cinematic, noir side of Vettriano’s work.",
+  "productIds": "[\"e67c8c86-4494-ad8c-c1cb-5a410b5c8130\",\"667b4ae6-0803-2adc-8fd5-cc8480831b3e\",\"29120bb5-682a-d9a4-3247-2f5d9632fa4d\",\"43c31f09-d23a-1ff1-4363-b5df66a06876\",\"1be66a27-fa93-4a54-eef3-87f10a625ca1\",\"0a3569c2-6e81-5aee-c7ad-4bf5de982c0e\"]",
+  "status": "draft",
+  "sortOrder": 2
+ },
+ {
+  "slug": "first-signed",
+  "title": "Your first signed Vettriano",
+  "intro": "Every print in this tour is signed by the artist, in stock and under £800. A good place to begin a collection.",
+  "productIds": "[\"666d1c91-4127-d060-1a59-6daf4adf5260\",\"83b1e547-40bc-1f9f-241b-8a3566643bff\",\"bb248dbd-e5bf-2282-bebb-4c1bd4470188\",\"a067f80c-d8df-40e2-072d-149be9a2c08f\",\"b0afab77-2ad4-3ad3-abd9-59ddd1593e83\",\"0a7b5641-6bc2-6654-605d-1ee7fc46b7d3\"]",
+  "status": "draft",
+  "sortOrder": 3
+ },
+ {
+  "slug": "rare-and-remarkable",
+  "title": "Rare and remarkable",
+  "intro": "Silkscreens, Artist’s Proofs and Premium editions reproduced at the size of the original painting.",
+  "productIds": "[\"678c5ed0-7d61-d6cc-ce57-e5ea1a613a32\",\"44e7f6a7-0958-1a2a-5051-b06c4e2d018d\",\"ef6e2e1e-5830-185f-b28b-17685b88f636\",\"b8929944-7a73-9987-1462-daaaa6ad10a5\",\"3f7de79f-e526-8bf4-ca05-5717d4559504\",\"987c56d4-d78b-993a-7733-a56bfce5ef29\"]",
+  "status": "draft",
+  "sortOrder": 4
  }
 ];

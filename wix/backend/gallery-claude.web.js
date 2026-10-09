@@ -1,16 +1,16 @@
 // "Draft with Claude": writes a first-draft curator script for a print that
 // has just been added to the story library. Kept in its own file so the rest
-// of the PVR backend works even if @anthropic-ai/sdk is not installed.
+// of the gallery backend works even if @anthropic-ai/sdk is not installed.
 import { Permissions, webMethod } from 'wix-web-module';
 import { getSecret } from 'wix-secrets-backend';
 import wixData from 'wix-data';
 import Anthropic from '@anthropic-ai/sdk';
-import { COLLECTIONS, SECRET_ANTHROPIC_KEY } from 'backend/pvr.config';
-import { cleanText } from 'backend/pvr-lib';
+import { COLLECTIONS, SECRET_ANTHROPIC_KEY, THEMES } from 'backend/gallery.config';
+import { cleanText } from 'backend/gallery-lib';
 
 const AUTH = { suppressAuth: true };
 
-const SYSTEM = `You write the narration for Jack Vettriano Studio's Private Viewing Rooms: a short voice-over a collector hears while looking at one print.
+const SYSTEM = `You write the narration for Jack Vettriano Studio's Interactive Gallery: a short voice-over a visitor hears while looking at one print.
 
 Voice: a warm, knowledgeable curator speaking to one collector. Third person about the artist. British English. Spoken rhythm: short paragraphs, sentences that read naturally aloud, no lists, no headings, no stage directions.
 
@@ -25,13 +25,16 @@ Accuracy rules - these matter more than style:
 - Write numbers as words, as a narrator would say them.
 - If the copy is thin or contradicts itself, keep the script to what is certain and explain the problem in reviewNotes.
 
+Choose the gallery themes that genuinely fit the painting from the allowed list (one to three; none if nothing fits).
+
 Also extract the edition facts from the copy for the provenance panel. Use an empty string when the copy does not say. Sizes are "width x height" in centimetres.`;
 
 const SCHEMA = {
   type: 'object',
   additionalProperties: false,
-  required: ['transcript', 'edition', 'medium', 'signed', 'imageSizeCm', 'mountSizeCm', 'framedSizeCm', 'reviewNotes'],
+  required: ['transcript', 'themes', 'edition', 'medium', 'signed', 'imageSizeCm', 'mountSizeCm', 'framedSizeCm', 'reviewNotes'],
   properties: {
+    themes: { type: 'array', items: { type: 'string', enum: THEMES } },
     transcript: { type: 'string' },
     edition: { type: 'string' },
     medium: { type: 'string' },
@@ -96,6 +99,7 @@ export const draftStoryWithClaude = webMethod(Permissions.Admin, async (storyId)
   return wixData.update(COLLECTIONS.stories, {
     ...story,
     transcript,
+    themes: (draft.themes || []).filter((t) => THEMES.includes(t)).slice(0, 3).join(', '),
     edition: cleanText(draft.edition, 300),
     medium: cleanText(draft.medium, 300),
     signed: !!draft.signed,

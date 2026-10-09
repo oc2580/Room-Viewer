@@ -11,6 +11,7 @@ medium: Giclée, board mounted, hand-embellished with 3 coats of lacquer, no gla
 imageSizeCm: [38.1, 30.5]
 framedSizeCm: [59.2, 51.6]
 media: 5f58c4_64540278538a4500bb7435b81fbcfc9b~mv2.jpg
+themes: Style & society, Rare editions
 status: draft
 reviewNotes: ""
 ---

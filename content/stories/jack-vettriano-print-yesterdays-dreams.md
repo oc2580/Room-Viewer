@@ -10,6 +10,7 @@ signed: true
 medium: Giclée, board mounted, hand-embellished with 3 coats of lacquer, no glass
 imageSizeCm: [61, 50.8]
 media: 5f58c4_5ebd9cd8417141ff8c95d7d954ab7100~mv2.jpeg
+themes: Quiet moments, Rare editions
 status: draft
 reviewNotes: "Framed size not in product copy - confirm for view-in-room."
 ---

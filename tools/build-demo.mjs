@@ -1,217 +1,293 @@
-// Builds demo/pvr-demo.html: one offline file that runs the director console
-// and the collector's room together against an in-browser copy of the backend.
-// Requests made in the room appear in the console and replies flow back.
+// Builds demo/gallery-demo.html: one offline file that runs the visitor's
+// gallery and the Studio console together against an in-browser copy of the
+// backend. Reservations, offers and questions made in the gallery appear in
+// the console, and replies and counter-offers flow back to the visitor.
 // Data is kept in this browser's localStorage; "Reset demo" starts again.
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { starterTours } from './tours.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const stories = JSON.parse(readFileSync(join(root, 'data/stories.json'), 'utf8'));
-const roomEl = readFileSync(join(root, 'wix/public/custom-elements/pvr-room.js'), 'utf8');
-const directorEl = readFileSync(join(root, 'wix/public/custom-elements/pvr-director.js'), 'utf8');
+const galleryEl = readFileSync(join(root, 'wix/public/custom-elements/jv-gallery.js'), 'utf8');
+const consoleEl = readFileSync(join(root, 'wix/public/custom-elements/jv-console.js'), 'utf8');
 
-const seed = stories.map((s) => ({
-  productId: s.id, title: s.title, price: s.price, inStock: s.inStock, ribbon: s.ribbon || '',
-  media: s.media, slug: s.slug,
-  story: {
-    status: 'draft', transcript: s.transcript, edition: s.edition || '', medium: s.medium || '',
-    signed: !!s.signed, imageSizeCm: (s.imageSizeCm || []).join(' x '), mountSizeCm: (s.mountSizeCm || []).join(' x '),
-    framedSizeCm: (s.framedSizeCm || []).join(' x '), reviewNotes: s.reviewNotes || '', estDurationSec: s.estDurationSec,
-  },
-}));
+const size = (v) => (Array.isArray(v) ? v.join(' x ') : '');
+const seed = {
+  prints: stories.map((s) => ({
+    productId: s.id, title: s.title, price: s.price, inStock: s.inStock, ribbon: s.ribbon || '', media: s.media, slug: s.slug,
+    hasOptions: s.price < 1000 && !/framed/i.test(s.ribbon || ''),
+    story: {
+      _id: `story-${s.id}`, status: 'approved', transcript: s.transcript, edition: s.edition || '', medium: s.medium || '',
+      signed: !!s.signed, imageSizeCm: size(s.imageSizeCm), mountSizeCm: size(s.mountSizeCm), framedSizeCm: size(s.framedSizeCm),
+      reviewNotes: s.reviewNotes || '', estDurationSec: s.estDurationSec, themes: s.themes.join(', '),
+    },
+  })),
+  tours: starterTours(stories).map((t, i) => ({ _id: `tour-${i}`, ...t, status: 'live', sortOrder: i })),
+};
 
 const backend = String.raw`
 const SEED = __SEED__;
-const KEY = 'pvr-demo-v1';
+const KEY = 'jv-gallery-demo-v1';
 const HOLD_HOURS = 48;
+const MIN_OFFER_SHARE = 0.7;
+const THEMES = ['By the sea', 'After dark', 'Romance', 'Quiet moments', 'Style & society', 'Portraits', 'Final editions', 'Rare editions'];
 const PALETTES = [['#5b3a2e', '#1f2a36'], ['#3c2a3e', '#16191f'], ['#2f3d3a', '#1a1714'], ['#6a4a2b', '#24303a']];
 let online = false;
+const uid = () => Math.random().toString(36).slice(2, 12);
+const now = () => new Date();
+const iso = (ms) => new Date(Date.now() + ms).toISOString();
 
 function placeholder(title, i) {
   const [a, b] = PALETTES[i % PALETTES.length];
   const t = title.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="' + a + '"/><stop offset="1" stop-color="' + b + '"/></linearGradient></defs><rect width="800" height="1000" fill="url(#g)"/><rect x="40" y="40" width="720" height="920" fill="none" stroke="#c89d5c" stroke-opacity=".35"/><text x="400" y="490" fill="#f3ece0" font-family="Georgia, serif" font-style="italic" font-size="50" text-anchor="middle">' + t + '</text><text x="400" y="545" fill="#c89d5c" font-family="Arial, sans-serif" font-size="18" letter-spacing="5" text-anchor="middle">IMAGE LOADS WHEN ONLINE</text></svg>';
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="' + a + '"/><stop offset="1" stop-color="' + b + '"/></linearGradient></defs><rect width="800" height="1000" fill="url(#g)"/><rect x="40" y="40" width="720" height="920" fill="none" stroke="#c89d5c" stroke-opacity=".35"/><text x="400" y="490" fill="#f3ece0" font-family="Georgia, serif" font-style="italic" font-size="48" text-anchor="middle">' + t + '</text><text x="400" y="545" fill="#c89d5c" font-family="Arial, sans-serif" font-size="18" letter-spacing="5" text-anchor="middle">IMAGE LOADS WHEN ONLINE</text></svg>';
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
 }
-const imageFor = (p, i) => (online ? 'https://static.wixstatic.com/media/' + p.media : placeholder(p.title, i));
+
+// A few example visitors so the console has something to show. Marked as examples.
+function exampleData(db) {
+  const by = (slug) => db.prints.find((p) => p.slug === slug).productId;
+  const mk = (name, email, phone, status, daysAgo) => ({ _id: uid(), visitorId: 'example' + uid() + uid(), name, email, phone, status, notes: '', firstSeenAt: iso(-daysAgo * 864e5), lastSeenAt: iso(-daysAgo * 3e6) });
+  const a = mk('Example: Fiona Grant', 'fiona@example.com', '07700 900123', 'new', 3);
+  const b = mk('Example: David Okafor', 'david@example.com', '', 'negotiating', 6);
+  const c = mk('Example: Margaret Hall', 'margaret@example.com', '', 'contacted', 12);
+  [a, b, c].forEach((l) => { l.visitorIds = [l.visitorId]; db.leads.push(l); });
+  const ev = (l, type, slug, value, ago) => db.events.push({ visitorId: l.visitorId, productId: slug ? by(slug) : '', type, value: value || 1, sessionId: 's' + l._id.slice(0, 4), tourSlug: '', _createdDate: iso(-ago) });
+  ['narcissistic-bathers', 'young-hearts', 'jack-vettriano-print-an-imperfect-past'].forEach((s, i) => { ev(a, 'print_open', s, 1, 9e6 - i); ev(a, 'print_dwell', s, 240 - i * 60, 9e6 - i); ev(a, 'audio_play', s, 1, 9e6 - i); ev(a, 'audio_progress', s, i ? 50 : 100, 9e6 - i); });
+  ev(a, 'view_in_room', 'narcissistic-bathers', 1, 8e6); ev(a, 'view_in_room', 'narcissistic-bathers', 1, 7e6); ev(a, 'shortlist_add', 'narcissistic-bathers', 1, 7e6); ev(a, 'shortlist_add', 'young-hearts', 1, 7e6);
+  ['jack-vettriano-print-bird-on-the-wire', 'jack-vettriano-print-yesterdays-dreams'].forEach((s) => { ev(b, 'print_open', s, 1, 4e8); ev(b, 'print_dwell', s, 420, 4e8); ev(b, 'audio_play', s, 1, 4e8); ev(b, 'audio_progress', s, 100, 4e8); });
+  ev(c, 'print_open', 'the-very-thought-of-you', 1, 9e8); ev(c, 'print_dwell', 'the-very-thought-of-you', 95, 9e8);
+  const req = (l, type, slug, extra) => db.requests.push({ _id: uid(), leadId: l._id, visitorId: l.visitorId, visitorName: l.name, type, productId: by(slug), productIds: [by(slug)],
+    printTitle: db.prints.find((p) => p.slug === slug).title, message: '', listPrice: db.prints.find((p) => p.slug === slug).price, status: 'pending', _createdDate: iso(-3e6), ...extra });
+  req(a, 'hold', 'narcissistic-bathers', { message: 'We are coming to Edinburgh on Saturday and would love to decide then.' });
+  req(b, 'offer', 'jack-vettriano-print-bird-on-the-wire', { offerPrice: 1400, message: 'Collected unframed if that helps.' });
+  req(c, 'question', 'the-very-thought-of-you', { message: 'Is the framed version glazed with glass or acrylic?', status: 'answered', reply: 'It is glazed with true colour acrylic, which is lighter and safer to post.', _createdDate: iso(-9e8) });
+}
 
 function fresh() {
-  const db = { catalogue: JSON.parse(JSON.stringify(SEED)), rooms: [], items: [], requests: [], events: [] };
-  db.catalogue.forEach((p, i) => { p.story._id = 'story-' + p.productId; if (i % 3 !== 2) p.story.status = 'approved'; });
-  const pick = ['narcissistic-bathers', 'jack-vettriano-print-an-imperfect-past', 'jack-vettriano-print-yesterdays-dreams', 'young-hearts'];
-  pick.forEach((slug) => { db.catalogue.find((p) => p.slug === slug).story.status = 'approved'; });
-  const room = { _id: 'room-johnson', slug: 'johnson-k3f9q2m7x1', collectorName: 'Mr & Mrs Johnson', collectorEmail: 'johnson@example.com',
-    greeting: 'It was a pleasure to meet you both at the Studio. As promised, here are the pieces we talked about, along with a couple I think you will love. Press play on any of them to hear the story behind the print, and take your time: this room is yours for the next fortnight.',
-    greetingAudioUrl: '', status: 'live', expiresAt: new Date(Date.now() + 14 * 864e5).toISOString(), openCount: 0, _createdDate: new Date().toISOString() };
-  db.rooms.push(room);
-  pick.forEach((slug, i) => db.items.push({ roomId: room._id, productId: db.catalogue.find((p) => p.slug === slug).productId, sortOrder: i,
-    curatorNote: i === 0 ? 'You mentioned you wanted something from his final signed releases. This is the one I would choose: there will never be more of these.'
-      : i === 1 ? 'Silkscreens of this image almost never come up. I held this one back for you before it goes on the website.' : '',
-    offerPrice: i === 1 ? 1595 : null, offerExpiresAt: i === 1 ? new Date(Date.now() + 5 * 864e5).toISOString() : null }));
+  const db = { prints: JSON.parse(JSON.stringify(SEED.prints)), tours: JSON.parse(JSON.stringify(SEED.tours)), leads: [], requests: [], events: [] };
+  ['the-billy-boys', 'jack-vettriano-portrait-by-ian-mcilgorm', 'the-blue-gown'].forEach((slug) => { db.prints.find((p) => p.slug === slug).story.status = 'draft'; });
+  exampleData(db);
   return db;
 }
 function load() { try { const s = localStorage.getItem(KEY); if (s) return JSON.parse(s); } catch (e) {} return fresh(); }
 let db = load();
 function save() { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch (e) {} }
-const uid = () => Math.random().toString(36).slice(2, 12);
-const now = () => new Date();
-const product = (id) => db.catalogue.find((p) => p.productId === id);
-const parseSize = (v) => { const m = String(v || '').match(/([\d.]+)\s*[x×]\s*([\d.]+)/); return m ? [Number(m[1]), Number(m[2])] : null; };
-const summary = (p) => ({ productId: p.productId, title: p.title, price: p.price, inStock: p.inStock, ribbon: p.ribbon,
-  image: imageFor(p, db.catalogue.indexOf(p)), productUrl: 'https://www.jackvettriano.studio/product-page/' + p.slug, framedSizeFromStore: null });
-const activeHold = (pid) => db.requests.find((r) => r.productId === pid && r.type === 'hold' && r.status === 'confirmed' && new Date(r.holdExpiresAt) > now());
-const roomOpen = (r) => r && r.status === 'live' && new Date(r.expiresAt) > now();
 
-function roomPayload(room) {
-  const items = db.items.filter((i) => i.roomId === room._id).sort((a, b) => a.sortOrder - b.sortOrder);
-  return {
-    room: { slug: room.slug, collectorName: room.collectorName, greeting: room.greeting || '', greetingAudioUrl: room.greetingAudioUrl || '', expiresAt: room.expiresAt, holdHours: HOLD_HOURS },
-    prints: items.map((i) => {
-      const p = product(i.productId);
-      const mine = db.requests.filter((r) => r.roomId === room._id && r.productId === i.productId).sort((a, b) => b._createdDate.localeCompare(a._createdDate));
-      const hold = activeHold(i.productId);
-      const offerOpen = i.offerPrice > 0 && (!i.offerExpiresAt || new Date(i.offerExpiresAt) > now());
-      let availability = p.inStock ? 'available' : 'out_of_stock';
-      if (hold) availability = hold.roomId === room._id ? 'held_by_you' : 'reserved';
-      else if (mine.some((r) => r.type === 'hold' && r.status === 'pending')) availability = 'hold_pending';
-      const st = p.story;
-      return { ...summary(p), curatorNote: i.curatorNote || '', offer: offerOpen ? { price: i.offerPrice, expiresAt: i.offerExpiresAt } : null,
-        availability, holdExpiresAt: hold && hold.roomId === room._id ? hold.holdExpiresAt : null,
-        story: st && st.status === 'approved' ? { transcript: st.transcript, audioUrl: '', estDurationSec: st.estDurationSec, edition: st.edition, medium: st.medium,
-          signed: st.signed, imageSizeCm: parseSize(st.imageSizeCm), mountSizeCm: parseSize(st.mountSizeCm), framedSizeCm: parseSize(st.framedSizeCm) } : null,
-        requests: mine.map((r) => ({ type: r.type, message: r.message, status: r.status, reply: r.reply || '', createdAt: r._createdDate, holdExpiresAt: r.holdExpiresAt || null })) };
-    }),
-  };
+const product = (id) => db.prints.find((p) => p.productId === id);
+const imageFor = (p) => (online ? 'https://static.wixstatic.com/media/' + p.media : placeholder(p.title, db.prints.indexOf(p)));
+const parseSize = (v) => { const m = String(v || '').match(/([\d.]+)\s*[x×]\s*([\d.]+)/); return m ? [Number(m[1]), Number(m[2])] : null; };
+const themesOf = (p) => String(p.story.themes || '').split(',').map((t) => t.trim()).filter(Boolean);
+const summary = (p) => ({ productId: p.productId, title: p.title, price: p.price, inStock: p.inStock, ribbon: p.ribbon, image: imageFor(p),
+  productUrl: 'https://www.jackvettriano.studio/product-page/' + p.slug, hasOptions: p.hasOptions, framedSizeFromStore: null });
+const activeHolds = () => db.requests.filter((r) => r.type === 'hold' && r.status === 'confirmed' && new Date(r.holdExpiresAt) > now());
+const leadByVisitor = (vid) => db.leads.find((l) => l.visitorIds.includes(vid));
+const reqView = (r) => ({ _id: r._id, type: r.type, productId: r.productId || '', productIds: r.productIds || [], printTitle: r.printTitle, message: r.message, offerPrice: r.offerPrice || null,
+  counterPrice: r.counterPrice || null, status: r.status, reply: r.reply || '', createdAt: r._createdDate, holdExpiresAt: r.holdExpiresAt || null });
+const myRequests = (vid) => { const l = leadByVisitor(vid); return l ? db.requests.filter((r) => r.leadId === l._id).sort((a, b) => b._createdDate.localeCompare(a._createdDate)) : []; };
+const me = (vid) => { const l = leadByVisitor(vid); return { name: l ? l.name : '', requests: myRequests(vid).map(reqView) }; };
+const hash = (s) => String(s).length + ':' + String(s).slice(0, 40);
+
+const POINTS = { print_open: 1, audio_play: 2, transcript_open: 1, provenance_open: 2, view_in_room: 4, shortlist_add: 5, tour_complete: 3, add_to_basket: 8 };
+function score(events, nreq) {
+  let s = nreq * 15;
+  events.forEach((e) => { if (e.type === 'print_dwell') s += Math.floor((e.value || 0) / 60); else if (e.type === 'audio_progress' && e.value >= 100) s += 4; else if (POINTS[e.type]) s += POINTS[e.type]; });
+  return s;
+}
+function shortlistFrom(events) {
+  const st = new Map();
+  events.slice().sort((a, b) => a._createdDate.localeCompare(b._createdDate)).forEach((e) => { if (e.type === 'shortlist_add') st.set(e.productId, 1); if (e.type === 'shortlist_remove') st.delete(e.productId); });
+  return [...st.keys()].reverse();
 }
 
 const api = {
-  // collector
-  getRoom: (slug) => roomPayload(db.rooms.find((r) => r.slug === slug)),
-  submitRequest: (slug, input) => {
-    const room = db.rooms.find((r) => r.slug === slug);
-    if (!roomOpen(room)) throw new Error('This viewing room is no longer open.');
-    const item = db.items.find((i) => i.roomId === room._id && i.productId === input.productId);
-    if (input.type !== 'question' && db.requests.some((r) => r.roomId === room._id && r.productId === input.productId && r.type === input.type && ['pending', 'confirmed'].includes(r.status))) throw new Error('This request is already with the Studio.');
-    db.requests.push({ _id: uid(), roomId: room._id, productId: input.productId, printTitle: product(input.productId).title, collectorName: room.collectorName,
-      type: input.type, message: String(input.message || '').slice(0, 2000), offerPrice: input.type === 'offer' ? item.offerPrice : null, status: 'pending', _createdDate: now().toISOString() });
-    save();
-    return roomPayload(room);
+  // ---- visitor ----
+  getGallery(vid) {
+    const l = leadByVisitor(vid);
+    const holds = activeHolds();
+    const mine = myRequests(vid);
+    const prints = db.prints.filter((p) => p.story && p.story.status === 'approved').map((p) => {
+      const hold = holds.find((h) => h.productId === p.productId);
+      let availability = p.inStock ? 'available' : 'out_of_stock';
+      if (hold) availability = l && hold.leadId === l._id ? 'held_by_you' : 'reserved';
+      else if (mine.some((r) => r.productId === p.productId && r.type === 'hold' && r.status === 'pending')) availability = 'hold_pending';
+      const st = p.story;
+      return { ...summary(p), themes: themesOf(p), availability, holdExpiresAt: hold && l && hold.leadId === l._id ? hold.holdExpiresAt : null,
+        story: { transcript: st.transcript, audioUrl: '', estDurationSec: st.estDurationSec, edition: st.edition, medium: st.medium, signed: st.signed,
+          imageSizeCm: parseSize(st.imageSizeCm), mountSizeCm: parseSize(st.mountSizeCm), framedSizeCm: parseSize(st.framedSizeCm) } };
+    }).sort((a, b) => a.title.localeCompare(b.title));
+    const onShow = new Set(prints.map((p) => p.productId));
+    return { prints, themes: THEMES.filter((t) => prints.some((p) => p.themes.includes(t))),
+      tours: db.tours.filter((t) => t.status === 'live').sort((a, b) => a.sortOrder - b.sortOrder).map((t) => ({ slug: t.slug, title: t.title, intro: t.intro, productIds: t.productIds.filter((id) => onShow.has(id)) })).filter((t) => t.productIds.length),
+      me: me(vid), minOfferShare: MIN_OFFER_SHARE };
   },
-  logEvents: (slug, events) => { const room = db.rooms.find((r) => r.slug === slug); if (!room) return { logged: 0 };
-    events.forEach((e) => db.events.push({ roomId: room._id, productId: e.productId || '', type: e.type, value: Number(e.value) || 0 })); save(); return { logged: events.length }; },
-  // director
-  listCatalogue: () => db.catalogue.map((p) => ({ ...summary(p), story: p.story ? { ...p.story, audioUrl: '', audioCurrent: false } : null })),
-  importStarterStories: () => ({ imported: 0, skipped: db.catalogue.length }),
-  addStory: (pid) => { const p = product(pid); p.story = p.story || { _id: 'story-' + pid, status: 'draft', transcript: '' }; if (p.story.status === 'removed') p.story.status = 'draft'; save(); return p.story; },
-  saveStory: (id, ch) => { const p = db.catalogue.find((x) => x.story && x.story._id === id); const changed = 'transcript' in ch && ch.transcript !== p.story.transcript;
-    Object.assign(p.story, ch); if (changed) { p.story.estDurationSec = Math.round(p.story.transcript.split(/\s+/).length / 150 * 60); if (p.story.status === 'approved') p.story.status = 'draft'; } save(); return p.story; },
-  setStoryStatus: (id, st) => { const p = db.catalogue.find((x) => x.story && x.story._id === id);
-    if (st === 'approved' && !p.story.transcript.trim()) throw new Error('Write the script before approving it.'); p.story.status = st; save(); return p.story; },
-  generateStoryAudio: () => { throw new Error('In this offline demo the room reads stories with your computer\'s voice. Recorded ElevenLabs audio is generated on the live site.'); },
-  draftStoryWithClaude: () => { throw new Error('Claude drafting runs on the live site.'); },
-  getAudioUploadUrl: () => { throw new Error('Voice notes are uploaded on the live site.'); },
-  listRooms: () => db.rooms.slice().sort((a, b) => b._createdDate.localeCompare(a._createdDate)).map((r) => {
-    const ev = db.events.filter((e) => e.roomId === r._id);
-    return { ...r, url: '/pvr/' + r.slug, printCount: db.items.filter((i) => i.roomId === r._id).length,
-      stats: { pending: db.requests.filter((q) => q.roomId === r._id && q.status === 'pending').length,
-        dwellSec: ev.filter((e) => e.type === 'print_dwell').reduce((t, e) => t + e.value, 0), audioPlays: ev.filter((e) => e.type === 'audio_play').length } };
-  }),
-  getRoomDetail: (id) => {
-    const r = db.rooms.find((x) => x._id === id);
-    const a = {};
-    db.events.filter((e) => e.roomId === id).forEach((e) => { const k = e.productId || '_room'; const s = a[k] = a[k] || { dwellSec: 0, audioPlays: 0, audioMaxPct: 0, viewInRoom: 0, transcriptOpens: 0, opens: 0 };
-      if (e.type === 'print_dwell') s.dwellSec += e.value; if (e.type === 'audio_play') s.audioPlays += 1; if (e.type === 'audio_progress') s.audioMaxPct = Math.max(s.audioMaxPct, e.value);
-      if (e.type === 'view_in_room') s.viewInRoom += 1; if (e.type === 'transcript_open') s.transcriptOpens += 1; if (e.type === 'room_open') s.opens += 1; });
-    return { room: { ...r, url: '/pvr/' + r.slug }, items: db.items.filter((i) => i.roomId === id).sort((x, y) => x.sortOrder - y.sortOrder).map((i) => ({ ...i, product: summary(product(i.productId)) })),
-      requests: db.requests.filter((q) => q.roomId === id).sort((x, y) => y._createdDate.localeCompare(x._createdDate)), analytics: a };
+  getPrintOptions(pid) {
+    const p = product(pid);
+    if (!p.hasOptions) return [];
+    return [{ variantId: pid + '-u', label: 'Unframed', price: p.price, inStock: true }, { variantId: pid + '-f', label: 'Framed', price: p.price + 150, inStock: true }];
   },
-  saveRoom: (input) => {
-    if (!String(input.collectorName || '').trim()) throw new Error('Collector name is required.');
-    const fields = { collectorName: input.collectorName, collectorEmail: input.collectorEmail || '', greeting: input.greeting || '', greetingAudioUrl: input.greetingAudioUrl || '',
-      expiresAt: new Date(input.expiresAt || Date.now() + 14 * 864e5).toISOString() };
-    if (input._id) { const r = db.rooms.find((x) => x._id === input._id); Object.assign(r, fields); save(); return r; }
-    const last = (input.collectorName.toLowerCase().match(/[a-z0-9]+/g) || ['collector']).pop();
-    const r = { ...fields, _id: uid(), slug: last + '-' + uid().slice(0, 10), status: 'draft', openCount: 0, _createdDate: now().toISOString() };
-    db.rooms.push(r); save(); return r;
-  },
-  setRoomStatus: (id, st) => { const r = db.rooms.find((x) => x._id === id); r.status = st; save(); return r; },
-  setRoomItems: (id, items) => {
-    if (items.length > 8) throw new Error('A room can hold up to 8 prints.');
-    db.items = db.items.filter((i) => i.roomId !== id).concat(items.map((i, k) => ({ roomId: id, productId: i.productId, sortOrder: k, curatorNote: i.curatorNote || '',
-      offerPrice: Number(i.offerPrice) > 0 ? Number(i.offerPrice) : null, offerExpiresAt: i.offerExpiresAt || null })));
-    save(); return items;
-  },
-  listRequests: () => db.requests.slice().sort((a, b) => b._createdDate.localeCompare(a._createdDate)).map((q) => ({ ...q, roomSlug: (db.rooms.find((r) => r._id === q.roomId) || {}).slug })),
-  respondToRequest: (id, action, reply) => {
-    const q = db.requests.find((x) => x._id === id);
-    if (action === 'answer' && !String(reply).trim()) throw new Error('Write a reply first.');
-    if (action === 'confirm' && q.type === 'hold') {
-      const clash = activeHold(q.productId);
-      if (clash && clash._id !== q._id) throw new Error('This print is already held for another collector.');
-      q.holdExpiresAt = new Date(Date.now() + HOLD_HOURS * 3600e3).toISOString();
+  getMyActivity: (vid) => me(vid),
+  submitRequest(vid, contact, input) {
+    if (!contact.name) throw new Error('Please tell us your name.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contact.email || '')) throw new Error('Please enter a valid email address so the Studio can reply.');
+    const ids = input.type === 'shortlist' ? input.productIds : [input.productId];
+    const p = product(ids[0]);
+    let offerPrice = null;
+    if (input.type === 'offer') {
+      offerPrice = Math.round(Number(input.offerPrice));
+      if (offerPrice >= p.price) throw new Error('That is at or above the listed price; you can buy it directly or request a hold.');
+      if (offerPrice < p.price * MIN_OFFER_SHARE) throw new Error('We are unable to consider offers below ' + Math.round(MIN_OFFER_SHARE * 100) + '% of the listed price for this print.');
     }
-    q.status = { confirm: 'confirmed', decline: 'declined', answer: 'answered' }[action]; q.reply = reply || ''; q.respondedAt = now().toISOString();
-    save(); return q;
+    if (input.type === 'hold' && activeHolds().some((h) => h.productId === p.productId)) throw new Error('This print is currently reserved for another collector.');
+    let l = leadByVisitor(vid) || db.leads.find((x) => x.email === contact.email.toLowerCase());
+    if (!l) { l = { _id: uid(), visitorId: vid, visitorIds: [vid], name: contact.name, email: contact.email.toLowerCase(), phone: contact.phone || '', status: 'new', notes: '', firstSeenAt: now().toISOString(), lastSeenAt: now().toISOString() }; db.leads.push(l); }
+    else { if (!l.visitorIds.includes(vid)) l.visitorIds.push(vid); l.name = contact.name || l.name; l.phone = contact.phone || l.phone; l.lastSeenAt = now().toISOString(); }
+    if ((input.type === 'hold' || input.type === 'offer') && db.requests.some((r) => r.leadId === l._id && r.type === input.type && r.productId === p.productId && ['pending', 'countered'].includes(r.status))) throw new Error('This request is already with the Studio.');
+    db.requests.push({ _id: uid(), leadId: l._id, visitorId: vid, visitorName: l.name, type: input.type, productId: input.type === 'shortlist' ? '' : p.productId, productIds: ids,
+      printTitle: input.type === 'shortlist' ? 'Shortlist of ' + ids.length + ' print' + (ids.length === 1 ? '' : 's') : p.title, message: String(input.message || '').slice(0, 2000),
+      offerPrice, listPrice: input.type === 'shortlist' ? null : p.price, status: 'pending', _createdDate: now().toISOString() });
+    save();
+    return me(vid);
+  },
+  answerCounterOffer(vid, id, accept) {
+    const l = leadByVisitor(vid); const r = db.requests.find((x) => x._id === id);
+    if (!l || !r || r.leadId !== l._id || r.status !== 'countered') throw new Error('This offer is no longer open.');
+    r.status = accept ? 'accepted' : 'declined_by_visitor'; save(); return me(vid);
+  },
+  logEvents(vid, events) {
+    events.forEach((e) => db.events.push({ visitorId: vid, productId: e.productId || '', tourSlug: e.tourSlug || '', type: e.type, value: Number(e.value) || 0, sessionId: e.sessionId, _createdDate: now().toISOString() }));
+    const l = leadByVisitor(vid); if (l) l.lastSeenAt = now().toISOString();
+    save(); return { logged: events.length };
+  },
+  addToBasket() { return { added: true }; },
+  // ---- studio ----
+  listCatalogue: () => db.prints.map((p) => ({ ...summary(p), story: p.story ? { ...p.story, audioUrl: '', audioCurrent: false } : null })),
+  importStarterContent: () => ({ stories: 0, tours: 0 }),
+  addStory(pid) { const p = product(pid); p.story = p.story || { _id: 'story-' + pid, status: 'draft', transcript: '', themes: '' }; if (p.story.status === 'removed') p.story.status = 'draft'; save(); return { ...p.story, productId: pid }; },
+  saveStory(id, ch) {
+    const p = db.prints.find((x) => x.story && x.story._id === id);
+    const changed = 'transcript' in ch && ch.transcript !== p.story.transcript;
+    Object.assign(p.story, ch);
+    if (changed) { p.story.estDurationSec = Math.round(p.story.transcript.split(/\s+/).length / 150 * 60); if (p.story.status === 'approved') p.story.status = 'draft'; }
+    save(); return { ...p.story, productId: p.productId };
+  },
+  setStoryStatus(id, st) { const p = db.prints.find((x) => x.story && x.story._id === id); if (st === 'approved' && !p.story.transcript.trim()) throw new Error('Write the script before approving it.'); p.story.status = st; save(); return { ...p.story, productId: p.productId }; },
+  generateStoryAudio() { throw new Error('In this offline demo stories are read by your computer\'s voice. Recorded ElevenLabs audio is generated on the live site.'); },
+  draftStoryWithClaude() { throw new Error('Claude drafting runs on the live site.'); },
+  listTours: () => db.tours.slice().sort((a, b) => a.sortOrder - b.sortOrder).map((t) => ({ ...t, productIds: [...t.productIds] })),
+  saveTour(input) {
+    if (!String(input.title || '').trim()) throw new Error('Give the tour a title.');
+    if (input.productIds.length > 10) throw new Error('A tour can include up to 10 prints.');
+    if (input._id) { const t = db.tours.find((x) => x._id === input._id); Object.assign(t, { title: input.title, intro: input.intro, productIds: input.productIds }); save(); return t; }
+    const t = { _id: uid(), slug: input.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + uid().slice(0, 4), title: input.title, intro: input.intro, productIds: input.productIds, status: 'draft', sortOrder: db.tours.length };
+    db.tours.push(t); save(); return t;
+  },
+  setTourStatus(id, st) { const t = db.tours.find((x) => x._id === id); if (st === 'live' && !t.productIds.length) throw new Error('Add prints before publishing the tour.'); t.status = st; save(); return t; },
+  deleteTour(id) { db.tours = db.tours.filter((t) => t._id !== id); save(); return { removed: true }; },
+  listLeads() {
+    return db.leads.map((l) => {
+      const ev = db.events.filter((e) => l.visitorIds.includes(e.visitorId));
+      const rq = db.requests.filter((r) => r.leadId === l._id);
+      return { _id: l._id, name: l.name, email: l.email, phone: l.phone, status: l.status, notes: l.notes, firstSeenAt: l.firstSeenAt, lastSeenAt: l.lastSeenAt,
+        score: score(ev, rq.length), pending: rq.filter((r) => r.status === 'pending' || r.status === 'accepted').length, requests: rq.length,
+        shortlist: shortlistFrom(ev).length, storiesPlayed: new Set(ev.filter((e) => e.type === 'audio_play').map((e) => e.productId)).size };
+    }).sort((a, b) => b.score - a.score);
+  },
+  getLeadDetail(id) {
+    const l = db.leads.find((x) => x._id === id);
+    const ev = db.events.filter((e) => l.visitorIds.includes(e.visitorId));
+    const rq = db.requests.filter((r) => r.leadId === id).sort((a, b) => b._createdDate.localeCompare(a._createdDate));
+    const per = {};
+    ev.forEach((e) => { if (!e.productId) return; const s = per[e.productId] = per[e.productId] || { opens: 0, dwellSec: 0, audioPlays: 0, audioMaxPct: 0, viewInRoom: 0, transcriptOpens: 0, basket: 0 };
+      if (e.type === 'print_open') s.opens++; if (e.type === 'print_dwell') s.dwellSec += e.value; if (e.type === 'audio_play') s.audioPlays++; if (e.type === 'audio_progress') s.audioMaxPct = Math.max(s.audioMaxPct, e.value);
+      if (e.type === 'view_in_room') s.viewInRoom++; if (e.type === 'transcript_open') s.transcriptOpens++; if (e.type === 'add_to_basket') s.basket++; });
+    const title = (pid) => (product(pid) || { title: 'Removed print' }).title;
+    return { lead: l, score: score(ev, rq.length), visits: new Set(ev.map((e) => e.sessionId)).size,
+      shortlist: shortlistFrom(ev).map((pid) => ({ productId: pid, title: title(pid), price: (product(pid) || {}).price })),
+      prints: Object.entries(per).map(([pid, s]) => ({ productId: pid, title: title(pid), ...s })).sort((a, b) => b.dwellSec - a.dwellSec),
+      tours: [...new Set(ev.filter((e) => e.type === 'tour_start').map((e) => e.tourSlug))], requests: rq };
+  },
+  updateLead(id, ch) { const l = db.leads.find((x) => x._id === id); Object.assign(l, ch); save(); return l; },
+  listRequests: () => db.requests.slice().sort((a, b) => b._createdDate.localeCompare(a._createdDate)).map((r) => { const l = db.leads.find((x) => x._id === r.leadId) || {}; return { ...r, leadName: l.name, leadEmail: l.email, leadPhone: l.phone }; }),
+  respondToRequest(id, action, reply, counterPrice) {
+    const r = db.requests.find((x) => x._id === id);
+    const l = db.leads.find((x) => x._id === r.leadId);
+    r.reply = String(reply || ''); r.respondedAt = now().toISOString();
+    if (action === 'confirm' && r.type === 'hold') {
+      if (activeHolds().some((h) => h.productId === r.productId && h._id !== r._id)) throw new Error('This print is already held for someone else.');
+      r.status = 'confirmed'; r.holdExpiresAt = iso(HOLD_HOURS * 3600e3);
+    } else if (action === 'confirm') r.status = 'confirmed';
+    else if (action === 'counter') {
+      const price = Math.round(Number(counterPrice));
+      if (!(price > (r.offerPrice || 0))) throw new Error('A counter-offer should be above the visitor’s offer.');
+      if (price >= r.listPrice) throw new Error('A counter-offer should be below the listed price.');
+      r.status = 'countered'; r.counterPrice = price;
+    } else if (action === 'decline') r.status = 'declined';
+    else if (action === 'answer') { if (!r.reply.trim()) throw new Error('Write a reply first.'); r.status = 'answered'; }
+    if (l && l.status === 'new') l.status = r.status === 'countered' ? 'negotiating' : 'contacted';
+    save(); return r;
+  },
+  getInsights(days) {
+    const since = Date.now() - days * 864e5;
+    const ev = db.events.filter((e) => new Date(e._createdDate) > since);
+    const rq = db.requests.filter((r) => new Date(r._createdDate) > since);
+    const per = {}; const tours = {};
+    const bump = (pid, k, v) => { if (!pid) return; const s = per[pid] = per[pid] || { opens: 0, dwellSec: 0, audioPlays: 0, audioCompletes: 0, viewInRoom: 0, shortlists: 0, basket: 0, requests: 0 }; s[k] += v || 1; };
+    ev.forEach((e) => { if (e.type === 'print_open') bump(e.productId, 'opens'); if (e.type === 'print_dwell') bump(e.productId, 'dwellSec', e.value); if (e.type === 'audio_play') bump(e.productId, 'audioPlays');
+      if (e.type === 'audio_progress' && e.value >= 100) bump(e.productId, 'audioCompletes'); if (e.type === 'view_in_room') bump(e.productId, 'viewInRoom'); if (e.type === 'shortlist_add') bump(e.productId, 'shortlists');
+      if (e.type === 'add_to_basket') bump(e.productId, 'basket');
+      if (e.type === 'tour_start' || e.type === 'tour_complete') { const t = tours[e.tourSlug] = tours[e.tourSlug] || { starts: 0, completes: 0 }; t[e.type === 'tour_start' ? 'starts' : 'completes']++; } });
+    rq.forEach((r) => (r.productIds || []).forEach((pid) => bump(pid, 'requests')));
+    const visitors = new Set(ev.map((e) => e.visitorId));
+    const leads = db.leads.filter((l) => new Date(l.firstSeenAt) > since);
+    return { days, visitors: visitors.size, sessions: new Set(ev.map((e) => e.sessionId)).size, storiesPlayed: ev.filter((e) => e.type === 'audio_play').length,
+      basketAdds: ev.filter((e) => e.type === 'add_to_basket').length, newLeads: leads.length, requests: rq.length, leadRate: visitors.size ? leads.length / visitors.size : 0,
+      prints: Object.entries(per).map(([pid, s]) => ({ productId: pid, title: (product(pid) || { title: 'Removed print' }).title, ...s })).sort((a, b) => (b.dwellSec + b.requests * 600) - (a.dwellSec + a.requests * 600)),
+      tours: db.tours.map((t) => ({ slug: t.slug, title: t.title, ...(tours[t.slug] || { starts: 0, completes: 0 }) })) };
   },
 };
 
 const handler = async (method, args) => {
-  await new Promise((r) => setTimeout(r, 200));
+  await new Promise((r) => setTimeout(r, 150));
   if (!api[method]) throw new Error('Unknown action ' + method);
   return JSON.parse(JSON.stringify(api[method](...args)));
 };
 
 // ---------- shell ----------
 const $ = (s) => document.querySelector(s);
-function show(view) {
-  $('#directorView').hidden = view !== 'director';
-  $('#roomView').hidden = view !== 'room';
-  document.querySelectorAll('[data-view]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
-  if (view === 'room') openRoom();
-  else { const d = $('pvr-director'); d.state.room = null; d.refreshAll(); }
+function mount(view) {
+  const host = $('#host');
+  host.innerHTML = '';
+  document.body.dataset.view = view;
+  document.querySelectorAll('.bar [data-view]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
+  const el = document.createElement(view === 'studio' ? 'jv-console' : 'jv-gallery');
+  el.rpcHandler = handler;
+  if (view === 'gallery') { el.setAttribute('analytics', 'on'); el.setAttribute('speech-fallback', ''); el.setAttribute('share-url', 'https://www.jackvettriano.studio/gallery'); }
+  host.appendChild(el);
   window.scrollTo(0, 0);
 }
-function fillRoomPicker() {
-  const sel = $('#roomPick');
-  const cur = sel.value;
-  sel.innerHTML = db.rooms.map((r) => '<option value="' + r.slug + '">' + r.collectorName.replace(/</g, '&lt;') + ' (' + r.status + ')</option>').join('');
-  if (cur && db.rooms.some((r) => r.slug === cur)) sel.value = cur;
+function start() {
+  document.querySelectorAll('.bar [data-view]').forEach((b) => b.addEventListener('click', () => mount(b.dataset.view)));
+  $('#newVisitor').addEventListener('click', () => {
+    try { ['jvg-visitor', 'jvg-shortlist', 'jvg-contact'].forEach((k) => localStorage.removeItem(k)); } catch (e) {}
+    mount('gallery');
+  });
+  $('#reset').addEventListener('click', () => {
+    db = fresh(); save();
+    try { ['jvg-visitor', 'jvg-shortlist', 'jvg-contact'].forEach((k) => localStorage.removeItem(k)); } catch (e) {}
+    mount('gallery');
+  });
+  mount('gallery');
 }
-function openRoom() {
-  fillRoomPicker();
-  const slug = $('#roomPick').value;
-  const room = db.rooms.find((r) => r.slug === slug);
-  const host = $('#roomHost');
-  host.innerHTML = '';
-  const el = document.createElement('pvr-room');
-  el.setAttribute('speech-fallback', '');
-  el.rpcHandler = handler;
-  host.appendChild(el);
-  $('#roomNote').textContent = room.status === 'live' ? '' : 'This room is in ' + room.status + ', so on the live site only you could open it. Shown here as the director preview.';
-  room.openCount = (room.openCount || 0) + 1; room.lastOpenedAt = now().toISOString(); room.firstOpenedAt = room.firstOpenedAt || room.lastOpenedAt; save();
-  const payload = roomPayload(room);
-  if (!roomOpen(room) && room.status === 'closed') el.setAttribute('room', JSON.stringify({ closed: true, collectorName: room.collectorName }));
-  else el.setAttribute('room', JSON.stringify(payload));
-}
-
-const probe = new Image();
-const start = () => {
-  const d = document.createElement('pvr-director');
-  d.rpcHandler = handler;
-  d.setAttribute('site-url', 'https://www.jackvettriano.studio');
-  $('#directorHost').appendChild(d);
-  document.querySelectorAll('[data-view]').forEach((b) => b.addEventListener('click', () => show(b.dataset.view)));
-  $('#roomPick').addEventListener('change', openRoom);
-  $('#reset').addEventListener('click', () => { db = fresh(); save(); show('director'); });
-  show('room');
-};
 let started = false;
 const go = (ok) => { if (started) return; started = true; online = ok; start(); };
+const probe = new Image();
 probe.onload = () => go(true);
 probe.onerror = () => go(false);
 setTimeout(() => go(false), 2500);
-probe.src = 'https://static.wixstatic.com/media/' + SEED[0].media + '/v1/fit/w_20,h_20/file.jpg';
+probe.src = 'https://static.wixstatic.com/media/' + SEED.prints[0].media + '/v1/fit/w_20,h_20/file.jpg';
 `.replace('__SEED__', JSON.stringify(seed));
 
 const html = `<!doctype html>
@@ -219,47 +295,40 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Viewing Room Demo</title>
+<title>Gallery Demo</title>
 <style>
-  :root { --bar: #1d1b18; --bar-fg: #f3ece0; --gold: #c89d5c; --line: rgba(243,236,224,.18); color-scheme: light; }
-  html, body { margin: 0; background: #f6f4f0; }
-  .bar { position: relative; z-index: 20; background: var(--bar); color: var(--bar-fg); font: 13px/1.4 system-ui, -apple-system, sans-serif;
-    display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--line); }
-  .bar strong { font-size: 14px; margin-right: 6px; }
-  .bar button, .bar select { font: inherit; border-radius: 999px; padding: 6px 12px; border: 1px solid var(--line); background: transparent; color: var(--bar-fg); cursor: pointer; }
-  .bar select { border-radius: 8px; max-width: 220px; }
-  .bar select option { color: #1d1b18; }
-  .bar button[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: #1a140c; font-weight: 600; }
-  .bar button:focus-visible, .bar select:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  html, body { margin: 0; background: #15120f; }
+  body[data-view="studio"] { background: #f6f4f0; }
+  .bar { background: #0d0b09; color: #f3ece0; font: 13px/1.4 system-ui, -apple-system, sans-serif; display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; padding: 10px 16px; border-bottom: 1px solid rgba(243,236,224,.18); }
+  .bar strong { font-size: 14px; margin-right: 4px; }
+  .bar button { font: inherit; border-radius: 999px; padding: 6px 12px; border: 1px solid rgba(243,236,224,.25); background: transparent; color: #f3ece0; cursor: pointer; }
+  .bar button[aria-pressed="true"] { background: #c89d5c; border-color: #c89d5c; color: #1a140c; font-weight: 600; }
+  .bar button:focus-visible { outline: 2px solid #c89d5c; outline-offset: 2px; }
   .bar .spacer { flex: 1; }
   .bar .hint { color: #b8ad9b; flex-basis: 100%; }
-  #roomView { background: #15120f; min-height: 100vh; }
-  #roomNote { color: #e0bb80; font: 13px system-ui, sans-serif; padding: 0 16px; }
-  #roomNote:empty { display: none; }
-  [hidden] { display: none !important; }
 </style>
 </head>
-<body>
+<body data-view="gallery">
 <div class="bar">
-  <strong>Private Viewing Rooms · offline demo</strong>
-  <button data-view="director" aria-pressed="false">Director console</button>
-  <button data-view="room" aria-pressed="true">Collector's room</button>
-  <label for="roomPick" style="color:#b8ad9b">Room</label><select id="roomPick"></select>
+  <strong>Interactive Gallery · offline demo</strong>
+  <button data-view="gallery" aria-pressed="true">Visitor's gallery</button>
+  <button data-view="studio" aria-pressed="false">Studio console</button>
   <span class="spacer"></span>
+  <button id="newVisitor" title="Browse as a different visitor, with an empty shortlist">Be a new visitor</button>
   <button id="reset" title="Clear everything you have changed and start again">Reset demo</button>
-  <span class="hint">Everything runs in this file. Make a request in the collector's room, then answer it in the director console. Stories are read by your computer's voice; recorded narration, emails and payments run on the live site.</span>
+  <span class="hint">Runs entirely in this file. Reserve a print, make an offer or ask a question in the gallery, then answer it in the Studio console. Stories are read by your computer's voice, and "Add to basket" is simulated. People marked "Example" are sample data.</span>
 </div>
-<div id="directorView" hidden><div id="directorHost"></div></div>
-<div id="roomView"><p id="roomNote"></p><div id="roomHost"></div></div>
+<div id="host"></div>
 <script>(() => {
-${roomEl}
+${galleryEl}
 })();</script>
 <script>(() => {
-${directorEl}
+${consoleEl}
 })();</script>
 <script>${backend}</script>
 </body>
 </html>
 `;
-writeFileSync(join(root, 'demo/pvr-demo.html'), html);
-console.log(`demo/pvr-demo.html: ${(html.length / 1024).toFixed(0)} KB, ${seed.length} prints`);
+mkdirSync(join(root, 'demo'), { recursive: true });
+writeFileSync(join(root, 'demo/gallery-demo.html'), html);
+console.log(`demo/gallery-demo.html: ${(html.length / 1024).toFixed(0)} KB, ${seed.prints.length} prints, ${seed.tours.length} tours`);

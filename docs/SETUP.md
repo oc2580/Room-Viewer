@@ -1,101 +1,115 @@
-# Setting up Private Viewing Rooms on jackvettriano.studio
+# Setting up the Interactive Gallery on jackvettriano.studio
 
 Everything below happens in the Wix Editor (Velo is already enabled on the site).
-The five CMS collections are already created and are admin-only:
-`PrintStories`, `PvrRooms`, `PvrRoomItems`, `PvrRequests`, `PvrEvents`
-(their schema is recorded in `wix/cms-schema.json`).
+These CMS collections already exist and are admin-only (visitors can never read
+them directly; every request goes through the backend code):
+`PrintStories` (shown as "PVR Print Stories"), `GalleryTours`, `GalleryLeads`,
+`GalleryRequests`, `GalleryEvents`. Their fields are recorded in
+`wix/cms-schema.json`.
 
-## 1. Backend code
+## 1. Packages
 
-In the Editor's Code panel, under **Backend**, create these files and paste in
-the contents from `wix/backend/`:
+Code panel > Packages & Apps > npm, install:
+
+- `@wix/stores`, `@wix/ecom`, `@wix/media`, `@wix/essentials` (prices of framed
+  and unframed options, Add to basket, audio uploads)
+- `@anthropic-ai/sdk` only if you want the "Draft with Claude" button
+
+## 2. Backend code
+
+Under **Backend**, create these files and paste in the contents from `wix/backend/`:
 
 | File | What it does |
 |---|---|
-| `pvr.config.js` | Settings: hold length, voice ID, email template IDs |
-| `pvr-lib.js` | Shared helpers (room payload, holds, images) |
-| `pvr-notify.js` | Triggered-email notifications (optional) |
-| `pvr.web.js` | Collector actions: requests, analytics |
-| `pvr-director.web.js` | Director console actions (admin only) |
-| `pvr-audio.js` | ElevenLabs text-to-speech into the Media Manager |
-| `pvr-claude.web.js` | "Draft with Claude" for newly added prints (optional) |
-| `pvr-seed.js` | The 68 starter scripts (generated - do not edit) |
-| `pvr-jobs.js` + `jobs.config` | Hourly job that releases expired 48-hour holds |
+| `gallery.config.js` | Settings: reservation length, offer floor, voice ID, email template IDs, lead scoring |
+| `gallery-lib.js` | Shared helpers |
+| `gallery.web.js` | Visitor actions: gallery data, framing prices, reservations, offers, questions, counter-offer replies, analytics |
+| `gallery-console.web.js` | Studio console actions (admin only) |
+| `gallery-notify.js` | Triggered-email notifications (optional) |
+| `gallery-audio.js` | ElevenLabs text-to-speech into the Media Manager |
+| `gallery-claude.web.js` | "Draft with Claude" for newly added prints (optional) |
+| `gallery-seed.js` | The 68 starter scripts and 5 starter tours (generated; do not edit) |
+| `gallery-jobs.js` + `jobs.config` | Hourly job that releases expired 48-hour reservations |
 
-`routers.js` is created by Wix in step 2; replace its contents with
-`wix/backend/routers.js`.
+## 3. The Gallery page (`/gallery`)
 
-**Packages** (Code panel > Packages & Apps > npm): install `@wix/media` and
-`@wix/essentials` (needed for audio upload). Install `@anthropic-ai/sdk` only
-if you want the "Draft with Claude" button.
+1. Add a blank page called **Gallery** with the URL `/gallery`, and add it to
+   the site menu.
+2. Add **Embed Code > Custom Element**. Choose *Velo file*, create
+   `public/custom-elements/jv-gallery.js` with the contents of
+   `wix/public/custom-elements/jv-gallery.js`, set the tag name to `jv-gallery`
+   and the element ID to `jvGallery`. Stretch it to full width.
+3. Paste `wix/pages/gallery-page.js` into the page code.
 
-## 2. The collector's room: `/pvr/<name>`
+Links you can share:
+`/gallery?tour=by-the-sea` starts a tour,
+`/gallery?print=<product id>` opens a print, and shortlists shared by visitors
+arrive as `/gallery?shortlist=...`.
 
-1. Pages > **Add router**, URL prefix `pvr`. Wix creates `routers.js` and a
-   router page called `pvr-page`.
-2. On `pvr-page`, delete the sample elements and add **Embed Code > Custom
-   Element**. Choose *Velo file*, create `public/custom-elements/pvr-room.js`
-   with the contents of `wix/public/custom-elements/pvr-room.js`, set the tag
-   name to `pvr-room` and the element ID to `pvrRoom`. Stretch it to full width.
-3. Paste `wix/pages/pvr-page.js` into the page code.
-4. In the page's SEO settings, leave it out of search (the router also sends
-   `noindex`).
+## 4. The Studio console
 
-Room URLs look like `https://www.jackvettriano.studio/pvr/johnson-k3f9q2m7x1`.
-The random suffix is what keeps a room private, so share links one-to-one.
+1. Pages > **Dashboard Pages** > Add, name it *Gallery*.
+2. Add a Custom Element with source `public/custom-elements/jv-console.js`
+   (contents from `wix/public/custom-elements/jv-console.js`), tag name
+   `jv-console`, ID `jvConsole`, full width.
+3. Paste `wix/pages/gallery-console.js` into its page code.
+4. Publish, open the dashboard page, go to **Story library** and click
+   **Import**. The 68 scripts and 5 tours arrive as drafts.
+5. Approve the scripts you have checked (each one then appears in the
+   gallery), and publish the tours you want on the page.
 
-## 3. The director console
+## 5. Voice-over audio (ElevenLabs)
 
-1. Pages > **Dashboard Pages** > Add, name it *Viewing Rooms*.
-2. Add a Custom Element with source `public/custom-elements/pvr-director.js`
-   (contents from `wix/public/custom-elements/pvr-director.js`), tag name
-   `pvr-director`, ID `pvrDirector`, full width.
-3. Paste `wix/pages/pvr-dashboard.js` into its page code.
-4. Publish the site, open the dashboard page, go to **Story library** and click
-   **Import stories**. All 68 scripts arrive as drafts.
-
-## 4. Voice-over audio (ElevenLabs)
-
-1. Create an ElevenLabs account and pick a stock narrator voice: a warm British
-   or Scottish curator voice works well. Do **not** clone or imitate Jack
-   Vettriano's own voice.
+1. Create an ElevenLabs account and choose a stock narrator voice: a warm
+   British or Scottish curator voice works well. Do **not** clone or imitate
+   Jack Vettriano's own voice.
 2. Dashboard > Developer Tools > **Secrets Manager**: add `ELEVENLABS_API_KEY`.
-3. Put the voice's ID in `ELEVENLABS_VOICE_ID` in `pvr.config.js`.
-4. In the Story library, approve a script (after checking it against the
-   product page and its review notes), then click **Generate audio**. Each
-   story takes about 20 seconds and is saved to the Media Manager.
+3. Put the voice's ID in `ELEVENLABS_VOICE_ID` in `gallery.config.js`.
+4. In the Story library, click **Generate audio** on each approved story
+   (about 20 seconds each).
 
-Editing an approved script returns it to draft, and the old audio stops
-playing until you regenerate it, so collectors never hear a script that no
-longer matches the text.
+Until a story has audio, visitors can read it as text. Editing an approved
+script takes it out of the gallery until you approve it again, and old audio
+stops playing, so visitors never hear a script that no longer matches the text.
 
-## 5. Optional extras
+## 6. Privacy and the cookie banner
 
-- **Email alerts.** Create two Triggered Emails (Marketing > Triggered Emails):
-  a *director alert* with variables `collectorName`, `printTitle`,
-  `requestType`, `message`, and a *collector update* with `collectorName`,
-  `printTitle`, `headline`, `reply`, `roomUrl`. Paste their IDs into
-  `EMAIL_DIRECTOR_ALERT` and `EMAIL_COLLECTOR_UPDATE`. Without them, requests
-  still appear in the console under **Requests**.
-- **Draft with Claude.** Add `ANTHROPIC_API_KEY` to the Secrets Manager and
-  install `@anthropic-ai/sdk`. Used when you add a new print to the library;
-  drafts are always marked for review and never go live until approved.
+The gallery records engagement (prints opened, time spent, stories played,
+wall views, shortlists) only for visitors who allow **analytics** cookies in the
+site's cookie banner (Settings > Privacy & Cookies). Visitors who decline still
+get every feature; they just don't appear in Insights until they send a request.
 
-## How a room works
+When a visitor sends a reservation, offer or question, they give their name and
+email, and the request form tells them the Studio will use it to reply. Add a
+line to the site's privacy policy explaining that gallery activity is linked to
+an enquiry so the Studio can advise the visitor.
 
-1. **Rooms > New room**: collector name and email, a welcome note, an optional
-   voice note (record in the browser or upload), and when the room closes.
-2. **Add prints** from the live store (3-5 is ideal, up to 8). Reorder or
-   remove them at any time; add a personal note and optionally a private
-   offer price with an end date. **Save**, **Preview**, then **Go live** and
-   copy the link.
-3. The collector listens to each story, reads the transcript, opens the
-   provenance details, sees the print at true scale on a sample wall or a
-   photo of their own wall, and can request a 48-hour hold, ask a question or
-   accept the private offer.
-4. Requests appear in **Requests**. Confirming a hold reserves the print for 48
-   hours across all rooms; it is released automatically. Payment and
-   invoicing stay with the Studio (e.g. Wix Invoices or Pay Links).
-5. The room's **Engagement** panel shows visits, time spent on each print,
-   story plays and how far they listened, transcript reads and
-   view-on-wall use.
+## 7. Optional: email alerts
+
+Create two Triggered Emails (Marketing > Triggered Emails):
+
+- a **Studio alert** with variables `visitorName`, `visitorEmail`,
+  `printTitle`, `requestType`, `message`
+- a **visitor update** with `visitorName`, `printTitle`, `headline`, `reply`,
+  `galleryUrl`
+
+Paste their IDs into `EMAIL_STUDIO_ALERT` and `EMAIL_VISITOR_UPDATE`. Without
+them, requests still appear in the console under **Requests**, and replies
+still appear in the visitor's **My requests**.
+
+## How selling works
+
+| Visitor does | What happens |
+|---|---|
+| **Add to basket** | Goes into the normal Wix basket and checkout, with the framed or unframed option chosen |
+| **Reserve for 48 hours** | You confirm or decline in the console. A confirmed reservation shows the print as reserved to everyone else, and is released automatically after 48 hours |
+| **Make an offer** | Offers below 70% of the list price are turned away in the form (change `MIN_OFFER_SHARE`). You accept, decline or send a counter-offer; the visitor accepts or declines the counter in My requests, and you confirm the sale |
+| **Ask a question / Ask about my shortlist** | You reply in the console; the reply shows in their gallery and by email |
+| **Shortlist, compare, share** | Kept on their device; a shared link opens the same shortlist for someone else |
+
+Payment for offers and reservations stays with the Studio, for example Wix
+Invoices or Pay Links.
+
+The **Leads** tab ranks visitors who have sent a request by what they did in
+the gallery, shows what they looked at and shortlisted, and suggests a next
+step. **Insights** shows which prints and tours hold attention.

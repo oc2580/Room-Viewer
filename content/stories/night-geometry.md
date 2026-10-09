@@ -9,6 +9,7 @@ edition: Signed and numbered limited edition (example-specific)
 signed: true
 medium: Giclée
 media: d9cb8c_f83c6aca56b24f4db858675b42a8ee37~mv2.jpg
+themes: After dark, Romance
 status: draft
 reviewNotes: "Product copy says 'Price on application' but the listing is priced at GBP 1,650 - Studio to reconcile. Edition number/size of the held example needed for provenance panel."
 ---

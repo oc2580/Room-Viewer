@@ -11,6 +11,7 @@ medium: Giclée on 300gsm museum etching paper
 mountSizeCm: [41, 49]
 framedSizeCm: [62.7, 72.7]
 media: d9cb8c_50fdec76f0e34a44b2aebeb98fddf767~mv2.jpg
+themes: Style & society
 status: draft
 reviewNotes: ""
 ---

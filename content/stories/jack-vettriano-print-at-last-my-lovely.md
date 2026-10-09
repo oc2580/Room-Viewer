@@ -11,6 +11,7 @@ medium: 300gsm museum etching paper
 imageSizeCm: [20.5, 25.5]
 mountSizeCm: [41.5, 48.4]
 media: d9cb8c_432afed5d17f48999f2abfc9d3e6b960~mv2.jpg
+themes: Romance, Rare editions
 status: draft
 reviewNotes: ""
 ---

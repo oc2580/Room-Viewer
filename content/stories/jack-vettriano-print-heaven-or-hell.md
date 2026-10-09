@@ -9,6 +9,7 @@ edition: Signed limited edition (from the 2014 Red Room imagery), offered indivi
 signed: true
 medium: Giclée
 media: d9cb8c_32d57889b5174aadaf1a29cc3f33a9b6~mv2.jpg
+themes: After dark
 status: draft
 reviewNotes: "Edition size and dimensions not in product copy - add for provenance panel and view-in-room. Mature theme; suggest only including for collectors who've shown interest in the Red Room works."
 ---

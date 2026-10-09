@@ -11,6 +11,7 @@ medium: 300gsm museum etching paper
 imageSizeCm: [39, 31]
 mountSizeCm: [62, 52]
 media: 5f58c4_e53e0622d0484ea3be83ad7823f88fe5~mv2.jpg
+themes: After dark, Style & society
 status: draft
 reviewNotes: ""
 ---

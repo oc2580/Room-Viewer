@@ -13,6 +13,7 @@ imageSizeCm: [39, 30.7]
 mountSizeCm: [61.5, 52]
 framedSizeCm: [71.7, 62.4]
 media: 5f58c4_5076f2c86f664688827f4fa6dd11b480~mv2.png
+themes: By the sea, Romance, Final editions
 status: draft
 reviewNotes: ""
 ---

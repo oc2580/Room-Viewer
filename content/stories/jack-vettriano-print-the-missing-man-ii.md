@@ -10,6 +10,7 @@ signed: true
 medium: Giclée, board mounted, hand-embellished with 3 coats of lacquer, no glass
 imageSizeCm: [76.2, 61]
 media: 5f58c4_ac158f2439694be1a04913f9104c5052~mv2.jpg
+themes: By the sea, Rare editions
 status: draft
 reviewNotes: ""
 ---

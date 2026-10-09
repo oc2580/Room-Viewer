@@ -12,6 +12,7 @@ imageSizeCm: [28.7, 24]
 mountSizeCm: [50, 40]
 framedSizeCm: [55, 45]
 media: d9cb8c_c017248f26144dbc90c43b8df94e523d~mv2.jpg
+themes: By the sea
 status: draft
 reviewNotes: "Four-piece set - view-in-room should show four frames."
 ---

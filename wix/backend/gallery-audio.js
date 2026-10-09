@@ -4,11 +4,11 @@ import { files } from '@wix/media';
 import { auth } from '@wix/essentials';
 import {
   SECRET_ELEVENLABS_KEY, ELEVENLABS_VOICE_ID, ELEVENLABS_MODEL_ID,
-} from 'backend/pvr.config';
+} from 'backend/gallery.config';
 
 export async function synthesiseStory(story) {
   if (!ELEVENLABS_VOICE_ID || ELEVENLABS_VOICE_ID.startsWith('REPLACE')) {
-    throw new Error('Set ELEVENLABS_VOICE_ID in backend/pvr.config.js first.');
+    throw new Error('Set ELEVENLABS_VOICE_ID in backend/gallery.config.js first.');
   }
   const apiKey = await getSecret(SECRET_ELEVENLABS_KEY);
   const res = await fetch(
@@ -26,7 +26,7 @@ export async function synthesiseStory(story) {
   if (!res.ok) throw new Error(`ElevenLabs error ${res.status}: ${(await res.text()).slice(0, 200)}`);
   const audio = Buffer.from(await res.arrayBuffer());
 
-  const fileName = `pvr-story-${story.slug || story.productId}.mp3`;
+  const fileName = `gallery-story-${story.slug || story.productId}.mp3`;
   const generate = auth.elevate(files.generateFileUploadUrl);
   const { uploadUrl } = await generate('audio/mpeg', { fileName });
   const upload = await fetch(`${uploadUrl}?filename=${encodeURIComponent(fileName)}`, {

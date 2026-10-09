@@ -11,6 +11,7 @@ medium: 300gsm museum etching paper
 imageSizeCm: [37.5, 31]
 mountSizeCm: [69.5, 52]
 media: 5f58c4_df27f3dad3f041aa90200d4be86e378a~mv2.jpeg
+themes: Quiet moments, Style & society
 status: draft
 reviewNotes: "The two Blue Gown listings describe the composition differently (back to viewer at mirror vs holding gown before mirror) and give slightly different sizes - Studio to confirm before recording."
 ---

@@ -10,6 +10,7 @@ signed: true
 medium: Giclée
 imageSizeCm: [35.6, 27.9]
 media: d9cb8c_ab2342c0409e4f15b0167e71d7db2ece~mv2.jpg
+themes: Style & society, Quiet moments
 status: draft
 reviewNotes: "Edition size not in product copy - add for provenance panel."
 ---

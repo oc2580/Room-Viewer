@@ -13,6 +13,7 @@ imageSizeCm: [38, 31]
 mountSizeCm: [61, 52]
 framedSizeCm: [71.8, 62.8]
 media: 5f58c4_75fab7a521ab43908efb49d8026c0eb0~mv2.jpg
+themes: By the sea, Final editions
 status: draft
 reviewNotes: "Cannot ship to EU or Northern Ireland (GPSR) - director should check collector location."
 ---
