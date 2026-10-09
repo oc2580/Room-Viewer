@@ -1,0 +1,55 @@
+// Compiles content/stories/*.md into data/stories.json for import into the
+// PrintStories CMS collection. Fails loudly on malformed or incomplete files.
+import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const dir = join(root, 'content/stories');
+const REQUIRED = ['id', 'title', 'slug', 'price', 'inStock', 'edition', 'media', 'status'];
+const WORDS_PER_MINUTE = 150;
+
+function parseValue(raw) {
+  const v = raw.trim();
+  if (v === 'true' || v === 'false') return v === 'true';
+  if (/^-?\d+(\.\d+)?$/.test(v)) return Number(v);
+  if (v.startsWith('[') && v.endsWith(']')) {
+    return v.slice(1, -1).split(',').map((x) => Number(x.trim()));
+  }
+  if (v.startsWith('"') && v.endsWith('"')) return v.slice(1, -1);
+  return v;
+}
+
+function parse(file) {
+  const text = readFileSync(join(dir, file), 'utf8');
+  const m = text.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (!m) throw new Error(`${file}: missing frontmatter`);
+  const meta = {};
+  for (const line of m[1].split('\n')) {
+    const i = line.indexOf(':');
+    if (i < 0) throw new Error(`${file}: bad frontmatter line "${line}"`);
+    meta[line.slice(0, i).trim()] = parseValue(line.slice(i + 1));
+  }
+  for (const k of REQUIRED) {
+    if (meta[k] === undefined || meta[k] === '') throw new Error(`${file}: missing ${k}`);
+  }
+  if (`${meta.slug}.md` !== file) throw new Error(`${file}: slug "${meta.slug}" does not match filename`);
+  const transcript = m[2].trim();
+  const words = transcript.split(/\s+/).length;
+  return {
+    ...meta,
+    transcript,
+    wordCount: words,
+    estDurationSec: Math.round((words / WORDS_PER_MINUTE) * 60),
+  };
+}
+
+const stories = readdirSync(dir).filter((f) => f.endsWith('.md')).sort().map(parse);
+const ids = new Set();
+for (const s of stories) {
+  if (ids.has(s.id)) throw new Error(`duplicate id ${s.id}`);
+  ids.add(s.id);
+}
+writeFileSync(join(root, 'data/stories.json'), JSON.stringify(stories, null, 2) + '\n');
+const secs = stories.map((s) => s.estDurationSec);
+console.log(`${stories.length} stories, ${Math.min(...secs)}-${Math.max(...secs)}s each (est.)`);
