@@ -1,0 +1,312 @@
+[
+  {
+    "id": "PrintStories",
+    "displayName": "PVR Print Stories",
+    "fields": [
+      {
+        "key": "title",
+        "displayName": "Title",
+        "type": "TEXT"
+      },
+      {
+        "key": "productId",
+        "displayName": "Store product ID",
+        "type": "TEXT"
+      },
+      {
+        "key": "slug",
+        "displayName": "Slug",
+        "type": "TEXT"
+      },
+      {
+        "key": "status",
+        "displayName": "Status (draft/approved/removed)",
+        "type": "TEXT"
+      },
+      {
+        "key": "transcript",
+        "displayName": "Voice-over script",
+        "type": "TEXT"
+      },
+      {
+        "key": "edition",
+        "displayName": "Edition",
+        "type": "TEXT"
+      },
+      {
+        "key": "medium",
+        "displayName": "Medium",
+        "type": "TEXT"
+      },
+      {
+        "key": "signed",
+        "displayName": "Signed by artist",
+        "type": "BOOLEAN"
+      },
+      {
+        "key": "imageSizeCm",
+        "displayName": "Image size (cm)",
+        "type": "TEXT"
+      },
+      {
+        "key": "mountSizeCm",
+        "displayName": "Mount size (cm)",
+        "type": "TEXT"
+      },
+      {
+        "key": "framedSizeCm",
+        "displayName": "Framed size (cm)",
+        "type": "TEXT"
+      },
+      {
+        "key": "reviewNotes",
+        "displayName": "Review notes",
+        "type": "TEXT"
+      },
+      {
+        "key": "wordCount",
+        "displayName": "Words",
+        "type": "NUMBER"
+      },
+      {
+        "key": "estDurationSec",
+        "displayName": "Est. seconds",
+        "type": "NUMBER"
+      },
+      {
+        "key": "audioUrl",
+        "displayName": "Audio URL",
+        "type": "URL"
+      },
+      {
+        "key": "audioScriptHash",
+        "displayName": "Audio script hash",
+        "type": "TEXT"
+      },
+      {
+        "key": "audioGeneratedAt",
+        "displayName": "Audio generated",
+        "type": "DATETIME"
+      }
+    ],
+    "permissions": {
+      "insert": "ADMIN",
+      "update": "ADMIN",
+      "remove": "ADMIN",
+      "read": "ADMIN"
+    }
+  },
+  {
+    "id": "PvrRooms",
+    "displayName": "PVR Rooms",
+    "fields": [
+      {
+        "key": "collectorName",
+        "displayName": "Collector",
+        "type": "TEXT"
+      },
+      {
+        "key": "collectorEmail",
+        "displayName": "Collector email",
+        "type": "TEXT"
+      },
+      {
+        "key": "contactId",
+        "displayName": "Contact ID",
+        "type": "TEXT"
+      },
+      {
+        "key": "slug",
+        "displayName": "URL slug",
+        "type": "TEXT"
+      },
+      {
+        "key": "status",
+        "displayName": "Status (draft/live/closed)",
+        "type": "TEXT"
+      },
+      {
+        "key": "greeting",
+        "displayName": "Welcome note",
+        "type": "TEXT"
+      },
+      {
+        "key": "greetingAudioUrl",
+        "displayName": "Voice note URL",
+        "type": "URL"
+      },
+      {
+        "key": "expiresAt",
+        "displayName": "Open until",
+        "type": "DATETIME"
+      },
+      {
+        "key": "firstOpenedAt",
+        "displayName": "First opened",
+        "type": "DATETIME"
+      },
+      {
+        "key": "lastOpenedAt",
+        "displayName": "Last opened",
+        "type": "DATETIME"
+      },
+      {
+        "key": "openCount",
+        "displayName": "Visits",
+        "type": "NUMBER"
+      }
+    ],
+    "permissions": {
+      "insert": "ADMIN",
+      "update": "ADMIN",
+      "remove": "ADMIN",
+      "read": "ADMIN"
+    }
+  },
+  {
+    "id": "PvrRoomItems",
+    "displayName": "PVR Room Prints",
+    "fields": [
+      {
+        "key": "roomId",
+        "displayName": "Room ID",
+        "type": "TEXT"
+      },
+      {
+        "key": "productId",
+        "displayName": "Store product ID",
+        "type": "TEXT"
+      },
+      {
+        "key": "sortOrder",
+        "displayName": "Order",
+        "type": "NUMBER"
+      },
+      {
+        "key": "curatorNote",
+        "displayName": "Director's note",
+        "type": "TEXT"
+      },
+      {
+        "key": "offerPrice",
+        "displayName": "Private offer (GBP)",
+        "type": "NUMBER"
+      },
+      {
+        "key": "offerExpiresAt",
+        "displayName": "Offer open until",
+        "type": "DATETIME"
+      }
+    ],
+    "permissions": {
+      "insert": "ADMIN",
+      "update": "ADMIN",
+      "remove": "ADMIN",
+      "read": "ADMIN"
+    }
+  },
+  {
+    "id": "PvrRequests",
+    "displayName": "PVR Requests",
+    "fields": [
+      {
+        "key": "printTitle",
+        "displayName": "Print",
+        "type": "TEXT"
+      },
+      {
+        "key": "collectorName",
+        "displayName": "Collector",
+        "type": "TEXT"
+      },
+      {
+        "key": "roomId",
+        "displayName": "Room ID",
+        "type": "TEXT"
+      },
+      {
+        "key": "productId",
+        "displayName": "Store product ID",
+        "type": "TEXT"
+      },
+      {
+        "key": "type",
+        "displayName": "Type (hold/question/offer)",
+        "type": "TEXT"
+      },
+      {
+        "key": "message",
+        "displayName": "Message",
+        "type": "TEXT"
+      },
+      {
+        "key": "offerPrice",
+        "displayName": "Offer price",
+        "type": "NUMBER"
+      },
+      {
+        "key": "status",
+        "displayName": "Status",
+        "type": "TEXT"
+      },
+      {
+        "key": "reply",
+        "displayName": "Reply",
+        "type": "TEXT"
+      },
+      {
+        "key": "holdExpiresAt",
+        "displayName": "Hold ends",
+        "type": "DATETIME"
+      },
+      {
+        "key": "respondedAt",
+        "displayName": "Responded",
+        "type": "DATETIME"
+      }
+    ],
+    "permissions": {
+      "insert": "ADMIN",
+      "update": "ADMIN",
+      "remove": "ADMIN",
+      "read": "ADMIN"
+    }
+  },
+  {
+    "id": "PvrEvents",
+    "displayName": "PVR Engagement Events",
+    "fields": [
+      {
+        "key": "roomId",
+        "displayName": "Room ID",
+        "type": "TEXT"
+      },
+      {
+        "key": "productId",
+        "displayName": "Store product ID",
+        "type": "TEXT"
+      },
+      {
+        "key": "type",
+        "displayName": "Event",
+        "type": "TEXT"
+      },
+      {
+        "key": "value",
+        "displayName": "Value",
+        "type": "NUMBER"
+      },
+      {
+        "key": "sessionId",
+        "displayName": "Session",
+        "type": "TEXT"
+      }
+    ],
+    "permissions": {
+      "insert": "ADMIN",
+      "update": "ADMIN",
+      "remove": "ADMIN",
+      "read": "ADMIN"
+    }
+  }
+]
