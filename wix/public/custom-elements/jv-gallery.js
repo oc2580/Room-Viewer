@@ -731,7 +731,7 @@ class JvGallery extends Base {
       </div></div>
       ${t ? `<div class="tourbar"><div class="wrap">
         <span>Guided tour</span><div class="prog"><i style="width:${((v.index + 1) / v.list.length) * 100}%"></i></div>
-        <button class="btn small quiet" data-act="tourPause">${t.paused ? 'Resume auto-play' : 'Pause auto-play'}</button>
+        <button class="btn small quiet" data-act="tourPause">${t.paused ? 'Resume tour' : 'Pause tour'}</button>
         <button class="btn small quiet" data-act="tourExit">Leave tour</button>
       </div></div>` : ''}
       <div class="wrap"><div class="print">
@@ -974,13 +974,24 @@ class JvGallery extends Base {
     this.togglePlay(t.productIds[0]);
   }
 
+  // Pausing stops the narration and the move to the next print; resuming
+  // carries on from the same point (or moves on if the story had finished).
   pauseTour() {
     const t = this.view && this.view.tour;
     if (!t) return;
+    const pid = this.view.list[this.view.index];
+    const pl = this.players.get(pid);
+    const playing = !!pl && ((pl.audio && !pl.audio.paused) || !!pl.speaking);
+    const finished = !!pl && !!pl.audio && pl.audio.ended;
     t.paused = !t.paused;
     clearInterval(this.countdown);
-    this.root.getElementById(`next-${this.view.list[this.view.index]}`).innerHTML = '';
-    this.root.querySelector('[data-act="tourPause"]').textContent = t.paused ? 'Resume auto-play' : 'Pause auto-play';
+    this.root.getElementById(`next-${pid}`).innerHTML = '';
+    if (t.paused && playing) this.togglePlay(pid);
+    if (!t.paused) {
+      if (finished) this.storyEnded(pid);
+      else if (!playing) this.togglePlay(pid);
+    }
+    this.root.querySelectorAll('.tourbar [data-act="tourPause"]').forEach((b) => { b.textContent = t.paused ? 'Resume tour' : 'Pause tour'; });
   }
 
   storyEnded(pid) {

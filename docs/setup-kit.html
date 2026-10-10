@@ -3112,7 +3112,7 @@ class JvGallery extends Base {
       &lt;/div&gt;&lt;/div&gt;
       ${t ? `&lt;div class=&quot;tourbar&quot;&gt;&lt;div class=&quot;wrap&quot;&gt;
         &lt;span&gt;Guided tour&lt;/span&gt;&lt;div class=&quot;prog&quot;&gt;&lt;i style=&quot;width:${((v.index + 1) / v.list.length) * 100}%&quot;&gt;&lt;/i&gt;&lt;/div&gt;
-        &lt;button class=&quot;btn small quiet&quot; data-act=&quot;tourPause&quot;&gt;${t.paused ? 'Resume auto-play' : 'Pause auto-play'}&lt;/button&gt;
+        &lt;button class=&quot;btn small quiet&quot; data-act=&quot;tourPause&quot;&gt;${t.paused ? 'Resume tour' : 'Pause tour'}&lt;/button&gt;
         &lt;button class=&quot;btn small quiet&quot; data-act=&quot;tourExit&quot;&gt;Leave tour&lt;/button&gt;
       &lt;/div&gt;&lt;/div&gt;` : ''}
       &lt;div class=&quot;wrap&quot;&gt;&lt;div class=&quot;print&quot;&gt;
@@ -3355,13 +3355,24 @@ class JvGallery extends Base {
     this.togglePlay(t.productIds[0]);
   }
 
+  // Pausing stops the narration and the move to the next print; resuming
+  // carries on from the same point (or moves on if the story had finished).
   pauseTour() {
     const t = this.view &amp;&amp; this.view.tour;
     if (!t) return;
+    const pid = this.view.list[this.view.index];
+    const pl = this.players.get(pid);
+    const playing = !!pl &amp;&amp; ((pl.audio &amp;&amp; !pl.audio.paused) || !!pl.speaking);
+    const finished = !!pl &amp;&amp; !!pl.audio &amp;&amp; pl.audio.ended;
     t.paused = !t.paused;
     clearInterval(this.countdown);
-    this.root.getElementById(`next-${this.view.list[this.view.index]}`).innerHTML = '';
-    this.root.querySelector('[data-act=&quot;tourPause&quot;]').textContent = t.paused ? 'Resume auto-play' : 'Pause auto-play';
+    this.root.getElementById(`next-${pid}`).innerHTML = '';
+    if (t.paused &amp;&amp; playing) this.togglePlay(pid);
+    if (!t.paused) {
+      if (finished) this.storyEnded(pid);
+      else if (!playing) this.togglePlay(pid);
+    }
+    this.root.querySelectorAll('.tourbar [data-act=&quot;tourPause&quot;]').forEach((b) =&gt; { b.textContent = t.paused ? 'Resume tour' : 'Pause tour'; });
   }
 
   storyEnded(pid) {
@@ -3638,7 +3649,7 @@ class JvGallery extends Base {
 
 if (typeof customElements !== 'undefined' &amp;&amp; !customElements.get('jv-gallery')) customElements.define('jv-gallery', JvGallery);
 </textarea>
-    <div class="lines">1259 lines</div></div>
+    <div class="lines">1270 lines</div></div>
     <div class="file"><div class="fhead"><div><code>Gallery Tour page code</code><span>Connects the gallery to the backend and the basket</span></div>
     <button class="copy" data-for="f12">Copy</button></div>
     <textarea id="f12" readonly spellcheck="false">// Page &quot;Gallery Tour&quot; (/gallery-tour). Add a Custom Element: Source = Velo file
