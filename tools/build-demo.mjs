@@ -45,7 +45,7 @@ const iso = (ms) => new Date(Date.now() + ms).toISOString();
 function placeholder(title, i) {
   const [a, b] = PALETTES[i % PALETTES.length];
   const t = title.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="' + a + '"/><stop offset="1" stop-color="' + b + '"/></linearGradient></defs><rect width="800" height="1000" fill="url(#g)"/><rect x="40" y="40" width="720" height="920" fill="none" stroke="#c89d5c" stroke-opacity=".35"/><text x="400" y="490" fill="#f3ece0" font-family="Georgia, serif" font-style="italic" font-size="48" text-anchor="middle">' + t + '</text><text x="400" y="545" fill="#c89d5c" font-family="Arial, sans-serif" font-size="18" letter-spacing="5" text-anchor="middle">IMAGE LOADS WHEN ONLINE</text></svg>';
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="' + a + '"/><stop offset="1" stop-color="' + b + '"/></linearGradient></defs><rect width="800" height="1000" fill="url(#g)"/><rect x="40" y="40" width="720" height="920" fill="none" stroke="#ffffff" stroke-opacity=".25"/><text x="400" y="490" fill="#ffffff" font-family="Poppins, Arial, sans-serif" font-size="48" text-anchor="middle">' + t + '</text><text x="400" y="545" fill="#e7e2da" font-family="Arial, sans-serif" font-size="18" letter-spacing="5" text-anchor="middle">IMAGE LOADS WHEN ONLINE</text></svg>';
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
 }
 
@@ -300,15 +300,15 @@ const html = `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gallery Demo</title>
 <style>
-  html, body { margin: 0; background: #15120f; }
-  body[data-view="studio"] { background: #f6f4f0; }
-  .bar { background: #0d0b09; color: #f3ece0; font: 13px/1.4 system-ui, -apple-system, sans-serif; display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; padding: 10px 16px; border-bottom: 1px solid rgba(243,236,224,.18); }
+  html, body { margin: 0; background: #fff; }
+  body[data-view="studio"] { background: #f6f5f3; }
+  .bar { background: #262626; color: #fff; font: 13px/1.4 system-ui, -apple-system, sans-serif; display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; padding: 10px 16px; border-bottom: 2px solid #b3140f; }
   .bar strong { font-size: 14px; margin-right: 4px; }
-  .bar button { font: inherit; border-radius: 999px; padding: 6px 12px; border: 1px solid rgba(243,236,224,.25); background: transparent; color: #f3ece0; cursor: pointer; }
-  .bar button[aria-pressed="true"] { background: #c89d5c; border-color: #c89d5c; color: #1a140c; font-weight: 600; }
-  .bar button:focus-visible { outline: 2px solid #c89d5c; outline-offset: 2px; }
+  .bar button { font: inherit; border-radius: 0; padding: 6px 12px; border: 1px solid rgba(255,255,255,.35); background: transparent; color: #fff; cursor: pointer; }
+  .bar button[aria-pressed="true"] { background: #b3140f; border-color: #b3140f; color: #fff; font-weight: 600; }
+  .bar button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
   .bar .spacer { flex: 1; }
-  .bar .hint { color: #b8ad9b; flex-basis: 100%; }
+  .bar .hint { color: #d6d6d6; flex-basis: 100%; }
 </style>
 </head>
 <body data-view="gallery">

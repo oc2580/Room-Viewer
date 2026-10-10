@@ -13,9 +13,11 @@ const mins = (s) => (s >= 3600 ? `${(s / 3600).toFixed(1)} h` : s >= 60 ? `${Mat
 const pct = (x) => `${Math.round((x || 0) * 100)}%`;
 const heat = (score) => (score >= 60 ? ['hot', 'Hot'] : score >= 25 ? ['warm', 'Warm'] : ['cool', 'Browsing']);
 
+// Poppins matches the typeface used across the JVS website.
+const FONT_HREF = 'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap';
 const STYLE = `
-:host { all: initial; display: block; font: 14px/1.5 Inter, system-ui, -apple-system, sans-serif; color: #1d1b18;
-  --bg: #f6f4f0; --card: #fff; --line: #e7e2d9; --soft: #efebe4; --muted: #6b645a; --ink: #1d1b18; --accent: #a77b3a; --accent-soft: #f6ead6;
+:host { all: initial; display: block; font: 300 14px/1.5 Poppins, 'Helvetica Neue', Arial, sans-serif; color: #141414;
+  --bg: #f6f5f3; --card: #fff; --line: #e4e2de; --soft: #efedea; --muted: #5f5f5f; --ink: #141414; --accent: #b3140f; --accent-soft: #f8e3e1;
   --ok-bg: #e3efe1; --ok: #2f6b2a; --warn-bg: #f8ecd6; --warn: #8a5a12; --bad-bg: #f6e1dc; --bad: #a3392b; }
 * { box-sizing: border-box; }
 .app { background: var(--bg); min-height: 100%; padding: 24px; }
@@ -93,6 +95,12 @@ class JvConsole extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!document.querySelector(`link[href="${FONT_HREF}"]`)) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = FONT_HREF;
+      document.head.appendChild(link);
+    }
     this.root.innerHTML = `<style>${STYLE}</style><div class="app" id="app"><p class="muted">Loading…</p></div><div class="toast" id="toast" role="status"></div>`;
     this.root.addEventListener('click', (e) => this.onClick(e));
     this.root.addEventListener('input', (e) => this.onInput(e));
