@@ -4,14 +4,17 @@
 import wixWindowFrontend from 'wix-window-frontend';
 import wixLocationFrontend from 'wix-location-frontend';
 import wixEcomFrontend from 'wix-ecom-frontend';
-import { currentCartV2 } from '@wix/ecom';
 import {
   getGallery, getPrintOptions, getMyActivity, submitRequest, answerCounterOffer, logEvents,
 } from 'backend/gallery.web';
 
+console.log('Gallery: page code loaded');
+
 const STORES_APP_ID = '215238eb-22a5-4c36-9e7b-e7c08025e04e';
 
 async function addToBasket(productId, variantId) {
+  // Loaded only when needed, so the gallery still opens if the package is missing.
+  const { currentCartV2 } = await import('@wix/ecom');
   await currentCartV2.addLineItemsToCurrentCart({
     catalogItems: [{
       catalogReference: { catalogItemId: productId, appId: STORES_APP_ID, ...(variantId ? { options: { variantId } } : {}) },
@@ -34,7 +37,12 @@ function analyticsAllowed() {
 }
 
 $w.onReady(() => {
+  console.log('Gallery: page code started');
   const el = $w('#jvGallery');
+  if (!el || typeof el.setAttribute !== 'function') {
+    console.error('Gallery: no element with the ID jvGallery on this page. Check the custom element\'s ID.');
+    return;
+  }
   const q = wixLocationFrontend.query;
   if (q.shortlist) el.setAttribute('shared-shortlist', String(q.shortlist).slice(0, 500));
   if (q.print) el.setAttribute('open-print', String(q.print));
