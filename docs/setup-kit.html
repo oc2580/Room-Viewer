@@ -2622,7 +2622,7 @@ const heart = (on) =&gt; ICON_HEART.replace('FILL', on ? 'currentColor' : 'none'
 const Base = typeof HTMLElement === 'undefined' ? class {} : HTMLElement;
 
 class JvGallery extends Base {
-  static get observedAttributes() { return ['rpc-result', 'ready', 'analytics']; }
+  static get observedAttributes() { return ['rpc-result', 'rpc-ack', 'ready', 'analytics']; }
 
   constructor() {
     super();
@@ -2666,11 +2666,17 @@ class JvGallery extends Base {
   }
 
   attributeChangedCallback(name, _old, value) {
+    if (name === 'rpc-ack' &amp;&amp; value) {
+      const p = this.pending.get(value);
+      if (p) { p.acked = true; clearInterval(p.retry); }
+      return;
+    }
     if (name === 'ready' &amp;&amp; value !== null &amp;&amp; this.isConnected) this.init();
     if (name === 'rpc-result' &amp;&amp; value) {
       const res = JSON.parse(value);
       const p = this.pending.get(res.id);
       if (!p) return;
+      clearInterval(p.retry);
       this.pending.delete(res.id);
       if (res.ok) p.resolve(res.result); else p.reject(new Error(res.error || 'Something went wrong.'));
     }
@@ -2680,9 +2686,22 @@ class JvGallery extends Base {
     if (this.rpcHandler) return this.rpcHandler(method, args);
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     return new Promise((resolve, reject) =&gt; {
-      this.pending.set(id, { resolve, reject });
-      this.dispatchEvent(new CustomEvent('jv-rpc', { detail: { id, method, args }, bubbles: true, composed: true }));
-      setTimeout(() =&gt; { if (this.pending.delete(id)) reject(new Error('The Studio could not be reached. Please try again.')); }, 30000);
+      const send = () =&gt; this.dispatchEvent(new CustomEvent('jv-rpc', { detail: { id, method, args }, bubbles: true, composed: true }));
+      // Wix can attach the page code's listener a moment after the element is
+      // told it is ready, so resend until the page code confirms (rpc-ack).
+      const retry = setInterval(() =&gt; {
+        const p = this.pending.get(id);
+        if (p &amp;&amp; !p.acked) send(); else clearInterval(retry);
+      }, 1500);
+      this.pending.set(id, { resolve, reject, retry });
+      send();
+      setTimeout(() =&gt; {
+        const p = this.pending.get(id);
+        if (!p) return;
+        clearInterval(p.retry);
+        this.pending.delete(id);
+        reject(new Error('The Studio could not be reached. Please try again.'));
+      }, 30000);
     });
   }
 
@@ -3588,7 +3607,7 @@ class JvGallery extends Base {
 
 if (typeof customElements !== 'undefined' &amp;&amp; !customElements.get('jv-gallery')) customElements.define('jv-gallery', JvGallery);
 </textarea>
-    <div class="lines">1231 lines</div></div>
+    <div class="lines">1250 lines</div></div>
     <div class="file"><div class="fhead"><div><code>Gallery Tour page code</code><span>Connects the gallery to the backend and the basket</span></div>
     <button class="copy" data-for="f12">Copy</button></div>
     <textarea id="f12" readonly spellcheck="false">// Page &quot;Gallery Tour&quot; (/gallery-tour). Add a Custom Element: Source = Velo file
@@ -3646,8 +3665,13 @@ $w.onReady(() =&gt; {
     wixWindowFrontend.consentPolicy.onConsentPolicyChanged(() =&gt; el.setAttribute('analytics', analyticsAllowed() ? 'on' : 'off'));
   } catch (e) { /* older sites without the consent banner */ }
 
+  const handled = new Set();
   el.on('jv-rpc', async (event) =&gt; {
     const { id, method, args } = event.detail;
+    // The element resends until it sees this acknowledgement; answer each request once.
+    if (handled.has(id)) return;
+    handled.add(id);
+    el.setAttribute('rpc-ack', id);
     const started = Date.now();
     // These lines appear in Developer Tools &gt; Logging Tools, to diagnose problems.
     if (method !== 'logEvents') console.log(`Gallery: ${method} requested`);
@@ -3666,7 +3690,7 @@ $w.onReady(() =&gt; {
   console.log('Gallery: page code ready');
 });
 </textarea>
-    <div class="lines">75 lines</div></div></div></section>
+    <div class="lines">80 lines</div></div></div></section>
 <section id="s3"><label><input type="checkbox" data-step="3"> 4. The Studio console (dashboard page)</label><div class="inner"><ol>
       <li>Open <b>Pages</b> → <b>Dashboard Pages</b> → <b>+ Add Dashboard Page</b>, and name it <b>Gallery</b>.</li>
       <li>Add a <b>Custom Element</b> as before. <b>Choose Source</b> → <b>Velo file</b> → new file <code>jv-console.js</code> with the file below. Tag name <code>jv-console</code>, ID <code>jvConsole</code>, stretched to full width.</li>
@@ -3761,7 +3785,7 @@ audio { height: 32px; vertical-align: middle; max-width: 100%; }
 const Base = typeof HTMLElement === 'undefined' ? class {} : HTMLElement;
 
 class JvConsole extends Base {
-  static get observedAttributes() { return ['rpc-result', 'ready']; }
+  static get observedAttributes() { return ['rpc-result', 'rpc-ack', 'ready']; }
 
   constructor() {
     super();
@@ -3792,11 +3816,17 @@ class JvConsole extends Base {
   }
 
   attributeChangedCallback(name, _o, value) {
+    if (name === 'rpc-ack' &amp;&amp; value) {
+      const p = this.pending.get(value);
+      if (p) { p.acked = true; clearInterval(p.retry); }
+      return;
+    }
     if (name === 'ready' &amp;&amp; value !== null &amp;&amp; this.isConnected &amp;&amp; !this.loaded) this.refreshAll();
     if (name !== 'rpc-result' || !value) return;
     const res = JSON.parse(value);
     const p = this.pending.get(res.id);
     if (!p) return;
+    clearInterval(p.retry);
     this.pending.delete(res.id);
     if (res.ok) p.resolve(res.result); else p.reject(new Error(res.error || 'Request failed'));
   }
@@ -3805,9 +3835,22 @@ class JvConsole extends Base {
     if (this.rpcHandler) return this.rpcHandler(method, args);
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     return new Promise((resolve, reject) =&gt; {
-      this.pending.set(id, { resolve, reject });
-      this.dispatchEvent(new CustomEvent('jv-rpc', { detail: { id, method, args }, bubbles: true, composed: true }));
-      setTimeout(() =&gt; { if (this.pending.delete(id)) reject(new Error('Timed out. Please try again.')); }, 120000);
+      const send = () =&gt; this.dispatchEvent(new CustomEvent('jv-rpc', { detail: { id, method, args }, bubbles: true, composed: true }));
+      // Wix can attach the page code's listener a moment after the element is
+      // told it is ready, so resend until the page code confirms (rpc-ack).
+      const retry = setInterval(() =&gt; {
+        const p = this.pending.get(id);
+        if (p &amp;&amp; !p.acked) send(); else clearInterval(retry);
+      }, 1500);
+      this.pending.set(id, { resolve, reject, retry });
+      send();
+      setTimeout(() =&gt; {
+        const p = this.pending.get(id);
+        if (!p) return;
+        clearInterval(p.retry);
+        this.pending.delete(id);
+        reject(new Error('Timed out. Please try again.'));
+      }, 120000);
     });
   }
 
@@ -4226,7 +4269,7 @@ class JvConsole extends Base {
 
 if (typeof customElements !== 'undefined' &amp;&amp; !customElements.get('jv-console')) customElements.define('jv-console', JvConsole);
 </textarea>
-    <div class="lines">552 lines</div></div>
+    <div class="lines">571 lines</div></div>
     <div class="file"><div class="fhead"><div><code>Dashboard page code</code><span>Connects the console to the backend</span></div>
     <button class="copy" data-for="f14">Copy</button></div>
     <textarea id="f14" readonly spellcheck="false">// Dashboard page &quot;Gallery&quot; (Editor: Pages &gt; Dashboard Pages &gt; Add).
@@ -4245,8 +4288,13 @@ const ALLOWED = [
 
 $w.onReady(() =&gt; {
   const el = $w('#jvConsole');
+  const handled = new Set();
   el.on('jv-rpc', async (event) =&gt; {
     const { id, method, args } = event.detail;
+    // The element resends until it sees this acknowledgement; answer each request once.
+    if (handled.has(id)) return;
+    handled.add(id);
+    el.setAttribute('rpc-ack', id);
     try {
       let fn = ALLOWED.includes(method) ? studio[method] : null;
       if (method === 'draftStoryWithClaude') fn = draftStoryWithClaude;
@@ -4265,7 +4313,7 @@ $w.onReady(() =&gt; {
   el.setAttribute('ready', '');
 });
 </textarea>
-    <div class="lines">36 lines</div></div></div></section>
+    <div class="lines">41 lines</div></div></div></section>
 <section id="s4"><label><input type="checkbox" data-step="4"> 5. Publish and load the stories</label><div class="inner"><ol>
       <li>Click <b>Publish</b>.</li>
       <li>Open your site's <b>Dashboard</b> → the new <b>Gallery</b> page → <b>Story library</b> → <b>Import</b>. The 68 stories (with George's narration) and 5 tours arrive as drafts.</li>

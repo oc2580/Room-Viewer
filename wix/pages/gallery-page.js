@@ -53,8 +53,13 @@ $w.onReady(() => {
     wixWindowFrontend.consentPolicy.onConsentPolicyChanged(() => el.setAttribute('analytics', analyticsAllowed() ? 'on' : 'off'));
   } catch (e) { /* older sites without the consent banner */ }
 
+  const handled = new Set();
   el.on('jv-rpc', async (event) => {
     const { id, method, args } = event.detail;
+    // The element resends until it sees this acknowledgement; answer each request once.
+    if (handled.has(id)) return;
+    handled.add(id);
+    el.setAttribute('rpc-ack', id);
     const started = Date.now();
     // These lines appear in Developer Tools > Logging Tools, to diagnose problems.
     if (method !== 'logEvents') console.log(`Gallery: ${method} requested`);

@@ -14,8 +14,13 @@ const ALLOWED = [
 
 $w.onReady(() => {
   const el = $w('#jvConsole');
+  const handled = new Set();
   el.on('jv-rpc', async (event) => {
     const { id, method, args } = event.detail;
+    // The element resends until it sees this acknowledgement; answer each request once.
+    if (handled.has(id)) return;
+    handled.add(id);
+    el.setAttribute('rpc-ack', id);
     try {
       let fn = ALLOWED.includes(method) ? studio[method] : null;
       if (method === 'draftStoryWithClaude') fn = draftStoryWithClaude;
