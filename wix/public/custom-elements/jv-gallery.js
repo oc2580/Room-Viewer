@@ -555,7 +555,7 @@ class JvGallery extends Base {
     else if (act === 'viewBasket') this.viewBasket();
   }
 
-  // The page code opens the store's own basket page, wherever it lives.
+  // The page code opens the site's side basket, as its basket icon does.
   async viewBasket() {
     try { await this.rpc('openBasket'); } catch (err) { this.toast(esc(err.message)); }
   }

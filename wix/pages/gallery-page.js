@@ -4,7 +4,6 @@
 import wixWindowFrontend from 'wix-window-frontend';
 import wixLocationFrontend from 'wix-location-frontend';
 import wixStoresFrontend from 'wix-stores-frontend';
-import wixEcomFrontend from 'wix-ecom-frontend';
 import {
   getGallery, getPrintOptions, getMyActivity, submitRequest, answerCounterOffer, logEvents,
 } from 'backend/gallery.web';
@@ -29,13 +28,10 @@ async function addToBasket(productId, variantId) {
   return { added: true };
 }
 
-// "View basket": the store's own basket page, or the side basket if that fails.
+// "View basket" opens the side basket, as the site's own basket icon does
+// (the site has no full basket page, so navigating to one shows a 404).
 async function openBasket() {
-  try {
-    await withTimeout(wixEcomFrontend.navigateToCartPage(), 10000, 'The basket page did not open.');
-  } catch (e) {
-    await wixStoresFrontend.cart.showMiniCart();
-  }
+  await wixStoresFrontend.cart.showMiniCart();
   return { opened: true };
 }
 

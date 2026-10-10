@@ -2915,7 +2915,7 @@ class JvGallery extends Base {
     else if (act === 'viewBasket') this.viewBasket();
   }
 
-  // The page code opens the store's own basket page, wherever it lives.
+  // The page code opens the site's side basket, as its basket icon does.
   async viewBasket() {
     try { await this.rpc('openBasket'); } catch (err) { this.toast(esc(err.message)); }
   }
@@ -3626,7 +3626,6 @@ if (typeof customElements !== 'undefined' &amp;&amp; !customElements.get('jv-gal
 import wixWindowFrontend from 'wix-window-frontend';
 import wixLocationFrontend from 'wix-location-frontend';
 import wixStoresFrontend from 'wix-stores-frontend';
-import wixEcomFrontend from 'wix-ecom-frontend';
 import {
   getGallery, getPrintOptions, getMyActivity, submitRequest, answerCounterOffer, logEvents,
 } from 'backend/gallery.web';
@@ -3651,13 +3650,10 @@ async function addToBasket(productId, variantId) {
   return { added: true };
 }
 
-// &quot;View basket&quot;: the store's own basket page, or the side basket if that fails.
+// &quot;View basket&quot; opens the side basket, as the site's own basket icon does
+// (the site has no full basket page, so navigating to one shows a 404).
 async function openBasket() {
-  try {
-    await withTimeout(wixEcomFrontend.navigateToCartPage(), 10000, 'The basket page did not open.');
-  } catch (e) {
-    await wixStoresFrontend.cart.showMiniCart();
-  }
+  await wixStoresFrontend.cart.showMiniCart();
   return { opened: true };
 }
 
@@ -3716,7 +3712,7 @@ $w.onReady(() =&gt; {
   console.log('Gallery: page code ready');
 });
 </textarea>
-    <div class="lines">96 lines</div></div></div></section>
+    <div class="lines">92 lines</div></div></div></section>
 <section id="s3"><label><input type="checkbox" data-step="3"> 4. The Studio console (dashboard page)</label><div class="inner"><ol>
       <li>Open <b>Pages</b> → <b>Dashboard Pages</b> → <b>+ Add Dashboard Page</b>, and name it <b>Gallery</b>.</li>
       <li>Add a <b>Custom Element</b> as before. <b>Choose Source</b> → <b>Velo file</b> → new file <code>jv-console.js</code> with the file below. Tag name <code>jv-console</code>, ID <code>jvConsole</code>, stretched to full width.</li>
