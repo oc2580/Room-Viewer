@@ -1,8 +1,8 @@
 // Generates story narration with ElevenLabs.
 //
 //   node tools/generate-audio.mjs audition            3 candidate voices reading one story
-//   node tools/generate-audio.mjs all --voice=<id>    every story in content/stories
-//   node tools/generate-audio.mjs one <slug> --voice=<id>
+//   node tools/generate-audio.mjs all [--voice=<id>]  every story (default voice: George)
+//   node tools/generate-audio.mjs one <slug> [--voice=<id>]
 //   add --dry-run to see what would be generated without calling the API
 //
 // Needs ELEVENLABS_API_KEY in the environment. Writes MP3s to audio/ and a
@@ -16,12 +16,13 @@ import { createHash } from 'node:crypto';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 // ELEVENLABS_API_BASE is only for testing against a local stand-in server.
 const API = process.env.ELEVENLABS_API_BASE || 'https://api.elevenlabs.io';
-const MODEL = 'eleven_multilingual_v2';
+const MODEL = 'eleven_v4';
 const AUDITION_SLUG = 'young-hearts';
 const SETTINGS = { stability: 0.45, similarity_boost: 0.8, style: 0.2, use_speaker_boost: true };
 
 const args = process.argv.slice(2);
 const mode = args[0];
+const GEORGE = 'JBFqnCBsd6RMkjVDRZzb'; // chosen narrator
 const flag = (name) => (args.find((a) => a.startsWith(`--${name}=`)) || '').split('=')[1];
 const dryRun = args.includes('--dry-run');
 const key = process.env.ELEVENLABS_API_KEY;
@@ -29,7 +30,7 @@ const outDir = join(root, 'audio');
 const manifestPath = join(outDir, 'manifest.json');
 
 if (!['audition', 'all', 'one'].includes(mode)) {
-  console.error('Usage: node tools/generate-audio.mjs audition | all --voice=<id> | one <slug> --voice=<id> [--dry-run]');
+  console.error('Usage: node tools/generate-audio.mjs audition | all [--voice=<id>] | one <slug> [--voice=<id>] [--dry-run]');
   process.exit(1);
 }
 if (!key && !dryRun) {
@@ -40,9 +41,9 @@ if (!key && !dryRun) {
 const stories = JSON.parse(readFileSync(join(root, 'data/stories.json'), 'utf8'));
 const hash = (s) => createHash('sha256').update(s).digest('hex').slice(0, 16);
 
-// Paragraph breaks become short spoken pauses, the way a narrator would read.
+// Blank lines between paragraphs give the narrator a natural pause.
 export function narrationText(transcript) {
-  return transcript.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean).join(' <break time="0.8s" /> ');
+  return transcript.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean).join('\n\n');
 }
 
 async function api(path, init = {}) {
@@ -123,8 +124,7 @@ async function main() {
     return;
   }
 
-  const voice = flag('voice');
-  if (!voice && !dryRun) throw new Error('Pass --voice=<voice id> (from the audition).');
+  const voice = flag('voice') || GEORGE;
   const targets = mode === 'one' ? stories.filter((s) => s.slug === args[1]) : stories;
   if (!targets.length) throw new Error(`No story with slug ${args[1]}`);
   const manifest = loadManifest();

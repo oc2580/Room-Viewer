@@ -17,8 +17,8 @@ export async function synthesiseStory(story) {
       method: 'POST',
       headers: { 'xi-api-key': apiKey, 'Content-Type': 'application/json', Accept: 'audio/mpeg' },
       body: JSON.stringify({
-        // Paragraph breaks become short spoken pauses.
-        text: String(story.transcript).split(/\n\s*\n/).map((x) => x.trim()).filter(Boolean).join(' <break time="0.8s" /> '),
+        // Blank lines between paragraphs give the narrator a natural pause.
+        text: String(story.transcript).split(/\n\s*\n/).map((x) => x.trim()).filter(Boolean).join('\n\n'),
         model_id: ELEVENLABS_MODEL_ID,
         voice_settings: { stability: 0.45, similarity_boost: 0.8, style: 0.2, use_speaker_boost: true },
       }),

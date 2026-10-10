@@ -37,11 +37,10 @@ export const LEAD_POINTS = {
 export const SECRET_ELEVENLABS_KEY = 'ELEVENLABS_API_KEY';
 export const SECRET_ANTHROPIC_KEY = 'ANTHROPIC_API_KEY';
 
-// ElevenLabs stock narrator voice. Pick a warm British/Scottish curator voice
-// from the ElevenLabs library and paste its ID here. Do not use a clone or
-// imitation of Jack Vettriano's own voice.
-export const ELEVENLABS_VOICE_ID = 'REPLACE_WITH_VOICE_ID';
-export const ELEVENLABS_MODEL_ID = 'eleven_multilingual_v2';
+// ElevenLabs stock narrator voice: "George", a warm British storyteller chosen
+// by audition. Do not use a clone or imitation of Jack Vettriano's own voice.
+export const ELEVENLABS_VOICE_ID = 'JBFqnCBsd6RMkjVDRZzb';
+export const ELEVENLABS_MODEL_ID = 'eleven_v4';
 
 // Triggered email IDs (Marketing > Triggered Emails). Leave empty to skip
 // email; requests still appear in the console.

@@ -60,13 +60,16 @@ arrive as `/gallery?shortlist=...`.
 
 ## 5. Voice-over audio (ElevenLabs)
 
-1. Create an ElevenLabs account and choose a stock narrator voice: a warm
-   British or Scottish curator voice works well. Do **not** clone or imitate
-   Jack Vettriano's own voice.
-2. Dashboard > Developer Tools > **Secrets Manager**: add `ELEVENLABS_API_KEY`.
-3. Put the voice's ID in `ELEVENLABS_VOICE_ID` in `gallery.config.js`.
-4. In the Story library, click **Generate audio** on each approved story
-   (about 20 seconds each).
+The narrator is **George**, a stock ElevenLabs voice (warm British
+storyteller) chosen by audition; it is already set in `ELEVENLABS_VOICE_ID`
+in `gallery.config.js`, using the `eleven_v4` model. Do **not** clone or
+imitate Jack Vettriano's own voice.
+
+1. Dashboard > Developer Tools > **Secrets Manager**: add `ELEVENLABS_API_KEY`
+   (needs a paid ElevenLabs plan; all 68 stories take about 67,000 credits).
+2. In the Story library, click **Generate audio** on each approved story
+   (about 20 seconds each). Stories that already have recorded audio keep it
+   until their script changes.
 
 Until a story has audio, visitors can read it as text. Editing an approved
 script takes it out of the gallery until you approve it again, and old audio
