@@ -3,6 +3,7 @@
 // backend. Reservations, offers and questions made in the gallery appear in
 // the console, and replies and counter-offers flow back to the visitor.
 // Data is kept in this browser's localStorage; "Reset demo" starts again.
+import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -14,8 +15,17 @@ const galleryEl = readFileSync(join(root, 'wix/public/custom-elements/jv-gallery
 const consoleEl = readFileSync(join(root, 'wix/public/custom-elements/jv-console.js'), 'utf8');
 
 const size = (v) => (Array.isArray(v) ? v.join(' x ') : '');
-// Recorded narration from tools/generate-audio.mjs, played from ../audio/.
-const recorded = (slug) => (existsSync(join(root, 'audio', `${slug}.mp3`)) ? `../audio/${slug}.mp3` : '');
+// Recorded narration: the copy in the site's Media Manager (data/audio.json) so
+// the demo plays anywhere online, else a local file from generate-audio.mjs.
+// A recording only counts while its script is unchanged.
+const audioPath = join(root, 'data/audio.json');
+const uploaded = existsSync(audioPath) ? JSON.parse(readFileSync(audioPath, 'utf8')) : {};
+const scriptHash = (t) => createHash('sha256').update(String(t)).digest('hex').slice(0, 16);
+const recorded = (s) => {
+  const a = uploaded[s.slug];
+  if (a && a.scriptHash === scriptHash(s.transcript)) return a.url;
+  return existsSync(join(root, 'audio', `${s.slug}.mp3`)) ? `../audio/${s.slug}.mp3` : '';
+};
 const seed = {
   prints: stories.map((s) => ({
     productId: s.id, title: s.title, price: s.price, inStock: s.inStock, ribbon: s.ribbon || '', media: s.media, slug: s.slug,
@@ -24,7 +34,7 @@ const seed = {
       _id: `story-${s.id}`, status: 'approved', transcript: s.transcript, edition: s.edition || '', medium: s.medium || '',
       signed: !!s.signed, imageSizeCm: size(s.imageSizeCm), mountSizeCm: size(s.mountSizeCm), framedSizeCm: size(s.framedSizeCm),
       reviewNotes: s.reviewNotes || '', estDurationSec: s.estDurationSec, themes: s.themes.join(', '),
-      audioUrl: recorded(s.slug),
+      audioUrl: recorded(s),
     },
   })),
   tours: starterTours(stories).map((t, i) => ({ _id: `tour-${i}`, ...t, status: 'live', sortOrder: i })),
@@ -177,7 +187,7 @@ const api = {
     save(); return { ...p.story, productId: p.productId };
   },
   setStoryStatus(id, st) { const p = db.prints.find((x) => x.story && x.story._id === id); if (st === 'approved' && !p.story.transcript.trim()) throw new Error('Write the script before approving it.'); p.story.status = st; save(); return { ...p.story, productId: p.productId }; },
-  generateStoryAudio() { throw new Error('In this offline demo stories are read by your computer\'s voice. Recorded ElevenLabs audio is generated on the live site.'); },
+  generateStoryAudio() { throw new Error('In this demo every story is already recorded. On the live site this button re-records a story after its script is edited.'); },
   draftStoryWithClaude() { throw new Error('Claude drafting runs on the live site.'); },
   listTours: () => db.tours.slice().sort((a, b) => a.sortOrder - b.sortOrder).map((t) => ({ ...t, productIds: [...t.productIds] })),
   saveTour(input) {
@@ -319,7 +329,7 @@ const html = `<!doctype html>
   <span class="spacer"></span>
   <button id="newVisitor" title="Browse as a different visitor, with an empty shortlist">Be a new visitor</button>
   <button id="reset" title="Clear everything you have changed and start again">Reset demo</button>
-  <span class="hint">Runs entirely in this file. Reserve a print, make an offer or ask a question in the gallery, then answer it in the Studio console. Stories are read by your computer's voice, and "Add to basket" is simulated. People marked "Example" are sample data.</span>
+  <span class="hint">Runs in this one file; nothing you do here reaches the live site. Reserve a print, make an offer or ask a question in the gallery, then answer it in the Studio console. Stories are narrated by George (ElevenLabs), print images and narration load from the Studio's Wix site, and "Add to basket" is simulated. People marked "Example" are sample data.</span>
 </div>
 <div id="host"></div>
 <script>(() => {
