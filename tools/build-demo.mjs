@@ -175,6 +175,7 @@ const api = {
     save(); return { logged: events.length };
   },
   addToBasket() { return { added: true }; },
+  openBasket() { return { opened: true }; },
   // ---- studio ----
   listCatalogue: () => db.prints.map((p) => ({ ...summary(p), story: p.story ? { ...p.story, audioCurrent: !!p.story.audioUrl } : null })),
   importStarterContent: () => ({ stories: 0, tours: 0 }),

@@ -7,7 +7,7 @@
 //
 // Attributes: analytics="on" (visitor allowed analytics cookies),
 // shared-shortlist="id,id", open-print="productId", start-tour="slug",
-// cart-url (default /cart-page), speech-fallback (demo only: read stories
+// speech-fallback (demo only: read stories
 // with the browser's voice when no recording exists yet).
 
 // Poppins matches the typeface used across the JVS website.
@@ -201,7 +201,7 @@ textarea { width: 100%; min-height: 100px; background: var(--bg); color: var(--t
 .compare img { width: 110px; height: 135px; object-fit: contain; background: var(--soft); }
 .compare td { font-variant-numeric: tabular-nums; }
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(140px); background: var(--dark); color: #fff; padding: 12px 18px; font-size: 14px; transition: transform .3s; z-index: 60; box-shadow: 0 10px 30px rgba(0,0,0,.25); max-width: calc(100% - 32px); display: flex; gap: 12px; align-items: center; }
-.toast a { color: #fff; font-weight: 500; }
+.toast a, .toast .linkbtn { color: #fff; font-weight: 500; font-size: 14px; padding: 0; }
 .toast.show { transform: translateX(-50%) translateY(0); }
 .vir-grid { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 20px; }
 .stage { position: relative; aspect-ratio: 16 / 10; max-width: 100%; overflow: hidden; background: #e9e2d6; touch-action: none; user-select: none; }
@@ -552,6 +552,12 @@ class JvGallery extends Base {
     else if (act === 'tourPause') this.pauseTour();
     else if (act === 'tourExit') this.closePrint();
     else if (act === 'nextNow') this.step(1);
+    else if (act === 'viewBasket') this.viewBasket();
+  }
+
+  // The page code opens the store's own basket page, wherever it lives.
+  async viewBasket() {
+    try { await this.rpc('openBasket'); } catch (err) { this.toast(esc(err.message)); }
   }
 
   toast(html, ms = 4200) {
@@ -806,8 +812,7 @@ class JvGallery extends Base {
     try {
       await this.rpc('addToBasket', pid, variantId || null);
       this.track('add_to_basket', pid, 1);
-      const cart = this.getAttribute('cart-url') || '/cart-page';
-      this.toast(`Added to your basket. <a href="${esc(cart)}" target="_top">View basket</a>`, 6000);
+      this.toast('Added to your basket. <button class="linkbtn" data-act="viewBasket">View basket</button>', 6000);
     } catch (err) {
       // Fall back to the store's own product page, which always works.
       const p = this.print(pid);
