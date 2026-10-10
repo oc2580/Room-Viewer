@@ -6,23 +6,18 @@ import wixLocationFrontend from 'wix-location-frontend';
 import wixEcomFrontend from 'wix-ecom-frontend';
 import {
   getGallery, getPrintOptions, getMyActivity, submitRequest, answerCounterOffer, logEvents,
+  addToBasket as addToBasketInBackend,
 } from 'backend/gallery.web';
 
 console.log('Gallery: page code loaded');
 
-const STORES_APP_ID = '215238eb-22a5-4c36-9e7b-e7c08025e04e';
-
+// The basket is updated in the backend; then the cart icon is refreshed here.
 async function addToBasket(productId, variantId) {
-  // Loaded only when needed, so the gallery still opens if the package is missing.
-  const { currentCartV2 } = await import('@wix/ecom');
-  await currentCartV2.addLineItemsToCurrentCart({
-    catalogItems: [{
-      catalogReference: { catalogItemId: productId, appId: STORES_APP_ID, ...(variantId ? { options: { variantId } } : {}) },
-      quantity: 1,
-    }],
-  });
-  try { await wixEcomFrontend.refreshCart(); } catch (e) { /* cart icon refreshes on next page */ }
-  return { added: true };
+  const result = await addToBasketInBackend(productId, variantId);
+  // Never let the cart icon refresh hold up the answer to the visitor.
+  const pause = new Promise((resolve) => { setTimeout(resolve, 3000); });
+  try { await Promise.race([wixEcomFrontend.refreshCart(), pause]); } catch (e) { /* refreshes on next page */ }
+  return result;
 }
 
 const METHODS = { getGallery, getPrintOptions, getMyActivity, submitRequest, answerCounterOffer, logEvents, addToBasket };
