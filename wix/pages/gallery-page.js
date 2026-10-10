@@ -47,13 +47,20 @@ $w.onReady(() => {
 
   el.on('jv-rpc', async (event) => {
     const { id, method, args } = event.detail;
+    const started = Date.now();
+    // These lines appear in Developer Tools > Logging Tools, to diagnose problems.
+    if (method !== 'logEvents') console.log(`Gallery: ${method} requested`);
     try {
       if (!METHODS[method]) throw new Error('Unknown action');
       const result = await METHODS[method](...args);
-      el.setAttribute('rpc-result', JSON.stringify({ id, ok: true, result }));
+      const json = JSON.stringify({ id, ok: true, result });
+      if (method !== 'logEvents') console.log(`Gallery: ${method} answered in ${Date.now() - started} ms (${Math.round(json.length / 1024)} KB)`);
+      el.setAttribute('rpc-result', json);
     } catch (err) {
+      console.error(`Gallery: ${method} failed after ${Date.now() - started} ms: ${err.message}`);
       el.setAttribute('rpc-result', JSON.stringify({ id, ok: false, error: err.message }));
     }
   });
   el.setAttribute('ready', '');
+  console.log('Gallery: page code ready');
 });
