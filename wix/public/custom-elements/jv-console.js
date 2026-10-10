@@ -80,7 +80,11 @@ audio { height: 32px; vertical-align: middle; max-width: 100%; }
 @media (max-width: 860px) { .grid2, .grid3, .cols { grid-template-columns: 1fr; } .stats { grid-template-columns: 1fr 1fr; } .app { padding: 14px; } }
 `;
 
-class JvConsole extends HTMLElement {
+// Wix can also load this file where there is no browser page (no window or
+// HTMLElement); everything browser-only below is guarded so that is harmless.
+const Base = typeof HTMLElement === 'undefined' ? class {} : HTMLElement;
+
+class JvConsole extends Base {
   static get observedAttributes() { return ['rpc-result', 'ready']; }
 
   constructor() {
@@ -544,4 +548,4 @@ class JvConsole extends HTMLElement {
   }
 }
 
-if (!customElements.get('jv-console')) customElements.define('jv-console', JvConsole);
+if (typeof customElements !== 'undefined' && !customElements.get('jv-console')) customElements.define('jv-console', JvConsole);

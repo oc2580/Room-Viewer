@@ -254,11 +254,15 @@ function bestVoice() {
     - (/compact|espeak|robot/i.test(v.name) ? 5 : 0);
   return voices.slice().sort((a, b) => score(b) - score(a))[0] || null;
 }
-if (window.speechSynthesis) speechSynthesis.getVoices();
+if (typeof window !== 'undefined' && window.speechSynthesis) speechSynthesis.getVoices();
 
 const heart = (on) => ICON_HEART.replace('FILL', on ? 'currentColor' : 'none');
 
-class JvGallery extends HTMLElement {
+// Wix can also load this file where there is no browser page (no window or
+// HTMLElement); everything browser-only below is guarded so that is harmless.
+const Base = typeof HTMLElement === 'undefined' ? class {} : HTMLElement;
+
+class JvGallery extends Base {
   static get observedAttributes() { return ['rpc-result', 'ready', 'analytics']; }
 
   constructor() {
@@ -1223,4 +1227,4 @@ class JvGallery extends HTMLElement {
   }
 }
 
-if (!customElements.get('jv-gallery')) customElements.define('jv-gallery', JvGallery);
+if (typeof customElements !== 'undefined' && !customElements.get('jv-gallery')) customElements.define('jv-gallery', JvGallery);

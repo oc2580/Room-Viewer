@@ -2610,11 +2610,15 @@ function bestVoice() {
     - (/compact|espeak|robot/i.test(v.name) ? 5 : 0);
   return voices.slice().sort((a, b) =&gt; score(b) - score(a))[0] || null;
 }
-if (window.speechSynthesis) speechSynthesis.getVoices();
+if (typeof window !== 'undefined' &amp;&amp; window.speechSynthesis) speechSynthesis.getVoices();
 
 const heart = (on) =&gt; ICON_HEART.replace('FILL', on ? 'currentColor' : 'none');
 
-class JvGallery extends HTMLElement {
+// Wix can also load this file where there is no browser page (no window or
+// HTMLElement); everything browser-only below is guarded so that is harmless.
+const Base = typeof HTMLElement === 'undefined' ? class {} : HTMLElement;
+
+class JvGallery extends Base {
   static get observedAttributes() { return ['rpc-result', 'ready', 'analytics']; }
 
   constructor() {
@@ -3579,9 +3583,9 @@ class JvGallery extends HTMLElement {
   }
 }
 
-if (!customElements.get('jv-gallery')) customElements.define('jv-gallery', JvGallery);
+if (typeof customElements !== 'undefined' &amp;&amp; !customElements.get('jv-gallery')) customElements.define('jv-gallery', JvGallery);
 </textarea>
-    <div class="lines">1227 lines</div></div>
+    <div class="lines">1231 lines</div></div>
     <div class="file"><div class="fhead"><div><code>Gallery Tour page code</code><span>Connects the gallery to the backend and the basket</span></div>
     <button class="copy" data-for="f12">Copy</button></div>
     <textarea id="f12" readonly spellcheck="false">// Page &quot;Gallery Tour&quot; (/gallery-tour). Add a Custom Element: Source = Velo file
@@ -3734,7 +3738,11 @@ audio { height: 32px; vertical-align: middle; max-width: 100%; }
 @media (max-width: 860px) { .grid2, .grid3, .cols { grid-template-columns: 1fr; } .stats { grid-template-columns: 1fr 1fr; } .app { padding: 14px; } }
 `;
 
-class JvConsole extends HTMLElement {
+// Wix can also load this file where there is no browser page (no window or
+// HTMLElement); everything browser-only below is guarded so that is harmless.
+const Base = typeof HTMLElement === 'undefined' ? class {} : HTMLElement;
+
+class JvConsole extends Base {
   static get observedAttributes() { return ['rpc-result', 'ready']; }
 
   constructor() {
@@ -4198,9 +4206,9 @@ class JvConsole extends HTMLElement {
   }
 }
 
-if (!customElements.get('jv-console')) customElements.define('jv-console', JvConsole);
+if (typeof customElements !== 'undefined' &amp;&amp; !customElements.get('jv-console')) customElements.define('jv-console', JvConsole);
 </textarea>
-    <div class="lines">548 lines</div></div>
+    <div class="lines">552 lines</div></div>
     <div class="file"><div class="fhead"><div><code>Dashboard page code</code><span>Connects the console to the backend</span></div>
     <button class="copy" data-for="f14">Copy</button></div>
     <textarea id="f14" readonly spellcheck="false">// Dashboard page &quot;Gallery&quot; (Editor: Pages &gt; Dashboard Pages &gt; Add).
