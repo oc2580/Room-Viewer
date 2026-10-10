@@ -221,6 +221,20 @@ input[type=range] { width: 100%; accent-color: var(--brass); }
 const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>';
 const ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
 const ICON_HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z" fill="FILL" stroke="currentColor" stroke-width="1.6"/></svg>';
+// Devices ship several voices; the neural ones ("Natural", "Online", "Premium",
+// "Enhanced", Google's) sound far less robotic than the default. Prefer those,
+// British English first.
+function bestVoice() {
+  const voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  const score = (v) => (/en-GB/i.test(v.lang) ? 4 : /^en/i.test(v.lang) ? 1 : -9)
+    + (/natural|neural|online|premium|enhanced/i.test(v.name) ? 6 : 0)
+    + (/google/i.test(v.name) ? 3 : 0)
+    + (/daniel|ryan|thomas|oliver|arthur|george|sonia|libby|serena|kate/i.test(v.name) ? 1 : 0)
+    - (/compact|espeak|robot/i.test(v.name) ? 5 : 0);
+  return voices.slice().sort((a, b) => score(b) - score(a))[0] || null;
+}
+if (window.speechSynthesis) speechSynthesis.getVoices();
+
 const heart = (on) => ICON_HEART.replace('FILL', on ? 'currentColor' : 'none');
 
 class JvGallery extends HTMLElement {
@@ -1033,10 +1047,11 @@ class JvGallery extends HTMLElement {
     this.track('audio_play', pid, 1);
     parts.forEach((text, k) => {
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'en-GB';
-      u.rate = 0.95;
-      const voice = speechSynthesis.getVoices().find((vv) => /en-GB/i.test(vv.lang));
+      const voice = bestVoice();
+      u.lang = voice ? voice.lang : 'en-GB';
       if (voice) u.voice = voice;
+      u.rate = 0.92;
+      u.pitch = 0.95;
       u.onboundary = (ev) => { if (ev.name === 'word') this.progress(pid, (done + text.slice(0, ev.charIndex).split(/\s+/).length) / total); };
       u.onend = () => {
         if (pl.cancelled) return;

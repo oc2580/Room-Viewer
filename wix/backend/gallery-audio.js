@@ -17,9 +17,10 @@ export async function synthesiseStory(story) {
       method: 'POST',
       headers: { 'xi-api-key': apiKey, 'Content-Type': 'application/json', Accept: 'audio/mpeg' },
       body: JSON.stringify({
-        text: story.transcript,
+        // Paragraph breaks become short spoken pauses.
+        text: String(story.transcript).split(/\n\s*\n/).map((x) => x.trim()).filter(Boolean).join(' <break time="0.8s" /> '),
         model_id: ELEVENLABS_MODEL_ID,
-        voice_settings: { stability: 0.55, similarity_boost: 0.75, style: 0.15, use_speaker_boost: true },
+        voice_settings: { stability: 0.45, similarity_boost: 0.8, style: 0.2, use_speaker_boost: true },
       }),
     }
   );

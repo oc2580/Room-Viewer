@@ -3,7 +3,7 @@
 // backend. Reservations, offers and questions made in the gallery appear in
 // the console, and replies and counter-offers flow back to the visitor.
 // Data is kept in this browser's localStorage; "Reset demo" starts again.
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { starterTours } from './tours.mjs';
@@ -14,6 +14,8 @@ const galleryEl = readFileSync(join(root, 'wix/public/custom-elements/jv-gallery
 const consoleEl = readFileSync(join(root, 'wix/public/custom-elements/jv-console.js'), 'utf8');
 
 const size = (v) => (Array.isArray(v) ? v.join(' x ') : '');
+// Recorded narration from tools/generate-audio.mjs, played from ../audio/.
+const recorded = (slug) => (existsSync(join(root, 'audio', `${slug}.mp3`)) ? `../audio/${slug}.mp3` : '');
 const seed = {
   prints: stories.map((s) => ({
     productId: s.id, title: s.title, price: s.price, inStock: s.inStock, ribbon: s.ribbon || '', media: s.media, slug: s.slug,
@@ -22,6 +24,7 @@ const seed = {
       _id: `story-${s.id}`, status: 'approved', transcript: s.transcript, edition: s.edition || '', medium: s.medium || '',
       signed: !!s.signed, imageSizeCm: size(s.imageSizeCm), mountSizeCm: size(s.mountSizeCm), framedSizeCm: size(s.framedSizeCm),
       reviewNotes: s.reviewNotes || '', estDurationSec: s.estDurationSec, themes: s.themes.join(', '),
+      audioUrl: recorded(s.slug),
     },
   })),
   tours: starterTours(stories).map((t, i) => ({ _id: `tour-${i}`, ...t, status: 'live', sortOrder: i })),
@@ -29,7 +32,7 @@ const seed = {
 
 const backend = String.raw`
 const SEED = __SEED__;
-const KEY = 'jv-gallery-demo-v1';
+const KEY = 'jv-gallery-demo-v2';
 const HOLD_HOURS = 48;
 const MIN_OFFER_SHARE = 0.7;
 const THEMES = ['By the sea', 'After dark', 'Romance', 'Quiet moments', 'Style & society', 'Portraits', 'Final editions', 'Rare editions'];
@@ -115,7 +118,7 @@ const api = {
       else if (mine.some((r) => r.productId === p.productId && r.type === 'hold' && r.status === 'pending')) availability = 'hold_pending';
       const st = p.story;
       return { ...summary(p), themes: themesOf(p), availability, holdExpiresAt: hold && l && hold.leadId === l._id ? hold.holdExpiresAt : null,
-        story: { transcript: st.transcript, audioUrl: '', estDurationSec: st.estDurationSec, edition: st.edition, medium: st.medium, signed: st.signed,
+        story: { transcript: st.transcript, audioUrl: st.audioUrl || '', estDurationSec: st.estDurationSec, edition: st.edition, medium: st.medium, signed: st.signed,
           imageSizeCm: parseSize(st.imageSizeCm), mountSizeCm: parseSize(st.mountSizeCm), framedSizeCm: parseSize(st.framedSizeCm) } };
     }).sort((a, b) => a.title.localeCompare(b.title));
     const onShow = new Set(prints.map((p) => p.productId));
@@ -163,7 +166,7 @@ const api = {
   },
   addToBasket() { return { added: true }; },
   // ---- studio ----
-  listCatalogue: () => db.prints.map((p) => ({ ...summary(p), story: p.story ? { ...p.story, audioUrl: '', audioCurrent: false } : null })),
+  listCatalogue: () => db.prints.map((p) => ({ ...summary(p), story: p.story ? { ...p.story, audioCurrent: !!p.story.audioUrl } : null })),
   importStarterContent: () => ({ stories: 0, tours: 0 }),
   addStory(pid) { const p = product(pid); p.story = p.story || { _id: 'story-' + pid, status: 'draft', transcript: '', themes: '' }; if (p.story.status === 'removed') p.story.status = 'draft'; save(); return { ...p.story, productId: pid }; },
   saveStory(id, ch) {
