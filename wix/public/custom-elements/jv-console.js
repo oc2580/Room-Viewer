@@ -503,7 +503,7 @@ class JvConsole extends HTMLElement {
       const res = await this.run(b, () => this.rpc('importStarterContent'));
       if (res) {
         [s.catalogue, s.tours] = await Promise.all([this.rpc('listCatalogue'), this.rpc('listTours')]);
-        this.toast(`Imported ${res.stories} stories and ${res.tours} tours as drafts`);
+        this.toast(`Imported ${res.stories} stories and ${res.tours} tours as drafts${res.audio ? `; added recorded narration to ${res.audio} existing stories` : ''}`);
         this.render();
       }
     } else if (d.storyFilter) { s.storyFilter = d.storyFilter; this.render(); }

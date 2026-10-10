@@ -50,7 +50,15 @@ export const importStarterContent = webMethod(Permissions.Admin, async () => {
   const newTours = STARTER_TOURS.filter((t) => !haveTour.has(t.slug));
   for (let i = 0; i < newStories.length; i += 50) await wixData.bulkInsert(COLLECTIONS.stories, newStories.slice(i, i + 50), AUTH);
   if (newTours.length) await wixData.bulkInsert(COLLECTIONS.tours, newTours, AUTH);
-  return { stories: newStories.length, tours: newTours.length };
+  // Stories imported earlier pick up recorded narration if their script still
+  // matches the recording and they have no current audio of their own.
+  const seedBySlug = new Map(STARTER_STORIES.filter((s) => s.audioUrl).map((s) => [s.productId, s]));
+  const withAudio = stories.filter((s) => {
+    const seed = seedBySlug.get(s.productId);
+    return seed && seed.audioScriptHash === hash(s.transcript) && s.audioScriptHash !== hash(s.transcript);
+  }).map((s) => ({ ...s, audioUrl: seedBySlug.get(s.productId).audioUrl, audioScriptHash: hash(s.transcript), audioGeneratedAt: now() }));
+  for (let i = 0; i < withAudio.length; i += 50) await wixData.bulkUpdate(COLLECTIONS.stories, withAudio.slice(i, i + 50), AUTH);
+  return { stories: newStories.length, tours: newTours.length, audio: withAudio.length };
 });
 
 export const addStory = webMethod(Permissions.Admin, async (productId) => {
