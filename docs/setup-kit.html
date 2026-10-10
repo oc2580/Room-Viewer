@@ -129,8 +129,9 @@ export function hash(text) {
   return crypto.createHash('sha256').update(String(text)).digest('hex').slice(0, 16);
 }
 
+// Pages of 100: the most Wix allows for app collections such as Stores/Products.
 export async function queryAll(query) {
-  let res = await query.limit(1000).find(AUTH);
+  let res = await query.limit(100).find(AUTH);
   const items = [...res.items];
   while (res.hasNext()) {
     res = await res.next();
@@ -217,7 +218,7 @@ export async function findLeadByVisitor(visitorId) {
   return res.items[0] || null;
 }
 </textarea>
-    <div class="lines">121 lines</div></div><div class="file"><div class="fhead"><div><code>backend/gallery.web.js</code><span>What visitors can do: see the gallery, prices, reserve, offer, ask, analytics</span></div>
+    <div class="lines">122 lines</div></div><div class="file"><div class="fhead"><div><code>backend/gallery.web.js</code><span>What visitors can do: see the gallery, prices, reserve, offer, ask, analytics</span></div>
     <button class="copy" data-for="f3">Copy</button></div>
     <textarea id="f3" readonly spellcheck="false">// Visitor-facing web methods for the public gallery. Anyone can call these.
 // A visitor is identified only by a random ID kept in their browser; they
@@ -443,7 +444,6 @@ import {
   now, parseIds, parseThemes, productSummary, queryAll,
 } from 'backend/gallery-lib';
 import { updateVisitor } from 'backend/gallery-notify';
-import { synthesiseStory } from 'backend/gallery-audio';
 import { STARTER_STORIES, STARTER_TOURS } from 'backend/gallery-seed';
 
 const STORY_STATUSES = ['draft', 'approved', 'removed'];
@@ -537,6 +537,9 @@ export const setStoryStatus = webMethod(Permissions.Admin, async (storyId, statu
 export const generateStoryAudio = webMethod(Permissions.Admin, async (storyId) =&gt; {
   const story = await wixData.get(COLLECTIONS.stories, storyId, AUTH);
   if (!story || story.status !== 'approved') throw new Error('Approve the script before generating audio.');
+  // Loaded only when needed, so the rest of the console works even if the
+  // media packages are missing.
+  const { synthesiseStory } = await import('backend/gallery-audio');
   const audioUrl = await synthesiseStory(story);
   return wixData.update(COLLECTIONS.stories, { ...story, audioUrl, audioScriptHash: hash(story.transcript), audioGeneratedAt: now() }, AUTH);
 });
@@ -772,7 +775,7 @@ export const getInsights = webMethod(Permissions.Admin, async (days = 30) =&gt; 
   };
 });
 </textarea>
-    <div class="lines">340 lines</div></div><div class="file"><div class="fhead"><div><code>backend/gallery-notify.js</code><span>Email notifications (switched on later)</span></div>
+    <div class="lines">342 lines</div></div><div class="file"><div class="fhead"><div><code>backend/gallery-notify.js</code><span>Email notifications (switched on later)</span></div>
     <button class="copy" data-for="f5">Copy</button></div>
     <textarea id="f5" readonly spellcheck="false">// Email notifications via Wix Triggered Emails. Best-effort: a missing
 // template or contact never blocks a visitor's request.

@@ -9,7 +9,6 @@ import {
   now, parseIds, parseThemes, productSummary, queryAll,
 } from 'backend/gallery-lib';
 import { updateVisitor } from 'backend/gallery-notify';
-import { synthesiseStory } from 'backend/gallery-audio';
 import { STARTER_STORIES, STARTER_TOURS } from 'backend/gallery-seed';
 
 const STORY_STATUSES = ['draft', 'approved', 'removed'];
@@ -103,6 +102,9 @@ export const setStoryStatus = webMethod(Permissions.Admin, async (storyId, statu
 export const generateStoryAudio = webMethod(Permissions.Admin, async (storyId) => {
   const story = await wixData.get(COLLECTIONS.stories, storyId, AUTH);
   if (!story || story.status !== 'approved') throw new Error('Approve the script before generating audio.');
+  // Loaded only when needed, so the rest of the console works even if the
+  // media packages are missing.
+  const { synthesiseStory } = await import('backend/gallery-audio');
   const audioUrl = await synthesiseStory(story);
   return wixData.update(COLLECTIONS.stories, { ...story, audioUrl, audioScriptHash: hash(story.transcript), audioGeneratedAt: now() }, AUTH);
 });

@@ -31,8 +31,9 @@ export function hash(text) {
   return crypto.createHash('sha256').update(String(text)).digest('hex').slice(0, 16);
 }
 
+// Pages of 100: the most Wix allows for app collections such as Stores/Products.
 export async function queryAll(query) {
-  let res = await query.limit(1000).find(AUTH);
+  let res = await query.limit(100).find(AUTH);
   const items = [...res.items];
   while (res.hasNext()) {
     res = await res.next();
