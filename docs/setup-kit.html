@@ -496,6 +496,27 @@ export const importStarterContent = webMethod(Permissions.Admin, async () =&gt; 
   return { stories: newStories.length, tours: newTours.length, audio: withAudio.length };
 });
 
+// Puts back the exact starter script for stories whose recording no longer
+// matches their script (for example a script that was altered on import), so
+// the recording plays again. Only touches stories still linked to the
+// starter recording.
+export const restoreRecordedScripts = webMethod(Permissions.Admin, async () =&gt; {
+  const seedById = new Map(STARTER_STORIES.filter((s) =&gt; s.audioUrl).map((s) =&gt; [s.productId, s]));
+  const stories = await queryAll(wixData.query(COLLECTIONS.stories));
+  const fixed = stories.filter((s) =&gt; {
+    const seed = seedById.get(s.productId);
+    return seed &amp;&amp; s.audioUrl === seed.audioUrl &amp;&amp; hash(s.transcript) !== seed.audioScriptHash;
+  }).map((s) =&gt; {
+    const seed = seedById.get(s.productId);
+    return {
+      ...s, transcript: seed.transcript, wordCount: seed.wordCount, estDurationSec: seed.estDurationSec,
+      audioScriptHash: seed.audioScriptHash,
+    };
+  });
+  for (let i = 0; i &lt; fixed.length; i += 50) await wixData.bulkUpdate(COLLECTIONS.stories, fixed.slice(i, i + 50), AUTH);
+  return { restored: fixed.length };
+});
+
 export const addStory = webMethod(Permissions.Admin, async (productId) =&gt; {
   const existing = await wixData.query(COLLECTIONS.stories).eq('productId', productId).find(AUTH);
   if (existing.items.length) {
@@ -776,7 +797,7 @@ export const getInsights = webMethod(Permissions.Admin, async (days = 30) =&gt; 
   };
 });
 </textarea>
-    <div class="lines">342 lines</div></div><div class="file"><div class="fhead"><div><code>backend/gallery-notify.js</code><span>Email notifications (switched on later)</span></div>
+    <div class="lines">363 lines</div></div><div class="file"><div class="fhead"><div><code>backend/gallery-notify.js</code><span>Email notifications (switched on later)</span></div>
     <button class="copy" data-for="f5">Copy</button></div>
     <textarea id="f5" readonly spellcheck="false">// Email notifications via Wix Triggered Emails. Best-effort: a missing
 // template or contact never blocks a visitor's request.
@@ -4097,6 +4118,7 @@ class JvConsole extends Base {
       &lt;/tr&gt;${open &amp;&amp; st ? `&lt;tr&gt;&lt;td colspan=&quot;5&quot;&gt;${this.storyEditorHtml(p)}&lt;/td&gt;&lt;/tr&gt;` : ''}`;
     }).join('');
     return `${s.catalogue.length &amp;&amp; !s.catalogue.some((p) =&gt; p.story) ? `&lt;div class=&quot;card&quot; style=&quot;background:#fbf4e6;border-color:#f0dfbd&quot;&gt;&lt;div class=&quot;row spread&quot;&gt;&lt;div&gt;&lt;strong&gt;Import the starter content&lt;/strong&gt;&lt;div class=&quot;muted&quot;&gt;68 curator scripts with themes, and five guided tours. Everything arrives as a draft for you to check, approve and publish.&lt;/div&gt;&lt;/div&gt;&lt;button class=&quot;b gold&quot; data-import&gt;Import&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;` : ''}
+      ${(() =&gt; { const n = s.catalogue.filter((p) =&gt; p.story &amp;&amp; p.story.audioUrl &amp;&amp; !p.story.audioCurrent).length; return n ? `&lt;div class=&quot;card&quot; style=&quot;background:#fbf4e6;border-color:#f0dfbd&quot;&gt;&lt;div class=&quot;row spread&quot;&gt;&lt;div&gt;&lt;strong&gt;${n} ${n === 1 ? 'story has' : 'stories have'} a recording that no longer matches the script&lt;/strong&gt;&lt;div class=&quot;muted&quot;&gt;Restore the script each one was recorded from, so George's narration plays again. Scripts you have rewritten yourself need new audio instead.&lt;/div&gt;&lt;/div&gt;&lt;button class=&quot;b gold&quot; data-restore-scripts&gt;Restore recorded scripts&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;` : ''; })()}
       &lt;div class=&quot;row spread&quot;&gt;&lt;h2&gt;Story library&lt;/h2&gt;&lt;input class=&quot;t&quot; style=&quot;max-width:240px&quot; placeholder=&quot;Search prints&quot; data-story-query value=&quot;${esc(s.storyQuery)}&quot;&gt;&lt;/div&gt;
       &lt;div class=&quot;row&quot; style=&quot;margin-bottom:12px&quot;&gt;${tab('all', 'All')}${tab('approved', 'On show')}${tab('draft', 'Drafts')}${tab('none', 'No story yet')}${tab('removed', 'Hidden')}&lt;/div&gt;
       &lt;p class=&quot;muted&quot;&gt;A print appears in the gallery once its story is approved. Hide a print to take it out of the gallery and tours; its story is kept and can be restored.&lt;/p&gt;
@@ -4252,6 +4274,13 @@ class JvConsole extends Base {
       this.confirmDelete = false;
       const ok = await this.run(b, () =&gt; this.rpc('deleteTour', s.tour._id), 'Tour deleted');
       if (ok) { s.tours = await this.rpc('listTours'); s.tour = null; this.render(); }
+    } else if ('restoreScripts' in d) {
+      const res = await this.run(b, () =&gt; this.rpc('restoreRecordedScripts'));
+      if (res) {
+        s.catalogue = await this.rpc('listCatalogue');
+        this.toast(res.restored ? `Restored ${res.restored} ${res.restored === 1 ? 'script' : 'scripts'}; their narration plays again` : 'Nothing to restore: these scripts have been rewritten since recording, so they need new audio');
+        this.render();
+      }
     } else if ('import' in d) {
       const res = await this.run(b, () =&gt; this.rpc('importStarterContent'));
       if (res) {
@@ -4291,7 +4320,7 @@ class JvConsole extends Base {
 
 if (typeof customElements !== 'undefined' &amp;&amp; !customElements.get('jv-console')) customElements.define('jv-console', JvConsole);
 </textarea>
-    <div class="lines">571 lines</div></div>
+    <div class="lines">579 lines</div></div>
     <div class="file"><div class="fhead"><div><code>Dashboard page code</code><span>Connects the console to the backend</span></div>
     <button class="copy" data-for="f14">Copy</button></div>
     <textarea id="f14" readonly spellcheck="false">// Dashboard page &quot;Gallery&quot; (Editor: Pages &gt; Dashboard Pages &gt; Add).
@@ -4303,7 +4332,7 @@ import * as studio from 'backend/gallery-console.web';
 import { draftStoryWithClaude } from 'backend/gallery-claude.web';
 
 const ALLOWED = [
-  'listCatalogue', 'importStarterContent', 'addStory', 'saveStory', 'setStoryStatus', 'generateStoryAudio',
+  'listCatalogue', 'importStarterContent', 'restoreRecordedScripts', 'addStory', 'saveStory', 'setStoryStatus', 'generateStoryAudio',
   'listTours', 'saveTour', 'setTourStatus', 'deleteTour',
   'listLeads', 'getLeadDetail', 'updateLead', 'listRequests', 'respondToRequest', 'getInsights',
 ];

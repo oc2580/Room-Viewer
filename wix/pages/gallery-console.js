@@ -7,7 +7,7 @@ import * as studio from 'backend/gallery-console.web';
 import { draftStoryWithClaude } from 'backend/gallery-claude.web';
 
 const ALLOWED = [
-  'listCatalogue', 'importStarterContent', 'addStory', 'saveStory', 'setStoryStatus', 'generateStoryAudio',
+  'listCatalogue', 'importStarterContent', 'restoreRecordedScripts', 'addStory', 'saveStory', 'setStoryStatus', 'generateStoryAudio',
   'listTours', 'saveTour', 'setTourStatus', 'deleteTour',
   'listLeads', 'getLeadDetail', 'updateLead', 'listRequests', 'respondToRequest', 'getInsights',
 ];

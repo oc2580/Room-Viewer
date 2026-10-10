@@ -179,6 +179,7 @@ const api = {
   // ---- studio ----
   listCatalogue: () => db.prints.map((p) => ({ ...summary(p), story: p.story ? { ...p.story, audioCurrent: !!p.story.audioUrl } : null })),
   importStarterContent: () => ({ stories: 0, tours: 0 }),
+  restoreRecordedScripts: () => ({ restored: 0 }),
   addStory(pid) { const p = product(pid); p.story = p.story || { _id: 'story-' + pid, status: 'draft', transcript: '', themes: '' }; if (p.story.status === 'removed') p.story.status = 'draft'; save(); return { ...p.story, productId: pid }; },
   saveStory(id, ch) {
     const p = db.prints.find((x) => x.story && x.story._id === id);

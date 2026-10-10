@@ -60,6 +60,27 @@ export const importStarterContent = webMethod(Permissions.Admin, async () => {
   return { stories: newStories.length, tours: newTours.length, audio: withAudio.length };
 });
 
+// Puts back the exact starter script for stories whose recording no longer
+// matches their script (for example a script that was altered on import), so
+// the recording plays again. Only touches stories still linked to the
+// starter recording.
+export const restoreRecordedScripts = webMethod(Permissions.Admin, async () => {
+  const seedById = new Map(STARTER_STORIES.filter((s) => s.audioUrl).map((s) => [s.productId, s]));
+  const stories = await queryAll(wixData.query(COLLECTIONS.stories));
+  const fixed = stories.filter((s) => {
+    const seed = seedById.get(s.productId);
+    return seed && s.audioUrl === seed.audioUrl && hash(s.transcript) !== seed.audioScriptHash;
+  }).map((s) => {
+    const seed = seedById.get(s.productId);
+    return {
+      ...s, transcript: seed.transcript, wordCount: seed.wordCount, estDurationSec: seed.estDurationSec,
+      audioScriptHash: seed.audioScriptHash,
+    };
+  });
+  for (let i = 0; i < fixed.length; i += 50) await wixData.bulkUpdate(COLLECTIONS.stories, fixed.slice(i, i + 50), AUTH);
+  return { restored: fixed.length };
+});
+
 export const addStory = webMethod(Permissions.Admin, async (productId) => {
   const existing = await wixData.query(COLLECTIONS.stories).eq('productId', productId).find(AUTH);
   if (existing.items.length) {

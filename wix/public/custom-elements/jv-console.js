@@ -375,6 +375,7 @@ class JvConsole extends Base {
       </tr>${open && st ? `<tr><td colspan="5">${this.storyEditorHtml(p)}</td></tr>` : ''}`;
     }).join('');
     return `${s.catalogue.length && !s.catalogue.some((p) => p.story) ? `<div class="card" style="background:#fbf4e6;border-color:#f0dfbd"><div class="row spread"><div><strong>Import the starter content</strong><div class="muted">68 curator scripts with themes, and five guided tours. Everything arrives as a draft for you to check, approve and publish.</div></div><button class="b gold" data-import>Import</button></div></div>` : ''}
+      ${(() => { const n = s.catalogue.filter((p) => p.story && p.story.audioUrl && !p.story.audioCurrent).length; return n ? `<div class="card" style="background:#fbf4e6;border-color:#f0dfbd"><div class="row spread"><div><strong>${n} ${n === 1 ? 'story has' : 'stories have'} a recording that no longer matches the script</strong><div class="muted">Restore the script each one was recorded from, so George's narration plays again. Scripts you have rewritten yourself need new audio instead.</div></div><button class="b gold" data-restore-scripts>Restore recorded scripts</button></div></div>` : ''; })()}
       <div class="row spread"><h2>Story library</h2><input class="t" style="max-width:240px" placeholder="Search prints" data-story-query value="${esc(s.storyQuery)}"></div>
       <div class="row" style="margin-bottom:12px">${tab('all', 'All')}${tab('approved', 'On show')}${tab('draft', 'Drafts')}${tab('none', 'No story yet')}${tab('removed', 'Hidden')}</div>
       <p class="muted">A print appears in the gallery once its story is approved. Hide a print to take it out of the gallery and tours; its story is kept and can be restored.</p>
@@ -530,6 +531,13 @@ class JvConsole extends Base {
       this.confirmDelete = false;
       const ok = await this.run(b, () => this.rpc('deleteTour', s.tour._id), 'Tour deleted');
       if (ok) { s.tours = await this.rpc('listTours'); s.tour = null; this.render(); }
+    } else if ('restoreScripts' in d) {
+      const res = await this.run(b, () => this.rpc('restoreRecordedScripts'));
+      if (res) {
+        s.catalogue = await this.rpc('listCatalogue');
+        this.toast(res.restored ? `Restored ${res.restored} ${res.restored === 1 ? 'script' : 'scripts'}; their narration plays again` : 'Nothing to restore: these scripts have been rewritten since recording, so they need new audio');
+        this.render();
+      }
     } else if ('import' in d) {
       const res = await this.run(b, () => this.rpc('importStarterContent'));
       if (res) {
