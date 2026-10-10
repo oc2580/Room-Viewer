@@ -65,11 +65,17 @@ storyteller) chosen by audition; it is already set in `ELEVENLABS_VOICE_ID`
 in `gallery.config.js`, using the `eleven_v4` model. Do **not** clone or
 imitate Jack Vettriano's own voice.
 
+All 68 starter stories are already recorded in George's voice and stored in
+the site's Media Manager (`gallery-story-<slug>.mp3`; list in
+`data/audio.json`). **Import starter content** brings each story in with its
+recording attached, so nothing needs generating to launch.
+
+To re-record a story after editing its script:
+
 1. Dashboard > Developer Tools > **Secrets Manager**: add `ELEVENLABS_API_KEY`
-   (needs a paid ElevenLabs plan; all 68 stories take about 67,000 credits).
-2. In the Story library, click **Generate audio** on each approved story
-   (about 20 seconds each). Stories that already have recorded audio keep it
-   until their script changes.
+   (paid ElevenLabs plan; about 1,000 credits per story).
+2. In the Story library, click **Generate audio** on the approved story
+   (about 20 seconds).
 
 Until a story has audio, visitors can read it as text. Editing an approved
 script takes it out of the gallery until you approve it again, and old audio

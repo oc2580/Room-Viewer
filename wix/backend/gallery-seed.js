@@ -15,7 +15,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 155,
   "estDurationSec": 62,
-  "themes": "Quiet moments"
+  "themes": "Quiet moments",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_6f346d177575439ea14b577446e90b16.mp3",
+  "audioScriptHash": "74a95a3a6ec71692"
  },
  {
   "productId": "599277a8-f61e-53fb-a52d-6aa976e4aa10",
@@ -32,7 +34,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Ribbon says Framed - confirm framed dimensions for view-in-room.",
   "wordCount": 175,
   "estDurationSec": 70,
-  "themes": "Quiet moments"
+  "themes": "Quiet moments",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_c260fab89c024a9bb55933fe9b27b6cd.mp3",
+  "audioScriptHash": "2bcf499b3b10ff78"
  },
  {
   "productId": "982ee5ac-b3bc-c002-0d8c-ae494544c7ec",
@@ -49,7 +53,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 172,
   "estDurationSec": 69,
-  "themes": "Quiet moments"
+  "themes": "Quiet moments",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_4aeccb665a3548a1982dda17fe50c6b0.mp3",
+  "audioScriptHash": "3bf68a6485458f65"
  },
  {
   "productId": "f4a4ec85-bf96-4e83-9408-1ba168758012",
@@ -66,7 +72,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 153,
   "estDurationSec": 61,
-  "themes": "After dark, Romance"
+  "themes": "After dark, Romance",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_822bdca3e207411a9b0556a78229fd60.mp3",
+  "audioScriptHash": "b75492d420b1d62f"
  },
  {
   "productId": "10071409-8d27-c900-ff44-740f51894d86",
@@ -83,7 +91,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 162,
   "estDurationSec": 65,
-  "themes": "After dark"
+  "themes": "After dark",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_bc9fd53e9623406c99b756085b99df88.mp3",
+  "audioScriptHash": "28cd61d44187b874"
  },
  {
   "productId": "bb248dbd-e5bf-2282-bebb-4c1bd4470188",
@@ -100,7 +110,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 169,
   "estDurationSec": 68,
-  "themes": "Style & society"
+  "themes": "Style & society",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_9ae497b1fe3b444099a754052d931d00.mp3",
+  "audioScriptHash": "7bf9e5eeda5d8ee9"
  },
  {
   "productId": "692a583f-4949-f362-a009-1fb93b4128d1",
@@ -117,7 +129,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 158,
   "estDurationSec": 63,
-  "themes": "Style & society"
+  "themes": "Style & society",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_ee827e1ac6f245ad81add9ad76ac2b95.mp3",
+  "audioScriptHash": "5875c841ea3a330e"
  },
  {
   "productId": "061496dd-2eb6-986f-8fa1-635b5ed3b854",
@@ -134,7 +148,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Source copy is brief; script stays close to it.",
   "wordCount": 171,
   "estDurationSec": 68,
-  "themes": "After dark, Rare editions"
+  "themes": "After dark, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_d37c87b84618428a8f27c293295eb2da.mp3",
+  "audioScriptHash": "3a09a4ca1cf28752"
  },
  {
   "productId": "d495a8f8-0228-f488-cd01-729da205fb03",
@@ -151,7 +167,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "No sizes in product copy - add for view-in-room.",
   "wordCount": 170,
   "estDurationSec": 68,
-  "themes": "After dark, Quiet moments"
+  "themes": "After dark, Quiet moments",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_86f045d8bcc4489885552775af12b477.mp3",
+  "audioScriptHash": "b6bdab06773f52e6"
  },
  {
   "productId": "26a63353-95f9-3e81-604b-e8cca3006324",
@@ -168,7 +186,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Source copy has almost no detail about the painting itself - Studio may wish to add a line from the blog post.",
   "wordCount": 178,
   "estDurationSec": 71,
-  "themes": "After dark, Rare editions"
+  "themes": "After dark, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_ec98d14e1c3640cd9d72465d5e055968.mp3",
+  "audioScriptHash": "6a3109081379cb24"
  },
  {
   "productId": "73436e8f-6e6a-7fb1-36a6-d2fe34e69c5e",
@@ -185,7 +205,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 164,
   "estDurationSec": 66,
-  "themes": "Quiet moments"
+  "themes": "Quiet moments",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_21f451d978834233bf110357edfff68b.mp3",
+  "audioScriptHash": "a79e5a4b6ec6cd34"
  },
  {
   "productId": "0820eab4-1380-e3b8-53f4-007939b89335",
@@ -202,7 +224,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Product copy mentions both a 1994 'World Tour of Scotland' series and the People's Palace murals - Studio to confirm the commission history before recording. Script keeps to the safest facts.",
   "wordCount": 157,
   "estDurationSec": 63,
-  "themes": "Portraits"
+  "themes": "Portraits",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_e8faf09e8c0947668960238b1ff412d4.mp3",
+  "audioScriptHash": "7f633417f0fad0ba"
  },
  {
   "productId": "374bdc00-545e-43b9-4d82-b6df5693ac56",
@@ -219,7 +243,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 170,
   "estDurationSec": 68,
-  "themes": "Quiet moments"
+  "themes": "Quiet moments",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_a40ab1ccaae14bba85a2f306952930dc.mp3",
+  "audioScriptHash": "631f1aafe3441f38"
  },
  {
   "productId": "56263ef1-c0c1-e770-2926-ad8bf52a5700",
@@ -236,7 +262,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 180,
   "estDurationSec": 72,
-  "themes": "After dark, Style & society"
+  "themes": "After dark, Style & society",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_8b9b83dd24cf4606946b0a7abdc697e2.mp3",
+  "audioScriptHash": "d8287128b8b7ceb0"
  },
  {
   "productId": "29120bb5-682a-d9a4-3247-2f5d9632fa4d",
@@ -253,7 +281,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 172,
   "estDurationSec": 69,
-  "themes": "After dark"
+  "themes": "After dark",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_917fbb09a2d1425da362fb236d3eca25.mp3",
+  "audioScriptHash": "3a0369f67ab1e1b0"
  },
  {
   "productId": "a40f6c22-3067-f84d-275c-025fd182f1ad",
@@ -270,7 +300,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 159,
   "estDurationSec": 64,
-  "themes": "After dark"
+  "themes": "After dark",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_5337006a27ac4a5ea116c8839954f1cb.mp3",
+  "audioScriptHash": "44a23052d6089bcb"
  },
  {
   "productId": "d26ba0eb-cb70-bee6-57b1-a424fcabb39b",
@@ -287,7 +319,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 159,
   "estDurationSec": 64,
-  "themes": "Quiet moments"
+  "themes": "Quiet moments",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_86ee77f4afeb4783a11f5fcd272350ec.mp3",
+  "audioScriptHash": "95ad9a943e6d2d1c"
  },
  {
   "productId": "c6b56789-4c97-b603-b4c5-e0e4b92ad350",
@@ -304,7 +338,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 164,
   "estDurationSec": 66,
-  "themes": "By the sea"
+  "themes": "By the sea",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_bb35fd6cd0144602b58e26170c3352a7.mp3",
+  "audioScriptHash": "d68d18e42d8eec9c"
  },
  {
   "productId": "e722c9b0-b96b-e8ca-4f56-907a2d4b691b",
@@ -321,7 +357,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 178,
   "estDurationSec": 71,
-  "themes": "Quiet moments"
+  "themes": "Quiet moments",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_f4d4ce2c777248a0bea315854c82d7d5.mp3",
+  "audioScriptHash": "541af06b0a470177"
  },
  {
   "productId": "14fccf88-569f-1ea9-41eb-beb4fd4008a4",
@@ -338,7 +376,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Photograph of the artist by Ian McIlgorm, not a Vettriano painting - script reflects this.",
   "wordCount": 158,
   "estDurationSec": 63,
-  "themes": "Portraits"
+  "themes": "Portraits",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_b673339fd3d24fd7be98af5670a3d833.mp3",
+  "audioScriptHash": "fadb1b45045410ee"
  },
  {
   "productId": "b8929944-7a73-9987-1462-daaaa6ad10a5",
@@ -355,7 +395,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 180,
   "estDurationSec": 72,
-  "themes": "After dark, Rare editions"
+  "themes": "After dark, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_24651bd92faa44c399839ad434c39415.mp3",
+  "audioScriptHash": "94643ec9e1c28686"
  },
  {
   "productId": "666d1c91-4127-d060-1a59-6daf4adf5260",
@@ -372,7 +414,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 169,
   "estDurationSec": 68,
-  "themes": "Style & society"
+  "themes": "Style & society",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_15256841074348e0852fd68b26d16beb.mp3",
+  "audioScriptHash": "df248a895b41c389"
  },
  {
   "productId": "44e7f6a7-0958-1a2a-5051-b06c4e2d018d",
@@ -389,7 +433,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 203,
   "estDurationSec": 81,
-  "themes": "Style & society, Rare editions"
+  "themes": "Style & society, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_876697a2a0fd453181237af65d63b4fe.mp3",
+  "audioScriptHash": "e0dba1225209e6fa"
  },
  {
   "productId": "3f7de79f-e526-8bf4-ca05-5717d4559504",
@@ -406,7 +452,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 155,
   "estDurationSec": 62,
-  "themes": "Romance, Rare editions"
+  "themes": "Romance, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_8bf0e542d8f64dadb558452b945b7974.mp3",
+  "audioScriptHash": "c8eef2f354ea35db"
  },
  {
   "productId": "ef6e2e1e-5830-185f-b28b-17685b88f636",
@@ -423,7 +471,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 175,
   "estDurationSec": 70,
-  "themes": "Romance, Rare editions"
+  "themes": "Romance, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_ee334bf957834b71a772fb2697213689.mp3",
+  "audioScriptHash": "5592084ff6cea1e6"
  },
  {
   "productId": "6e9e1a5d-ed72-99b5-23b7-711c4847ee51",
@@ -440,7 +490,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 204,
   "estDurationSec": 82,
-  "themes": "Rare editions"
+  "themes": "Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_381ae3e9dcf74ec89ee37ae25bd19295.mp3",
+  "audioScriptHash": "2ac4bc1a89f79b44"
  },
  {
   "productId": "acd35c06-6607-fff2-fe55-ebeea69fa396",
@@ -457,7 +509,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Edition size and dimensions not in product copy - add for provenance panel and view-in-room. Mature theme; suggest only including for collectors who've shown interest in the Red Room works.",
   "wordCount": 176,
   "estDurationSec": 70,
-  "themes": "After dark"
+  "themes": "After dark",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_79290adf6551410abcaa12885c66dc91.mp3",
+  "audioScriptHash": "59ab9ec601ecc9c7"
  },
  {
   "productId": "a067f80c-d8df-40e2-072d-149be9a2c08f",
@@ -474,7 +528,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 180,
   "estDurationSec": 72,
-  "themes": "Style & society"
+  "themes": "Style & society",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_908b61ad8cfe46bd84acb8a55b4ca5d4.mp3",
+  "audioScriptHash": "01efde64d9bcf7bf"
  },
  {
   "productId": "e80713f0-af3f-f323-8d35-9b15a3da16b8",
@@ -491,7 +547,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 177,
   "estDurationSec": 71,
-  "themes": "Romance, After dark"
+  "themes": "Romance, After dark",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_ea8c4ce8048c4764893e24ab96656f8a.mp3",
+  "audioScriptHash": "ad033170b5f11e88"
  },
  {
   "productId": "4b8795fc-5beb-54ff-8595-2a6f3ef27a0a",
@@ -508,7 +566,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 193,
   "estDurationSec": 77,
-  "themes": "After dark, Rare editions"
+  "themes": "After dark, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_42c2c88551ae4e1d9abde4ee140ae8f9.mp3",
+  "audioScriptHash": "be6fdd50a233781d"
  },
  {
   "productId": "678c5ed0-7d61-d6cc-ce57-e5ea1a613a32",
@@ -525,7 +585,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Edition size not in product copy - add for provenance panel.",
   "wordCount": 204,
   "estDurationSec": 82,
-  "themes": "After dark, Rare editions"
+  "themes": "After dark, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_3dbf5e9fda8541388489c7aa2f859b20.mp3",
+  "audioScriptHash": "8b38218b071f0539"
  },
  {
   "productId": "fc67cb0b-4d3b-2a1d-9c05-224107d4562a",
@@ -542,7 +604,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Ribbon says 'Studio Proof' but copy describes the 250 edition - Studio to confirm which this example is before recording.",
   "wordCount": 199,
   "estDurationSec": 80,
-  "themes": "Style & society, Rare editions"
+  "themes": "Style & society, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_b5feb4b534d342029749c3cfcb15120b.mp3",
+  "audioScriptHash": "d7143ad770508485"
  },
  {
   "productId": "66203236-7c4d-8fb8-5267-f840f9188863",
@@ -559,7 +623,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 151,
   "estDurationSec": 60,
-  "themes": "Romance"
+  "themes": "Romance",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_47d6a83cb27c49f9b6ae3c4e40bd5819.mp3",
+  "audioScriptHash": "d5360d42b4059bfe"
  },
  {
   "productId": "101027d8-6821-fb1d-bd79-5f04309a0e84",
@@ -576,7 +642,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 185,
   "estDurationSec": 74,
-  "themes": "Portraits, Style & society"
+  "themes": "Portraits, Style & society",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_ae5840b8011a480e8e68f98ce633982e.mp3",
+  "audioScriptHash": "1a2c1de0fc557e7a"
  },
  {
   "productId": "987c56d4-d78b-993a-7733-a56bfce5ef29",
@@ -593,7 +661,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 201,
   "estDurationSec": 80,
-  "themes": "By the sea, Rare editions"
+  "themes": "By the sea, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_fa9095724e714f4b9aff596398662f69.mp3",
+  "audioScriptHash": "f063cca600ca5a5f"
  },
  {
   "productId": "3ac11ed9-6f5b-89f1-b126-6e52ba6fdde8",
@@ -610,7 +680,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Framed size not in product copy - confirm for view-in-room.",
   "wordCount": 181,
   "estDurationSec": 72,
-  "themes": "Quiet moments, Rare editions"
+  "themes": "Quiet moments, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_0f8f8b0a275140ce86779f1efaadfb1b.mp3",
+  "audioScriptHash": "e6aa169d6ae8da4d"
  },
  {
   "productId": "e0762be1-68d4-cddc-5262-9407895d4949",
@@ -627,7 +699,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Product copy says 'Price on application' but listing is priced at GBP 7,995 - Studio to reconcile. Mature theme. View-in-room should show five frames.",
   "wordCount": 188,
   "estDurationSec": 75,
-  "themes": "After dark, Rare editions"
+  "themes": "After dark, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_ac4191f7e8de4de4b58db5afd2e1bd6b.mp3",
+  "audioScriptHash": "5b3b10f497668be9"
  },
  {
   "productId": "0a3569c2-6e81-5aee-c7ad-4bf5de982c0e",
@@ -644,7 +718,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Nude figure study - consider audience.",
   "wordCount": 170,
   "estDurationSec": 68,
-  "themes": "After dark"
+  "themes": "After dark",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_3f79e7e37f554f19865e510eae1b540c.mp3",
+  "audioScriptHash": "d78e0993a5b67439"
  },
  {
   "productId": "9a04f59e-107f-15c8-6245-d14ad579638e",
@@ -661,7 +737,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 173,
   "estDurationSec": 69,
-  "themes": "Romance, Rare editions"
+  "themes": "Romance, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_281c24578f4e4dfc8ddff721a16b373b.mp3",
+  "audioScriptHash": "f52cf48c55cef138"
  },
  {
   "productId": "8f9b8973-a31f-d686-52b7-e23fe81e1715",
@@ -678,7 +756,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "A separate POA listing exists for signed/AP Mad Dogs (8fce8fa9) - not in this list as it has no price.",
   "wordCount": 169,
   "estDurationSec": 68,
-  "themes": "By the sea"
+  "themes": "By the sea",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_968c2053d1fe4c48b3f01bb5bd3889b2.mp3",
+  "audioScriptHash": "3c064e2265aeef65"
  },
  {
   "productId": "667b4ae6-0803-2adc-8fd5-cc8480831b3e",
@@ -695,7 +775,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 177,
   "estDurationSec": 71,
-  "themes": "After dark"
+  "themes": "After dark",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_26fde10f5f224dc691590da96486ffbf.mp3",
+  "audioScriptHash": "656472ebe1cfdcee"
  },
  {
   "productId": "83b1e547-40bc-1f9f-241b-8a3566643bff",
@@ -712,7 +794,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 168,
   "estDurationSec": 67,
-  "themes": "Style & society"
+  "themes": "Style & society",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_a09e9fbef2c64584af77fa63554fee6a.mp3",
+  "audioScriptHash": "d4fd8fe17088cb0e"
  },
  {
   "productId": "3f71056b-811b-92a9-2813-edbf795db4ae",
@@ -729,7 +813,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 166,
   "estDurationSec": 66,
-  "themes": "Style & society"
+  "themes": "Style & society",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_489438ddcb9f4d1ea80a19736829bade.mp3",
+  "audioScriptHash": "0fe36c6f03d88a9a"
  },
  {
   "productId": "7e368157-4957-88d1-3f93-666715d69add",
@@ -746,7 +832,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Edition size not in product copy - add for provenance panel.",
   "wordCount": 167,
   "estDurationSec": 67,
-  "themes": "Style & society, Quiet moments"
+  "themes": "Style & society, Quiet moments",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_aa37c40be2494e659db0d815162c9c9f.mp3",
+  "audioScriptHash": "57a26833a364f5d3"
  },
  {
   "productId": "592c3959-942c-7952-4c3c-76266258f6d7",
@@ -763,7 +851,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Cannot ship to EU or Northern Ireland (GPSR) - director should check collector location.",
   "wordCount": 173,
   "estDurationSec": 69,
-  "themes": "By the sea, Final editions"
+  "themes": "By the sea, Final editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_d38b32e1cb86415ba41de91ad8890c0b.mp3",
+  "audioScriptHash": "d5f7e0f9023db02c"
  },
  {
   "productId": "e67c8c86-4494-ad8c-c1cb-5a410b5c8130",
@@ -780,7 +870,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 185,
   "estDurationSec": 74,
-  "themes": "After dark"
+  "themes": "After dark",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_0d9e70774cab44bf8cd43548df7075a8.mp3",
+  "audioScriptHash": "2794bcb81d2c8869"
  },
  {
   "productId": "119a373c-23b7-06af-3613-192d5db80225",
@@ -797,7 +889,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Product copy says 'Price on application' but the listing is priced at GBP 1,650 - Studio to reconcile. Edition number/size of the held example needed for provenance panel.",
   "wordCount": 188,
   "estDurationSec": 75,
-  "themes": "After dark, Romance"
+  "themes": "After dark, Romance",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_0f6fde2b95324c6686d85ebb4f51c213.mp3",
+  "audioScriptHash": "3aa36c465ba305b1"
  },
  {
   "productId": "ef7cc510-0dab-e2a7-caad-07113ec75267",
@@ -814,7 +908,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Edition size not in product copy - add for provenance panel.",
   "wordCount": 186,
   "estDurationSec": 74,
-  "themes": "After dark, Romance"
+  "themes": "After dark, Romance",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_b517f2c5396e47a39a1d6d525359a33b.mp3",
+  "audioScriptHash": "3fa8cf49adeca2b9"
  },
  {
   "productId": "b0afab77-2ad4-3ad3-abd9-59ddd1593e83",
@@ -831,7 +927,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 176,
   "estDurationSec": 70,
-  "themes": "Style & society"
+  "themes": "Style & society",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_a632462f0fb64ea0a346ed4090c90b32.mp3",
+  "audioScriptHash": "ed36ba3a7a821f3b"
  },
  {
   "productId": "368a3d1b-b3e4-1a93-bd0c-11bb58b3ea4a",
@@ -848,7 +946,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 167,
   "estDurationSec": 67,
-  "themes": "By the sea, Rare editions"
+  "themes": "By the sea, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_f78c7633eea24fc58e2fb32393101957.mp3",
+  "audioScriptHash": "71d7944d23bf9033"
  },
  {
   "productId": "77c9e91e-6db4-4241-c6f5-90a9093257cb",
@@ -865,7 +965,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Open edition, no COA listed - script avoids implying signature or limitation. View-in-room should show three panels side by side.",
   "wordCount": 184,
   "estDurationSec": 74,
-  "themes": "By the sea"
+  "themes": "By the sea",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_4f871feb2b1d4ef5a64b8f46ab131428.mp3",
+  "audioScriptHash": "63e46db7314010dc"
  },
  {
   "productId": "add3fd82-1318-149d-ba4a-9a175a326907",
@@ -882,7 +984,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Product copy has little on the painting itself - Studio may want to add a line from the blog post.",
   "wordCount": 169,
   "estDurationSec": 68,
-  "themes": "Style & society"
+  "themes": "Style & society",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_a739d735899d40c7a6dffb47db71cb40.mp3",
+  "audioScriptHash": "c5c7c8abfb80c44d"
  },
  {
   "productId": "015d1a01-b566-9aa7-1d0a-c067ba3d5b67",
@@ -899,7 +1003,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "See note on the framed Blue Gown listing about differing descriptions.",
   "wordCount": 194,
   "estDurationSec": 78,
-  "themes": "Quiet moments, Style & society"
+  "themes": "Quiet moments, Style & society",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_6101d1926ce7405d8766124f44befe20.mp3",
+  "audioScriptHash": "87f47671f7376ff4"
  },
  {
   "productId": "d2bec85f-f3a5-f0c6-3c79-d923258b03cd",
@@ -916,7 +1022,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "The two Blue Gown listings describe the composition differently (back to viewer at mirror vs holding gown before mirror) and give slightly different sizes - Studio to confirm before recording.",
   "wordCount": 157,
   "estDurationSec": 63,
-  "themes": "Quiet moments, Style & society"
+  "themes": "Quiet moments, Style & society",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_430edd6d15104e33bf2a4a59106a3180.mp3",
+  "audioScriptHash": "98b171f0087779b1"
  },
  {
   "productId": "a6b2c741-0dbb-a817-052a-f1f70053af3b",
@@ -933,7 +1041,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Five-piece set - view-in-room should show five sheets.",
   "wordCount": 188,
   "estDurationSec": 75,
-  "themes": "Quiet moments"
+  "themes": "Quiet moments",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_c31d24e78c944f45868454ef82653281.mp3",
+  "audioScriptHash": "d4bd8dd167e9ba30"
  },
  {
   "productId": "8b4517a2-0a5a-84b2-fec5-f62d4389857b",
@@ -950,7 +1060,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Product copy says 'Price on application' but listing is priced at GBP 625 - Studio to reconcile.",
   "wordCount": 182,
   "estDurationSec": 73,
-  "themes": "Style & society"
+  "themes": "Style & society",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_863e5f7217d74b88bfb643145a205e36.mp3",
+  "audioScriptHash": "d403846e8cf39aab"
  },
  {
   "productId": "6fc5b2cb-7077-bb23-6eca-6d47dc0c21eb",
@@ -967,7 +1079,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 184,
   "estDurationSec": 74,
-  "themes": "Romance, By the sea"
+  "themes": "Romance, By the sea",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_2d5ed003d17b4d60b24dda86dc14e47e.mp3",
+  "audioScriptHash": "481d8387cd7bba8c"
  },
  {
   "productId": "0d4dfd33-07f0-70a1-1635-96e4fe3d98de",
@@ -984,7 +1098,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Framed size (83 x 98) reads portrait while image size (30 x 24) reads landscape-ambiguous - confirm orientation for view-in-room.",
   "wordCount": 196,
   "estDurationSec": 78,
-  "themes": "Quiet moments, Rare editions"
+  "themes": "Quiet moments, Rare editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_533ac61a1aec4940bbe6fb6cc2ce2621.mp3",
+  "audioScriptHash": "2dc811bfb5c6c7d9"
  },
  {
   "productId": "10a47393-e4b1-4471-4ae6-59b3f27645f6",
@@ -1001,7 +1117,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 168,
   "estDurationSec": 67,
-  "themes": "Romance"
+  "themes": "Romance",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_3cd38a28d944416e9bfe0a79f4be1119.mp3",
+  "audioScriptHash": "d01014ba75ae50ed"
  },
  {
   "productId": "0a7b5641-6bc2-6654-605d-1ee7fc46b7d3",
@@ -1018,7 +1136,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 171,
   "estDurationSec": 68,
-  "themes": "Romance"
+  "themes": "Romance",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_52f80769f45a4238baf7a8bcaa16285d.mp3",
+  "audioScriptHash": "997b2d242c3a9d77"
  },
  {
   "productId": "551c0ac5-2f75-32a2-4ce7-b02f856223f6",
@@ -1035,7 +1155,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 192,
   "estDurationSec": 77,
-  "themes": "Final editions"
+  "themes": "Final editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_09217c919c424fc29da0164db7ebcca1.mp3",
+  "audioScriptHash": "fcd6a8a8ace3ca7f"
  },
  {
   "productId": "43c31f09-d23a-1ff1-4363-b5df66a06876",
@@ -1052,7 +1174,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 192,
   "estDurationSec": 77,
-  "themes": "After dark"
+  "themes": "After dark",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_b129574b30214fe5b8321c041a416be1.mp3",
+  "audioScriptHash": "35c7b7e6a490d4f0"
  },
  {
   "productId": "343c13e9-3175-bc44-820a-e806954c3769",
@@ -1069,7 +1193,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "Four-piece set - view-in-room should show four frames.",
   "wordCount": 168,
   "estDurationSec": 67,
-  "themes": "By the sea"
+  "themes": "By the sea",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_64dd1b10ca4749c696b1a59696a6b2eb.mp3",
+  "audioScriptHash": "d53a9d5016ff661e"
  },
  {
   "productId": "f343f2b8-1f83-72df-6394-d9793dd261c7",
@@ -1086,7 +1212,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 162,
   "estDurationSec": 65,
-  "themes": "Romance"
+  "themes": "Romance",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_95ab4db9031042428850aefc1dc71b74.mp3",
+  "audioScriptHash": "583ec4a200ef7cf6"
  },
  {
   "productId": "5c84030c-4049-7b96-b391-5e2bff25120c",
@@ -1103,7 +1231,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 162,
   "estDurationSec": 65,
-  "themes": "Portraits"
+  "themes": "Portraits",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_fa6e3bd1def244288e9e962d16d37d3f.mp3",
+  "audioScriptHash": "3cf5cb548fea0883"
  },
  {
   "productId": "1a8307f9-8f0b-d118-731f-6bb8d4385f17",
@@ -1120,7 +1250,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 143,
   "estDurationSec": 57,
-  "themes": "Romance"
+  "themes": "Romance",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_09629fc70c094d66a7b66293a280ada2.mp3",
+  "audioScriptHash": "816394f84433eb38"
  },
  {
   "productId": "1be66a27-fa93-4a54-eef3-87f10a625ca1",
@@ -1137,7 +1269,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 163,
   "estDurationSec": 65,
-  "themes": "After dark"
+  "themes": "After dark",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_7f4f1e5f03c847338c755feb82ba7ad6.mp3",
+  "audioScriptHash": "905773e1d3f048d1"
  },
  {
   "productId": "7c4eeb6e-5e03-a00d-6ca3-6de25a181359",
@@ -1154,7 +1288,9 @@ export const STARTER_STORIES = [
   "reviewNotes": "",
   "wordCount": 172,
   "estDurationSec": 69,
-  "themes": "By the sea, Romance, Final editions"
+  "themes": "By the sea, Romance, Final editions",
+  "audioUrl": "https://music.wixstatic.com/mp3/5f58c4_f656ee9ddc63475fb3e82d123b525406.mp3",
+  "audioScriptHash": "4a10ffbecdcd6db3"
  }
 ];
 

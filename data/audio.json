@@ -1,0 +1,478 @@
+{
+  "afternoon-reverie": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_6f346d177575439ea14b577446e90b16.mp3",
+    "scriptHash": "74a95a3a6ec71692",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 976804
+  },
+  "baby-bye-bye": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_c260fab89c024a9bb55933fe9b27b6cd.mp3",
+    "scriptHash": "2bcf499b3b10ff78",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1085891
+  },
+  "beautiful-dreamer": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_4aeccb665a3548a1982dda17fe50c6b0.mp3",
+    "scriptHash": "3bf68a6485458f65",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1095922
+  },
+  "betrayal-first-kiss": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_822bdca3e207411a9b0556a78229fd60.mp3",
+    "scriptHash": "b75492d420b1d62f",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1005225
+  },
+  "betrayal-no-turning-back": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_bc9fd53e9623406c99b756085b99df88.mp3",
+    "scriptHash": "28cd61d44187b874",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 999792
+  },
+  "birdy": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_9ae497b1fe3b444099a754052d931d00.mp3",
+    "scriptHash": "7bf9e5eeda5d8ee9",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1058724
+  },
+  "black-on-blonde": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_ee827e1ac6f245ad81add9ad76ac2b95.mp3",
+    "scriptHash": "5875c841ea3a330e",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 983491
+  },
+  "cocktails-broken-hearts": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_d37c87b84618428a8f27c293295eb2da.mp3",
+    "scriptHash": "3a09a4ca1cf28752",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1123925
+  },
+  "contemplation-of-betrayal": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_86f045d8bcc4489885552775af12b477.mp3",
+    "scriptHash": "b6bdab06773f52e6",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1081712
+  },
+  "dancer-for-money": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_ec98d14e1c3640cd9d72465d5e055968.mp3",
+    "scriptHash": "6a3109081379cb24",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1077950
+  },
+  "days-of-wine-and-roses": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_21f451d978834233bf110357edfff68b.mp3",
+    "scriptHash": "a79e5a4b6ec6cd34",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1067919
+  },
+  "dr-connolly-i-presume": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_e8faf09e8c0947668960238b1ff412d4.mp3",
+    "scriptHash": "7f633417f0fad0ba",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1023197
+  },
+  "edinburgh-afternoon": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_a40ab1ccaae14bba85a2f306952930dc.mp3",
+    "scriptHash": "631f1aafe3441f38",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1054962
+  },
+  "evening-of-ritual": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_8b9b83dd24cf4606946b0a7abdc697e2.mp3",
+    "scriptHash": "d8287128b8b7ceb0",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1038244
+  },
+  "exit-eden": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_917fbb09a2d1425da362fb236d3eca25.mp3",
+    "scriptHash": "3a0369f67ab1e1b0",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1053708
+  },
+  "fetish": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_5337006a27ac4a5ea116c8839954f1cb.mp3",
+    "scriptHash": "44a23052d6089bcb",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1011494
+  },
+  "heat-wave": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_86ee77f4afeb4783a11f5fcd272350ec.mp3",
+    "scriptHash": "95ad9a943e6d2d1c",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 970534
+  },
+  "her-secret-life": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_bb35fd6cd0144602b58e26170c3352a7.mp3",
+    "scriptHash": "d68d18e42d8eec9c",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1006479
+  },
+  "in-thoughts-of-you": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_f4d4ce2c777248a0bea315854c82d7d5.mp3",
+    "scriptHash": "541af06b0a470177",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1116402
+  },
+  "jack-vettriano-portrait-by-ian-mcilgorm": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_b673339fd3d24fd7be98af5670a3d833.mp3",
+    "scriptHash": "fadb1b45045410ee",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1005225
+  },
+  "jack-vettriano-print-an-imperfect-past": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_24651bd92faa44c399839ad434c39415.mp3",
+    "scriptHash": "94643ec9e1c28686",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1140644
+  },
+  "jack-vettriano-print-angel": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_15256841074348e0852fd68b26d16beb.mp3",
+    "scriptHash": "df248a895b41c389",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 983491
+  },
+  "jack-vettriano-print-arrangement-in-red-white-and-blue": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_876697a2a0fd453181237af65d63b4fe.mp3",
+    "scriptHash": "e0dba1225209e6fa",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1181604
+  },
+  "jack-vettriano-print-at-last-my-lovely": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_8bf0e542d8f64dadb558452b945b7974.mp3",
+    "scriptHash": "c8eef2f354ea35db",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 966773
+  },
+  "jack-vettriano-print-bird-on-the-wire": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_ee334bf957834b71a772fb2697213689.mp3",
+    "scriptHash": "5592084ff6cea1e6",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1061232
+  },
+  "jack-vettriano-print-bluebird-at-bonneville": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_381ae3e9dcf74ec89ee37ae25bd19295.mp3",
+    "scriptHash": "2ac4bc1a89f79b44",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1233013
+  },
+  "jack-vettriano-print-heaven-or-hell": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_79290adf6551410abcaa12885c66dc91.mp3",
+    "scriptHash": "59ab9ec601ecc9c7",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1082965
+  },
+  "jack-vettriano-print-lucky-seven": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_908b61ad8cfe46bd84acb8a55b4ca5d4.mp3",
+    "scriptHash": "01efde64d9bcf7bf",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1074188
+  },
+  "jack-vettriano-print-lunchtime-lovers": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_ea8c4ce8048c4764893e24ab96656f8a.mp3",
+    "scriptHash": "ad033170b5f11e88",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1131867
+  },
+  "jack-vettriano-print-night-calls-artist-proof": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_42c2c88551ae4e1d9abde4ee140ae8f9.mp3",
+    "scriptHash": "be6fdd50a233781d",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1131867
+  },
+  "jack-vettriano-print-night-time-rituals": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_3dbf5e9fda8541388489c7aa2f859b20.mp3",
+    "scriptHash": "8b38218b071f0539",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1243044
+  },
+  "jack-vettriano-print-on-parade": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_b5feb4b534d342029749c3cfcb15120b.mp3",
+    "scriptHash": "d7143ad770508485",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1187037
+  },
+  "jack-vettriano-print-pincer-movement": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_47d6a83cb27c49f9b6ae3c4e40bd5819.mp3",
+    "scriptHash": "d5360d42b4059bfe",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 947547
+  },
+  "jack-vettriano-print-portrait-in-black-and-pearl": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_ae5840b8011a480e8e68f98ce633982e.mp3",
+    "scriptHash": "1a2c1de0fc557e7a",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1144405
+  },
+  "jack-vettriano-print-the-missing-man-ii": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_fa9095724e714f4b9aff596398662f69.mp3",
+    "scriptHash": "f063cca600ca5a5f",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1257254
+  },
+  "jack-vettriano-print-yesterdays-dreams": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_0f8f8b0a275140ce86779f1efaadfb1b.mp3",
+    "scriptHash": "e6aa169d6ae8da4d",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1148585
+  },
+  "jack-vettriano-the-red-room-collection": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_ac4191f7e8de4de4b58db5afd2e1bd6b.mp3",
+    "scriptHash": "5b3b10f497668be9",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1217548
+  },
+  "just-the-way-it-is": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_3f79e7e37f554f19865e510eae1b540c.mp3",
+    "scriptHash": "d78e0993a5b67439",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1052454
+  },
+  "love-italia": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_281c24578f4e4dfc8ddff721a16b373b.mp3",
+    "scriptHash": "f52cf48c55cef138",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1084637
+  },
+  "mad-dogs": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_968c2053d1fe4c48b3f01bb5bd3889b2.mp3",
+    "scriptHash": "3c064e2265aeef65",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1064157
+  },
+  "man-of-mystery": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_26fde10f5f224dc691590da96486ffbf.mp3",
+    "scriptHash": "656472ebe1cfdcee",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1052454
+  },
+  "master-of-ceremonies": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_a09e9fbef2c64584af77fa63554fee6a.mp3",
+    "scriptHash": "d4fd8fe17088cb0e",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1024451
+  },
+  "model-in-westwood": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_489438ddcb9f4d1ea80a19736829bade.mp3",
+    "scriptHash": "0fe36c6f03d88a9a",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 974296
+  },
+  "morning-news": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_aa37c40be2494e659db0d815162c9c9f.mp3",
+    "scriptHash": "57a26833a364f5d3",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1026959
+  },
+  "narcissistic-bathers": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_d38b32e1cb86415ba41de91ad8890c0b.mp3",
+    "scriptHash": "d5f7e0f9023db02c",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1122672
+  },
+  "night-calls": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_0d9e70774cab44bf8cd43548df7075a8.mp3",
+    "scriptHash": "2794bcb81d2c8869",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1102192
+  },
+  "night-geometry": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_0f6fde2b95324c6686d85ebb4f51c213.mp3",
+    "scriptHash": "3aa36c465ba305b1",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1107625
+  },
+  "night-in-the-city": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_b517f2c5396e47a39a1d6d525359a33b.mp3",
+    "scriptHash": "3fa8cf49adeca2b9",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1108879
+  },
+  "queen-of-the-waltzers": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_a632462f0fb64ea0a346ed4090c90b32.mp3",
+    "scriptHash": "ed36ba3a7a821f3b",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1047439
+  },
+  "scorched": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_f78c7633eea24fc58e2fb32393101957.mp3",
+    "scriptHash": "71d7944d23bf9033",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1106371
+  },
+  "summer-days-triptych": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_4f871feb2b1d4ef5a64b8f46ab131428.mp3",
+    "scriptHash": "63e46db7314010dc",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1146077
+  },
+  "the-billy-boys": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_a739d735899d40c7a6dffb47db71cb40.mp3",
+    "scriptHash": "c5c7c8abfb80c44d",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 979312
+  },
+  "the-blue-gown-1": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_6101d1926ce7405d8766124f44befe20.mp3",
+    "scriptHash": "87f47671f7376ff4",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1103445
+  },
+  "the-blue-gown": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_430edd6d15104e33bf2a4a59106a3180.mp3",
+    "scriptHash": "98b171f0087779b1",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 946293
+  },
+  "the-contemplation-series": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_c31d24e78c944f45868454ef82653281.mp3",
+    "scriptHash": "d4bd8dd167e9ba30",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1208771
+  },
+  "the-devoted-dressmaker": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_863e5f7217d74b88bfb643145a205e36.mp3",
+    "scriptHash": "d403846e8cf39aab",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1120164
+  },
+  "the-last-great-romantic": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_2d5ed003d17b4d60b24dda86dc14e47e.mp3",
+    "scriptHash": "481d8387cd7bba8c",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1081712
+  },
+  "the-letter": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_533ac61a1aec4940bbe6fb6cc2ce2621.mp3",
+    "scriptHash": "2dc811bfb5c6c7d9",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1159870
+  },
+  "the-look-of-love": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_3cd38a28d944416e9bfe0a79f4be1119.mp3",
+    "scriptHash": "d01014ba75ae50ed",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1011494
+  },
+  "the-runaways": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_52f80769f45a4238baf7a8bcaa16285d.mp3",
+    "scriptHash": "997b2d242c3a9d77",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1044931
+  },
+  "the-sailor-s-toy": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_09217c919c424fc29da0164db7ebcca1.mp3",
+    "scriptHash": "fcd6a8a8ace3ca7f",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1148585
+  },
+  "the-sparrow-and-the-hawk": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_b129574b30214fe5b8321c041a416be1.mp3",
+    "scriptHash": "35c7b7e6a490d4f0",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1141898
+  },
+  "the-tuiga-collection": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_64dd1b10ca4749c696b1a59696a6b2eb.mp3",
+    "scriptHash": "d53a9d5016ff661e",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1147331
+  },
+  "the-very-thought-of-you": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_95ab4db9031042428850aefc1dc71b74.mp3",
+    "scriptHash": "583ec4a200ef7cf6",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 946293
+  },
+  "the-weight": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_fa6e3bd1def244288e9e962d16d37d3f.mp3",
+    "scriptHash": "3cf5cb548fea0883",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 964265
+  },
+  "waltzers": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_09629fc70c094d66a7b66293a280ada2.mp3",
+    "scriptHash": "816394f84433eb38",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 928321
+  },
+  "wicked-games": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_7f4f1e5f03c847338c755feb82ba7ad6.mp3",
+    "scriptHash": "905773e1d3f048d1",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 976804
+  },
+  "young-hearts": {
+    "url": "https://music.wixstatic.com/mp3/5f58c4_f656ee9ddc63475fb3e82d123b525406.mp3",
+    "scriptHash": "4a10ffbecdcd6db3",
+    "voice": "George (JBFqnCBsd6RMkjVDRZzb)",
+    "model": "eleven_v4",
+    "bytes": 1002717
+  }
+}
