@@ -2043,7 +2043,7 @@ function mount(view) {
   document.querySelectorAll('.bar [data-view]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
   const el = document.createElement(view === 'studio' ? 'jv-console' : 'jv-gallery');
   el.rpcHandler = handler;
-  if (view === 'gallery') { el.setAttribute('analytics', 'on'); el.setAttribute('speech-fallback', ''); el.setAttribute('share-url', 'https://www.jackvettriano.studio/gallery'); }
+  if (view === 'gallery') { el.setAttribute('analytics', 'on'); el.setAttribute('speech-fallback', ''); el.setAttribute('share-url', 'https://www.jackvettriano.studio/gallery-tour'); }
   host.appendChild(el);
   window.scrollTo(0, 0);
 }

@@ -31,9 +31,9 @@ Under **Backend**, create these files and paste in the contents from `wix/backen
 | `gallery-seed.js` | The 68 starter scripts and 5 starter tours (generated; do not edit) |
 | `gallery-jobs.js` + `jobs.config` | Hourly job that releases expired 48-hour reservations |
 
-## 3. The Gallery page (`/gallery`)
+## 3. The Gallery Tour page (`/gallery-tour`)
 
-1. Add a blank page called **Gallery** with the URL `/gallery`, and add it to
+1. Add a blank page called **Gallery Tour** with the URL `/gallery-tour`, and add it to
    the site menu.
 2. Add **Embed Code > Custom Element**. Choose *Velo file*, create
    `public/custom-elements/jv-gallery.js` with the contents of
@@ -42,9 +42,9 @@ Under **Backend**, create these files and paste in the contents from `wix/backen
 3. Paste `wix/pages/gallery-page.js` into the page code.
 
 Links you can share:
-`/gallery?tour=by-the-sea` starts a tour,
-`/gallery?print=<product id>` opens a print, and shortlists shared by visitors
-arrive as `/gallery?shortlist=...`.
+`/gallery-tour?tour=by-the-sea` starts a tour,
+`/gallery-tour?print=<product id>` opens a print, and shortlists shared by visitors
+arrive as `/gallery-tour?shortlist=...`.
 
 ## 4. The Studio console
 

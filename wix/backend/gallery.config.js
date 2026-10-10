@@ -9,7 +9,7 @@ export const COLLECTIONS = {
   events: 'GalleryEvents',
 };
 
-export const GALLERY_URL = 'https://www.jackvettriano.studio/gallery';
+export const GALLERY_URL = 'https://www.jackvettriano.studio/gallery-tour';
 export const STORES_APP_ID = '215238eb-22a5-4c36-9e7b-e7c08025e04e';
 
 export const HOLD_HOURS = 48;

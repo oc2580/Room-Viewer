@@ -1,4 +1,4 @@
-// Page "Gallery" (/gallery). Add a Custom Element: Source = Velo file
+// Page "Gallery Tour" (/gallery-tour). Add a Custom Element: Source = Velo file
 // public/custom-elements/jv-gallery.js, tag name "jv-gallery", ID "jvGallery",
 // stretched to full width.
 import wixWindowFrontend from 'wix-window-frontend';
@@ -39,7 +39,7 @@ $w.onReady(() => {
   if (q.shortlist) el.setAttribute('shared-shortlist', String(q.shortlist).slice(0, 500));
   if (q.print) el.setAttribute('open-print', String(q.print));
   if (q.tour) el.setAttribute('start-tour', String(q.tour));
-  el.setAttribute('share-url', 'https://www.jackvettriano.studio/gallery');
+  el.setAttribute('share-url', 'https://www.jackvettriano.studio/gallery-tour');
   el.setAttribute('analytics', analyticsAllowed() ? 'on' : 'off');
   try {
     wixWindowFrontend.consentPolicy.onConsentPolicyChanged(() => el.setAttribute('analytics', analyticsAllowed() ? 'on' : 'off'));
