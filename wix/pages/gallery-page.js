@@ -3,21 +3,29 @@
 // stretched to full width.
 import wixWindowFrontend from 'wix-window-frontend';
 import wixLocationFrontend from 'wix-location-frontend';
-import wixEcomFrontend from 'wix-ecom-frontend';
+import wixStoresFrontend from 'wix-stores-frontend';
 import {
   getGallery, getPrintOptions, getMyActivity, submitRequest, answerCounterOffer, logEvents,
-  addToBasket as addToBasketInBackend,
 } from 'backend/gallery.web';
 
 console.log('Gallery: page code loaded');
 
-// The basket is updated in the backend; then the cart icon is refreshed here.
+// Fails with a message instead of waiting forever.
+function withTimeout(promise, ms, message) {
+  return Promise.race([promise, new Promise((_, reject) => { setTimeout(() => reject(new Error(message)), ms); })]);
+}
+
+// Adds the print, with the framed or unframed option the visitor chose, the
+// same way the Wix Stores product page does. Wix opens its side basket.
 async function addToBasket(productId, variantId) {
-  const result = await addToBasketInBackend(productId, variantId);
-  // Never let the cart icon refresh hold up the answer to the visitor.
-  const pause = new Promise((resolve) => { setTimeout(resolve, 3000); });
-  try { await Promise.race([wixEcomFrontend.refreshCart(), pause]); } catch (e) { /* refreshes on next page */ }
-  return result;
+  const item = { productId, quantity: 1 };
+  if (variantId) {
+    const options = await getPrintOptions(productId);
+    const chosen = options.find((o) => o.variantId === variantId);
+    if (chosen && Object.keys(chosen.choices || {}).length) item.options = { choices: chosen.choices };
+  }
+  await withTimeout(wixStoresFrontend.cart.addProducts([item]), 20000, 'The basket did not respond.');
+  return { added: true };
 }
 
 const METHODS = { getGallery, getPrintOptions, getMyActivity, submitRequest, answerCounterOffer, logEvents, addToBasket };

@@ -809,7 +809,11 @@ class JvGallery extends Base {
       const cart = this.getAttribute('cart-url') || '/cart-page';
       this.toast(`Added to your basket. <a href="${esc(cart)}" target="_top">View basket</a>`, 6000);
     } catch (err) {
-      this.toast(esc(err.message));
+      // Fall back to the store's own product page, which always works.
+      const p = this.print(pid);
+      this.toast(p && p.productUrl
+        ? `We couldn't add it to your basket just now. <a href="${esc(p.productUrl)}" target="_top">Buy it on the product page</a>`
+        : esc(err.message), 10000);
     }
     btn.disabled = false;
     btn.textContent = label;

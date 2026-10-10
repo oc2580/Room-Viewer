@@ -3,7 +3,6 @@
 // become a lead when they choose to send a request with their name and email.
 import { Permissions, webMethod } from 'wix-web-module';
 import wixData from 'wix-data';
-import { currentCart } from 'wix-ecom-backend';
 import { products as storeProducts } from '@wix/stores';
 import { auth } from '@wix/essentials';
 import {
@@ -86,19 +85,10 @@ export const getPrintOptions = webMethod(Permissions.Anyone, async (productId) =
     .map((v) => ({
       variantId: v._id,
       label: Object.values(v.choices || {}).join(' / ') || 'Standard',
+      choices: v.choices || {},
       price: v.variant && v.variant.priceData ? v.variant.priceData.price : null,
       inStock: !(v.stock && v.stock.inStock === false),
     }));
-});
-
-// Adds one print (the chosen framed or unframed option) to this visitor's
-// basket. Done in the backend with wix-ecom-backend, which needs no packages.
-const STORES_APP_ID = '215238eb-22a5-4c36-9e7b-e7c08025e04e';
-export const addToBasket = webMethod(Permissions.Anyone, async (productId, variantId) => {
-  const catalogReference = { appId: STORES_APP_ID, catalogItemId: String(productId) };
-  if (variantId) catalogReference.options = { variantId: String(variantId) };
-  await currentCart.addToCurrentCart({ lineItems: [{ catalogReference, quantity: 1 }] });
-  return { added: true };
 });
 
 export const getMyActivity = webMethod(Permissions.Anyone, async (visitorId) => {

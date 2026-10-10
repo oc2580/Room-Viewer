@@ -225,7 +225,6 @@ export async function findLeadByVisitor(visitorId) {
 // become a lead when they choose to send a request with their name and email.
 import { Permissions, webMethod } from 'wix-web-module';
 import wixData from 'wix-data';
-import { currentCart } from 'wix-ecom-backend';
 import { products as storeProducts } from '@wix/stores';
 import { auth } from '@wix/essentials';
 import {
@@ -308,19 +307,10 @@ export const getPrintOptions = webMethod(Permissions.Anyone, async (productId) =
     .map((v) =&gt; ({
       variantId: v._id,
       label: Object.values(v.choices || {}).join(' / ') || 'Standard',
+      choices: v.choices || {},
       price: v.variant &amp;&amp; v.variant.priceData ? v.variant.priceData.price : null,
       inStock: !(v.stock &amp;&amp; v.stock.inStock === false),
     }));
-});
-
-// Adds one print (the chosen framed or unframed option) to this visitor's
-// basket. Done in the backend with wix-ecom-backend, which needs no packages.
-const STORES_APP_ID = '215238eb-22a5-4c36-9e7b-e7c08025e04e';
-export const addToBasket = webMethod(Permissions.Anyone, async (productId, variantId) =&gt; {
-  const catalogReference = { appId: STORES_APP_ID, catalogItemId: String(productId) };
-  if (variantId) catalogReference.options = { variantId: String(variantId) };
-  await currentCart.addToCurrentCart({ lineItems: [{ catalogReference, quantity: 1 }] });
-  return { added: true };
 });
 
 export const getMyActivity = webMethod(Permissions.Anyone, async (visitorId) =&gt; {
@@ -442,7 +432,7 @@ export const logEvents = webMethod(Permissions.Anyone, async (visitorId, events)
   return { logged: rows.length };
 });
 </textarea>
-    <div class="lines">222 lines</div></div><div class="file"><div class="fhead"><div><code>backend/gallery-console.web.js</code><span>What the Studio console can do (admins only)</span></div>
+    <div class="lines">212 lines</div></div><div class="file"><div class="fhead"><div><code>backend/gallery-console.web.js</code><span>What the Studio console can do (admins only)</span></div>
     <button class="copy" data-for="f4">Copy</button></div>
     <textarea id="f4" readonly spellcheck="false">// Studio console web methods. Admin only: called from the Gallery dashboard page.
 import { Permissions, webMethod } from 'wix-web-module';
@@ -3179,7 +3169,11 @@ class JvGallery extends Base {
       const cart = this.getAttribute('cart-url') || '/cart-page';
       this.toast(`Added to your basket. &lt;a href=&quot;${esc(cart)}&quot; target=&quot;_top&quot;&gt;View basket&lt;/a&gt;`, 6000);
     } catch (err) {
-      this.toast(esc(err.message));
+      // Fall back to the store's own product page, which always works.
+      const p = this.print(pid);
+      this.toast(p &amp;&amp; p.productUrl
+        ? `We couldn't add it to your basket just now. &lt;a href=&quot;${esc(p.productUrl)}&quot; target=&quot;_top&quot;&gt;Buy it on the product page&lt;/a&gt;`
+        : esc(err.message), 10000);
     }
     btn.disabled = false;
     btn.textContent = label;
@@ -3618,7 +3612,7 @@ class JvGallery extends Base {
 
 if (typeof customElements !== 'undefined' &amp;&amp; !customElements.get('jv-gallery')) customElements.define('jv-gallery', JvGallery);
 </textarea>
-    <div class="lines">1250 lines</div></div>
+    <div class="lines">1254 lines</div></div>
     <div class="file"><div class="fhead"><div><code>Gallery Tour page code</code><span>Connects the gallery to the backend and the basket</span></div>
     <button class="copy" data-for="f12">Copy</button></div>
     <textarea id="f12" readonly spellcheck="false">// Page &quot;Gallery Tour&quot; (/gallery-tour). Add a Custom Element: Source = Velo file
@@ -3626,21 +3620,29 @@ if (typeof customElements !== 'undefined' &amp;&amp; !customElements.get('jv-gal
 // stretched to full width.
 import wixWindowFrontend from 'wix-window-frontend';
 import wixLocationFrontend from 'wix-location-frontend';
-import wixEcomFrontend from 'wix-ecom-frontend';
+import wixStoresFrontend from 'wix-stores-frontend';
 import {
   getGallery, getPrintOptions, getMyActivity, submitRequest, answerCounterOffer, logEvents,
-  addToBasket as addToBasketInBackend,
 } from 'backend/gallery.web';
 
 console.log('Gallery: page code loaded');
 
-// The basket is updated in the backend; then the cart icon is refreshed here.
+// Fails with a message instead of waiting forever.
+function withTimeout(promise, ms, message) {
+  return Promise.race([promise, new Promise((_, reject) =&gt; { setTimeout(() =&gt; reject(new Error(message)), ms); })]);
+}
+
+// Adds the print, with the framed or unframed option the visitor chose, the
+// same way the Wix Stores product page does. Wix opens its side basket.
 async function addToBasket(productId, variantId) {
-  const result = await addToBasketInBackend(productId, variantId);
-  // Never let the cart icon refresh hold up the answer to the visitor.
-  const pause = new Promise((resolve) =&gt; { setTimeout(resolve, 3000); });
-  try { await Promise.race([wixEcomFrontend.refreshCart(), pause]); } catch (e) { /* refreshes on next page */ }
-  return result;
+  const item = { productId, quantity: 1 };
+  if (variantId) {
+    const options = await getPrintOptions(productId);
+    const chosen = options.find((o) =&gt; o.variantId === variantId);
+    if (chosen &amp;&amp; Object.keys(chosen.choices || {}).length) item.options = { choices: chosen.choices };
+  }
+  await withTimeout(wixStoresFrontend.cart.addProducts([item]), 20000, 'The basket did not respond.');
+  return { added: true };
 }
 
 const METHODS = { getGallery, getPrintOptions, getMyActivity, submitRequest, answerCounterOffer, logEvents, addToBasket };
@@ -3696,7 +3698,7 @@ $w.onReady(() =&gt; {
   console.log('Gallery: page code ready');
 });
 </textarea>
-    <div class="lines">75 lines</div></div></div></section>
+    <div class="lines">83 lines</div></div></div></section>
 <section id="s3"><label><input type="checkbox" data-step="3"> 4. The Studio console (dashboard page)</label><div class="inner"><ol>
       <li>Open <b>Pages</b> → <b>Dashboard Pages</b> → <b>+ Add Dashboard Page</b>, and name it <b>Gallery</b>.</li>
       <li>Add a <b>Custom Element</b> as before. <b>Choose Source</b> → <b>Velo file</b> → new file <code>jv-console.js</code> with the file below. Tag name <code>jv-console</code>, ID <code>jvConsole</code>, stretched to full width.</li>
